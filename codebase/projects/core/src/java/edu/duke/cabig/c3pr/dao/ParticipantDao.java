@@ -102,22 +102,17 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
         if (isWildCard) {
             participantCriteria.add(example);
             
-            if (participant.getIdentifiers().size() > 1) {
-                participantCriteria.createCriteria("identifiers").add(
-                                Restrictions.ilike("value", "%"
-                                                + participant.getIdentifiers().get(0).getValue()
-                                                + "%")).add(
-                                Restrictions.ilike("value", "%"
-                                                + participant.getIdentifiers().get(1).getValue()
+            if (participant.getIdentifiers().size() > 0) {
+            	Criterion identifierCriterion = Restrictions.ilike("value", "%"
+                        + participant.getIdentifiers().get(0).getValue()
+                        + "%");
+            	for(int i=1 ; i<participant.getIdentifiers().size() ; i++){
+            		 identifierCriterion = Restrictions.or(identifierCriterion, Restrictions.ilike("value", "%"
+                                                + participant.getIdentifiers().get(i).getValue()
                                                 + "%"));
+            	}
+            	participantCriteria.createCriteria("identifiers").add(identifierCriterion);
             }
-            else if (participant.getIdentifiers().size() > 0) {
-                participantCriteria.createCriteria("identifiers").add(
-                                Restrictions.ilike("value", "%"
-                                                + participant.getIdentifiers().get(0).getValue()
-                                                + "%"));
-            }
-            
 			final Address address = participant.getAddressInternal();
 			if (useAddress && address != null) {
 				final Criteria addrCrit = participantCriteria
@@ -355,12 +350,19 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
         	getHibernateTemplate().initialize(identifier.getHealthcareSite().getIdentifiersAssignedToOrganization());
         }
         getHibernateTemplate().initialize(participant.getContactMechanisms());
+        for(ContactMechanism contactMechanism : participant.getContactMechanisms()){
+        	getHibernateTemplate().initialize(contactMechanism.getContactMechanismUseAssociation());
+        }
         getHibernateTemplate().initialize(participant.getRaceCodeAssociations());
         for(HealthcareSite  healthcareSite: participant.getHealthcareSites()){
         	getHibernateTemplate().initialize(healthcareSite.getIdentifiersAssignedToOrganization());
         }
         getHibernateTemplate().initialize(participant.getCustomFieldsInternal());
         getHibernateTemplate().initialize(participant.getStudySubjectDemographics());
+        getHibernateTemplate().initialize(participant.getAddresses());
+        for(Address address : participant.getAddresses()){
+        	getHibernateTemplate().initialize(address.getAddressUseAssociation());
+        }
     }
     
     /**

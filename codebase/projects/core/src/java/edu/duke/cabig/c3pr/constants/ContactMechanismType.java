@@ -11,7 +11,7 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
  */
 public enum ContactMechanismType implements CodedEnum<String> {
 
-    PHONE("Phone"), EMAIL("Email"), Fax("Fax");
+    PHONE("Phone"), EMAIL("Email"), Fax("Fax"), OTHER("Other");
 
     private String code;
 

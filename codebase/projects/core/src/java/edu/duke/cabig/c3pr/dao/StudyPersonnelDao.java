@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudyPersonnelRole;
@@ -36,7 +36,7 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 
     /** The Constant SUBSTRING_MATCH_PROPERTIES. */
     private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList(
-                    "researchStaff.firstName", "researchStaff.lastName");
+                    "personUser.firstName", "personUser.lastName");
 
     /** The Constant EXACT_MATCH_PROPERTIES. */
     private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
@@ -106,7 +106,7 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 	 */
 	private void assignUsersToStudy(StudyPersonnel studyPersonnel, boolean isRemove) throws C3PRBaseException {
 		//provisioning as per the new suite authorization -start
-		ResearchStaff researchStaff = studyPersonnel.getResearchStaff();
+		PersonUser researchStaff = studyPersonnel.getPersonUser();
 		try {
 			gov.nih.nci.security.authorization.domainobjects.User csmUser = 
 					userProvisioningManager.getUserById(researchStaff.getLoginId());
@@ -191,19 +191,19 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 		this.userProvisioningManager = userProvisioningManager;
 	}
 
-	/** determines if the staff has the specified role on the specified study.
+	/** determines if the staff has the specified role on the specified study or has all study access for that role.
 	 * @param rs
 	 * @param study
 	 * @param roleName
 	 * @return boolean
 	 */
-	public boolean isStaffAssignedToStudy(ResearchStaff researchStaff,
-			Study study, String roleName) {
+	public boolean isStaffAssignedToStudy(PersonUser researchStaff, Study study, String roleName) {
 		User csmUser = null;
 		try {
 			csmUser = userProvisioningManager.getUserById(researchStaff.getLoginId());
 		
-			if (userProvisioningManager.checkPermission(csmUser.getLoginName(), "Study." + study.getCoordinatingCenterAssignedIdentifier().getValue(), roleName)) {
+			if (userProvisioningManager.checkPermission(csmUser.getLoginName(), "Study." + study.getCoordinatingCenterAssignedIdentifier().getValue(), roleName) ||
+					(userProvisioningManager.checkPermission(csmUser.getLoginName(), "Study", roleName))) {
 				return Boolean.TRUE;
 			}
 		} catch (CSObjectNotFoundException e) {
@@ -212,6 +212,32 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 			logger.error("Failed to load permissions for :"+ researchStaff.getFirstName() + cse.getMessage());
 		}
 		return Boolean.FALSE;
+	}
+
+	/**
+	 * Gets by matching the site's ctepCode, study Primary Identifier, personUser and role.
+	 * These are presumed to be a composite key in the business layer.
+	 *
+	 * @param sitePrimaryIdentifier the site ctep code
+	 * @param studyPrimaryId the study primary id
+	 * @param personUserId the person user id
+	 * @param roleCode the role code
+	 * @return the by example
+	 */
+	@SuppressWarnings("unchecked")
+	public List<StudyPersonnel> getByExample(String sitePrimaryIdentifier, String studyPrimaryId, Integer personUserId, String roleCode) {
+        return getHibernateTemplate().find(
+                "Select s from StudyPersonnel s where s.studyOrganization.studyInternal.identifiers.value = ? and s.studyOrganization.studyInternal.identifiers.typeInternal = 'COORDINATING_CENTER_IDENTIFIER' and " +
+                "s.studyOrganization.healthcareSite.identifiersAssignedToOrganization.value = ? and s.studyOrganization.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = '1' and "+
+                "s.personUser.id = ? and s.studyPersonnelRolesInternal.role = ?",
+                new Object[] {studyPrimaryId, sitePrimaryIdentifier, personUserId, roleCode});
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<StudyPersonnel> getAllForPersonUserId(Integer personUserId){
+		 return getHibernateTemplate().find(
+	                "Select s from StudyPersonnel s where s.personUser.id = ? ",
+	                new Object[] {personUserId});
 	}
 	
     

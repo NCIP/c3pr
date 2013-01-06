@@ -15,7 +15,7 @@ import edu.duke.cabig.c3pr.dao.BaseInvestigatorDataContainerDao;
 import edu.duke.cabig.c3pr.dao.BaseResearchStaffDataContainerDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.BaseContactMechanismDataContainer;
 import edu.duke.cabig.c3pr.domain.BaseInvestigatorDataContainer;
@@ -25,17 +25,18 @@ import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
-import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
+import edu.duke.cabig.c3pr.domain.LocalPersonUser;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
-import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.RemotePersonUser;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.utils.RecipientScheduledNotificationComparator;
 import gov.nih.nci.security.UserProvisioningManager;
@@ -52,7 +53,7 @@ import gov.nih.nci.security.authorization.domainobjects.User;
 
 public class PersonnelServiceImpl implements PersonnelService {
 
-    private ResearchStaffDao researchStaffDao;
+    private PersonUserDao personUserDao;
     
     private InvestigatorDao investigatorDao;
 
@@ -84,12 +85,26 @@ public class PersonnelServiceImpl implements PersonnelService {
         investigatorDao.save(inv);
     }
 
-    public void save(ResearchStaff staff) throws C3PRBaseException {
-        researchStaffDao.createResearchStaff(staff);;
+	/**
+     * Will save Research Staff without CSM
+     * 
+     * @param staff
+     * @throws C3PRBaseException
+     * @throws C3PRBaseRuntimeException
+     */
+    public void save(PersonUser staff) throws C3PRBaseException {
+        personUserDao.createResearchStaff(staff);
     }
     
-    public void saveUser(ResearchStaff staff) throws C3PRBaseException {
-		researchStaffDao.createOrModifyResearchStaff(staff, true, staff.getLoginId(), null , false);
+    /**
+     * Will save Research Staff and add appropriate data into CSM
+     * 
+     * @param staff
+     * @throws C3PRBaseException
+     * @throws C3PRBaseRuntimeException
+     */
+    public void saveUser(PersonUser staff) throws C3PRBaseException {
+		personUserDao.createOrModifyPersonUser(staff, true, staff.getLoginId(), null);
     }    
     
 
@@ -97,14 +112,17 @@ public class PersonnelServiceImpl implements PersonnelService {
         return investigatorDao.merge(user);
     }
 
-    public void merge(ResearchStaff staff) throws C3PRBaseException {
-        researchStaffDao.mergeResearchStaffAndCsmData(staff);
-    }
-
     public User getCSMUserByUsername(String userName) {
         return userProvisioningManager.getUser(userName);
     }
 
+    /**
+     * Get a list of csm groups for the user
+     * 
+     * @param user
+     * @return
+     * @throws C3PRBaseException
+     */
     public List<C3PRUserGroupType> getGroups(C3PRUser user) throws C3PRBaseException {
         List<C3PRUserGroupType> groups = new ArrayList<C3PRUserGroupType>();
 
@@ -122,6 +140,13 @@ public class PersonnelServiceImpl implements PersonnelService {
         return groups;
     }
 
+    /**
+     * Get a list of csm groups for the user.
+     * Used by the dashboardController
+     * @param emailId
+     * @return
+     * @throws C3PRBaseException
+     */
     public List<C3PRUserGroupType> getGroups(String emailId) throws C3PRBaseException {
         List<C3PRUserGroupType> groups = new ArrayList<C3PRUserGroupType>();
 
@@ -148,9 +173,9 @@ public class PersonnelServiceImpl implements PersonnelService {
                         .getSession().getAttribute("userObject");
         List<RecipientScheduledNotification> recipientScheduledNotificationsList = new ArrayList<RecipientScheduledNotification>();
         List<ScheduledNotification> scheduledNotificationsList = new ArrayList<ScheduledNotification>();
-        ResearchStaff researchStaff = null;
+        PersonUser researchStaff = null;
     	try {
-			researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
+			researchStaff = (PersonUser)userDao.getByLoginId(user.getUserId().longValue());
 			if(researchStaff == null){
 				return recipientScheduledNotificationsList;
 			}
@@ -191,11 +216,15 @@ public class PersonnelServiceImpl implements PersonnelService {
         return recipientScheduledNotificationsList;
     }
     
-    
+    /** Returns a list of all the organizations associated with the staff.
+     * 
+     * @param User
+     * @return List of HealthcareSites
+     */
     public List<HealthcareSite> getUserOrganizations(User user){
-    	ResearchStaff researchStaff = null;
+    	PersonUser researchStaff = null;
     	try {
-			researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
+			researchStaff = (PersonUser)userDao.getByLoginId(user.getUserId().longValue());
 		} catch (C3PRNoSuchUserException e) {
 			log.debug(e.getMessage());
 			return null;
@@ -203,7 +232,7 @@ public class PersonnelServiceImpl implements PersonnelService {
     	return researchStaff.getHealthcareSites();
     }
 
-    // spring settters
+    // spring setters
     public UserProvisioningManager getUserProvisioningManager() {
         return userProvisioningManager;
     }
@@ -212,12 +241,12 @@ public class PersonnelServiceImpl implements PersonnelService {
         this.userProvisioningManager = userProvisioningManager;
     }
 
-    public ResearchStaffDao getResearchStaffDao() {
-		return researchStaffDao;
+    public PersonUserDao getPersonUserDao() {
+		return personUserDao;
 	}
 
-	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-		this.researchStaffDao = researchStaffDao;
+	public void setPersonUserDao(PersonUserDao personUserDao) {
+		this.personUserDao = personUserDao;
 	}
 
 	public InvestigatorDao getInvestigatorDao() {
@@ -237,19 +266,19 @@ public class PersonnelServiceImpl implements PersonnelService {
 		this.plannedNotificationDao = plannedNotificationDao;
 	}
 
-	public BaseResearchStaffDataContainer convertLocalResearchStaffToRemoteResearchStaff(
-			LocalResearchStaff localResearchStaff,
-			RemoteResearchStaff remoteResearchStaff) {
-		BaseResearchStaffDataContainer baseResearchStaffDataContainer = baseResearchStaffDataContainerDao.getById(localResearchStaff.getId());
+	public BaseResearchStaffDataContainer convertLocalPersonUserToRemotePersonUser(
+			LocalPersonUser localPersonUser,
+			RemotePersonUser remotePersonUser) {
+		BaseResearchStaffDataContainer baseResearchStaffDataContainer = baseResearchStaffDataContainerDao.getById(localPersonUser.getId());
 		baseResearchStaffDataContainer.setDtype("Remote");
-		baseResearchStaffDataContainer.setFirstName(remoteResearchStaff.getFirstName());
-		baseResearchStaffDataContainer.setLastName(remoteResearchStaff.getLastName());
-		baseResearchStaffDataContainer.setMiddleName(remoteResearchStaff.getMiddleName());
-		baseResearchStaffDataContainer.setMaidenName(remoteResearchStaff.getMaidenName());
-		baseResearchStaffDataContainer.setExternalId(remoteResearchStaff.getExternalId()); 
+		baseResearchStaffDataContainer.setFirstName(remotePersonUser.getFirstName());
+		baseResearchStaffDataContainer.setLastName(remotePersonUser.getLastName());
+		baseResearchStaffDataContainer.setMiddleName(remotePersonUser.getMiddleName());
+		baseResearchStaffDataContainer.setMaidenName(remotePersonUser.getMaidenName());
+		baseResearchStaffDataContainer.setExternalId(remotePersonUser.getExternalId()); 
 		// delete all the existing contact mechanisms and add new ones from the remote Research Staff
 		baseResearchStaffDataContainer.removeContactMechanisms();
-		for(ContactMechanism cm : remoteResearchStaff.getContactMechanisms()){
+		for(ContactMechanism cm : remotePersonUser.getContactMechanisms()){
 			BaseContactMechanismDataContainer baseContactMechanismDataContainer = new BaseContactMechanismDataContainer();
 			baseContactMechanismDataContainer.setDtype("Remote");
 			baseContactMechanismDataContainer.setType(cm.getType());

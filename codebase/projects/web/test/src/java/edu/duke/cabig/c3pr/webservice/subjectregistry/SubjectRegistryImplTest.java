@@ -10,7 +10,7 @@ import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.webservice.helpers.SubjectRegistryRelatedTestCase;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.convertes.SubjectRegistryJAXBToDomainObjectConverter;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.impl.SubjectRegistryImpl;
 
 public class SubjectRegistryImplTest extends SubjectRegistryRelatedTestCase {
@@ -41,7 +41,7 @@ public class SubjectRegistryImplTest extends SubjectRegistryRelatedTestCase {
 		subjectRegistryImpl.setStudyRepository(studyRepository);
 		subjectRegistryImpl.setStudySubjectDao(studySubjectDao);
 		subjectRegistryImpl.setStudySubjectRepository(studySubjectRepository);
-		subjectRegistryImpl.setSubjectRegistryJAXBToDomainObjectConverter(converter);
+		subjectRegistryImpl.setConverter(converter);
 	}
 	
 	public void testInitiateSubjectRegistry() throws Exception{

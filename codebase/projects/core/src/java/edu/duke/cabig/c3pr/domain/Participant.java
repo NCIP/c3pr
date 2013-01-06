@@ -26,6 +26,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
+import edu.duke.cabig.c3pr.constants.AddressUse;
+import edu.duke.cabig.c3pr.constants.ContactMechanismUse;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
@@ -51,7 +53,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Entity
 @Table(name = "participants")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "participants_id_seq") })
-public class Participant extends PersonBase implements Comparable<Participant> , Customizable,IdentifiableObject{
+public class Participant extends PersonBase implements Comparable<Participant> , Customizable, IdentifiableObject, CCTSBroadcastEnabledDomainObject {
 
 	/** The birth date. */
 	private Date birthDate;
@@ -540,6 +542,25 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 		}
 		return null;
 	}
+	
+	/**
+	 * Gets the primary identifier value.
+	 * 
+	 * @return the primary identifier value
+	 */
+	@Transient
+	public String getPrimaryIdentifierSource() {
+		for (Identifier identifier : getIdentifiers()) {
+			if (identifier.getPrimaryIndicator()) {
+				if(identifier instanceof OrganizationAssignedIdentifier){
+					return ((OrganizationAssignedIdentifier)identifier).getHealthcareSite().getName();
+				} else {
+					return ((SystemAssignedIdentifier)identifier).getSystemName();
+				}
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Sets the primary identifier.
@@ -655,7 +676,11 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 		addressCopy.setStateCode(this.getAddress().getStateCode());
 		addressCopy.setCountryCode(this.getAddress().getCountryCode());
 		addressCopy.setPostalCode(this.getAddress().getPostalCode());
-		
+		if(CollectionUtils.isNotEmpty(this.getAddress().getAddressUseAssociation())){
+			for(AddressUse use : this.getAddress().getAddressUses()){
+				addressCopy.getAddressUseAssociation().add(new AddressUseAssociation(use));
+			}
+		}
 		studySubjectDemographics.setAddress(addressCopy);
 		
 		// copy contact mechanisms
@@ -664,7 +689,11 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 			ContactMechanism contactMechanismCopy = new ContactMechanism();
 			contactMechanismCopy.setType(contactMechanism.getType());
 			contactMechanismCopy.setValue(contactMechanism.getValue());
-			
+			if(CollectionUtils.isNotEmpty(contactMechanism.getContactMechanismUseAssociation())){
+				for(ContactMechanismUse use : contactMechanism.getContactUses()){
+					contactMechanismCopy.getContactMechanismUseAssociation().add(new ContactMechanismUseAssociation(use));
+				}
+			}
 			studySubjectDemographics.addContactMechanism(contactMechanismCopy);
 		}
 		

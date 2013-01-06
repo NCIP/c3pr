@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<study_organizations type="SCC" name="Mayo Clinic Rochester" />
+	<study_organizations version="0" type="SFS"
+		name="Mayo Clinic Rochester" />
+	<study_organizations version="0" type="SST"
+		name="Mayo Clinic Rochester" />
+	<study_organizations version="0" type="SST"
+		name="Minnesota Oncology Hematology PA-Maplewood" />
+
+</dataset>

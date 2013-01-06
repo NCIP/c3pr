@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<csm_user user_id="4" login_name="jdoe01" first_name="John"
+		last_name="Doe" organization="" department="" title="" phone_number=""
+		password="rj4g+3AjuuethtxFP2ZrIA==" email_id="denismox@ya.ru"
+		update_date="2010-08-30" migrated_flag="0" premgrt_login_name="" />
+	<csm_user_group user_group_id="4" user_id="4" group_id="-27" />
+	<csm_user_group user_group_id="5" user_id="4" group_id="-28" />
+	<csm_user_group user_group_id="6" user_id="4" group_id="-29" />
+	<csm_user_group user_group_id="7" user_id="4" group_id="-30" />
+	<csm_user_group user_group_id="8" user_id="4" group_id="-31" />
+	<csm_user_group user_group_id="9" user_id="4" group_id="-32" />
+	<csm_user_group user_group_id="10" user_id="4" group_id="-35" />
+	<csm_user_group user_group_id="11" user_id="4" group_id="-36" />
+	<csm_user_group user_group_id="12" user_id="4" group_id="2" />
+	<csm_user_group user_group_id="13" user_id="4" group_id="-43" />
+	<csm_user_group user_group_id="14" user_id="4" group_id="-44" />
+	<csm_user_group user_group_id="15" user_id="4" group_id="-34" />
+	<csm_user_group user_group_id="16" user_id="4" group_id="-37" />
+	<csm_user_group user_group_id="17" user_id="4" group_id="-38" />
+	<csm_user_group user_group_id="18" user_id="4" group_id="-39" />
+	<csm_user_group user_group_id="19" user_id="4" group_id="-40" />
+	<csm_user_group user_group_id="20" user_id="4" group_id="-41" />
+	<csm_user_group user_group_id="21" user_id="4" group_id="-42" />
+	<csm_user_group user_group_id="22" user_id="4" group_id="-23" />
+	<csm_user_group user_group_id="23" user_id="4" group_id="-24" />
+	<csm_user_group user_group_id="24" user_id="4" group_id="-25" />
+	<csm_user_group user_group_id="25" user_id="4" group_id="-26" />
+	<csm_user_group user_group_id="26" user_id="4" group_id="-33" />
+	<csm_user_group_role_pg user_group_role_pg_id="1"
+		user_id="4" role_id="166" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="2"
+		user_id="4" role_id="167" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="3"
+		user_id="4" role_id="168" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="4"
+		user_id="4" role_id="169" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="5"
+		user_id="4" role_id="170" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="6"
+		user_id="4" role_id="171" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="7"
+		user_id="4" role_id="172" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="8"
+		user_id="4" role_id="173" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="9"
+		user_id="4" role_id="174" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="10"
+		user_id="4" role_id="175" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="11"
+		user_id="4" role_id="176" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="12"
+		user_id="4" role_id="177" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="13"
+		user_id="4" role_id="178" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="14"
+		user_id="4" role_id="179" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="15"
+		user_id="4" role_id="180" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="16"
+		user_id="4" role_id="181" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="17"
+		user_id="4" role_id="182" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="18"
+		user_id="4" role_id="187" protection_group_id="-1" update_date="2010-08-30" />
+	<csm_user_group_role_pg user_group_role_pg_id="19"
+		user_id="4" role_id="188" protection_group_id="-1" update_date="2010-08-30" />
+
+	<studies />
+	<comp_stu_associations />	
+	<study_organizations />
+	<study_diseases />
+
+	<investigators grid_id="f699e311-35e1-4a86-b409-f8c441d113cf"
+		version="0" id="1" first_name="Denis" last_name="Krylov"
+		maiden_name="" assigned_identifier="inv01" middle_name=""
+		retired_indicator="false" dtype="Local" />
+
+	<contact_mechanisms id="12301" grid_id="4e96fdc2-4e2e-4d69-b121-773148bb6427"
+		version="0" type="EMAIL" value="denis.krylov@semanticbits.com" inv_id="1"
+		retired_indicator="false" dtype="Local" />
+	<hc_site_investigators id="1001"
+		grid_id="08631d1f-d77c-4211-8163-a2c643ba82d9" version="0"
+		status_code="AC" inv_id="1" hcs_id="16522" retired_indicator="false" />
+	<study_investigators version="0" id="1001" hsi_id="1001"
+		role_code="Site Investigator" />
+
+	<randomizations />
+	<study_versions />
+	<epochs />
+	<study_site_versions />
+	<stu_site_status_history />
+	<arms />
+	<eligibility_criteria />
+	<strat_criteria />
+	<strat_cri_per_ans />
+	<consents />
+	<consent_questions />
+	<stratum_groups />
+
+</dataset>

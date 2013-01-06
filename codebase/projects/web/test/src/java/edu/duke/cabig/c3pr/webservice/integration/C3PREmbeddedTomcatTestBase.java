@@ -63,6 +63,8 @@ import edu.nwu.bioinformatics.commons.testing.HsqlDataTypeFactory;
 public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 	private static final int TOMCAT_SHUTDOWN_TIMEOUT = 60;
+	
+	private static final int IO_TIMEOUT = 1000 * 60 * 5;
 
 	public static final String C3PR_CONTEXT = "/c3pr";
 
@@ -72,7 +74,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 	public static final String SERVICE_KEYSTORE_BASENAME = "publicstore.jks";
 
-	public static final String SERVICE_KEYSTORE_FILE = "/etc/c3pr/"
+	public static final String SERVICE_KEYSTORE_FILE = "/local/c3pr/"
 			+ SERVICE_KEYSTORE_BASENAME;
 
 	public static final String CSM_JAAS_CONFIG_FILENAME = "csm_jaas.config";
@@ -104,6 +106,12 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	public C3PREmbeddedTomcatTestBase() {
 		logger.setLevel(Level.INFO);
 		setName(getClass().getName());
+		
+		// just to make sure we don't lock ourselves out on I/O to service
+		// calls.
+		System.setProperty("sun.net.client.defaultConnectTimeout", "" + IO_TIMEOUT);
+		System.setProperty("sun.net.client.defaultReadTimeout", "" + IO_TIMEOUT);
+		
 	}
 
 	/*

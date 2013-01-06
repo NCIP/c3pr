@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<studies blinded_indicator="1" multi_institution_indicator="1"
+		phase_code="Phase 0 Trial" randomized_indicator="1"
+		target_accrual_number="100.00" type="Ancillary" status="OPEN"
+		retired_indicator="false" stratification_indicator="1"
+		standalone_indicator="1" companion_indicator="0" consent_required="ONE"
+		dtype="Local" therapeutic_intent_indicator="0" />
+</dataset>

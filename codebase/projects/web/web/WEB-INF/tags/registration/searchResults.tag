@@ -40,27 +40,28 @@ function submitLocalForm(idParamStr){
             <tbody class="tableBody">
 			<%int i=0; %>
 			<c:forEach items="${registrations}" var="registration" varStatus="status">
-                <csmauthz:accesscontrol domainObject="${registration}" hasPrivileges="UI_STUDYSUBJECT_SEARCH"  authorizationCheckName="studySubjectAuthorizationCheck">
-
-            <% String currClass=i%2==0? "odd":"even"; %>
-            	<script>
-					paramString_${status.index }="<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0] }'/>";
-				</script>
-				<tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
-				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
-					onClick='submitLocalForm(paramString_${status.index })'>
-					<td>${registration.participant.lastName}</td>
-					<td>${registration.participant.primaryIdentifierValue}</td>
-					<td>${registration.studySite.study.trimmedShortTitleText}</td>
-					<td>${registration.studySite.study.primaryIdentifier}</td>
-					<td>${registration.studySite.healthcareSite.name}</td>
-					<td>${registration.regWorkflowStatus.code}</td>
-					<td>${registration.startDateStr}</td>
-					<td>${registration.coOrdinatingCenterIdentifier.value}</td>
-				</tr>
-				<c:set var="i" value="${i+1}"></c:set>
-                    
-                </csmauthz:accesscontrol>
+				<c:if test="${registration.regWorkflowStatus.code != 'Invalid' }">
+	                <csmauthz:accesscontrol domainObject="${registration}" hasPrivileges="UI_STUDYSUBJECT_SEARCH"  authorizationCheckName="studySubjectAuthorizationCheck">
+	            	<% String currClass=i%2==0? "odd":"even"; %>
+	            	<script>
+						paramString_${status.index }="<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0] }'/>";
+					</script>
+					<tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
+					onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
+						onClick='submitLocalForm(paramString_${status.index })'>
+						<td>${registration.participant.lastName}</td>
+						<td>${registration.participant.primaryIdentifierValue}</td>
+						<td>${registration.studySite.study.trimmedShortTitleText}</td>
+						<td>${registration.studySite.study.primaryIdentifier}</td>
+						<td>${registration.studySite.healthcareSite.name}</td>
+						<td>${registration.regWorkflowStatus.code}</td>
+						<td>${registration.startDateStr}</td>
+						<td>${registration.coOrdinatingCenterIdentifier.value}</td>
+					</tr>
+					<c:set var="i" value="${i+1}"></c:set>
+	                    
+	                </csmauthz:accesscontrol>
+               </c:if>
             </c:forEach>
 			</tbody>
 		</table>

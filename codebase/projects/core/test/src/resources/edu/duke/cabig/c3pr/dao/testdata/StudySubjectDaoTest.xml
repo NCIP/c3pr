@@ -26,6 +26,8 @@
     <STUDY_ORGANIZATIONS id="1002" version="1"  study_id="1001" hcs_id="1000" type="SST" retired_indicator = "false" />
     <STUDY_ORGANIZATIONS id="1003" version="1" study_id="1001" hcs_id="1001" type="SST" retired_indicator = "false" />
     <STUDY_ORGANIZATIONS id="1010" version="1" study_id="1000" hcs_id="1002" type="SST" retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1011" version="1" study_id="1000" hcs_id="1002" type="SFS" retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1012" version="1" study_id="1000" hcs_id="1002" type="SCC" retired_indicator = "false" />
     
     <STU_SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="2000-01-01" />
 	<STU_SITE_STATUS_HISTORY id="1002" version="1" sto_id="1002" site_study_status="ACTIVE"  start_date="2000-01-01" />
@@ -65,14 +67,14 @@
     <ARMS id="1006" version="1" name="Arm 1006" description_text="Arm 1006 desc" target_accrual_number="1006" eph_id="1003"  retired_indicator = "false" />
     <ARMS id="1007" version="1" name="Arm 1007" description_text="Arm 1007 desc" target_accrual_number="1007" eph_id="1003"  retired_indicator = "false" />
         
-    <RESEARCH_STAFF id="1000" version="1" dtype="Local" assigned_identifier="x1" first_name="Research Bill" last_name="Staff2" retired_indicator = "false" />
-    <RESEARCH_STAFF id="1001" version="1" dtype="Local" assigned_identifier="x2" first_name="Research George" last_name="Staff2"  retired_indicator = "false" />
-    <RESEARCH_STAFF id="1002" version="1" dtype="Local" assigned_identifier="x3" first_name="Research Benjamin" last_name="Staff3"  retired_indicator = "false" />    
-    <RESEARCH_STAFF id="1003" version="1" dtype="Local" assigned_identifier="x4" first_name="Research JFK" last_name="Staff4"  retired_indicator = "false" />
+    <PERSONS_USERS id="1000" version="1" dtype="Local" assigned_identifier="x1" first_name="Research Bill" last_name="Staff2" retired_indicator = "false" />
+    <PERSONS_USERS id="1001" version="1" dtype="Local" assigned_identifier="x2" first_name="Research George" last_name="Staff2"  retired_indicator = "false" />
+    <PERSONS_USERS id="1002" version="1" dtype="Local" assigned_identifier="x3" first_name="Research Benjamin" last_name="Staff3"  retired_indicator = "false" />    
+    <PERSONS_USERS id="1003" version="1" dtype="Local" assigned_identifier="x4" first_name="Research JFK" last_name="Staff4"  retired_indicator = "false" />
     
-    <study_personnel id="1000" version="1" retired_indicator = "false" research_staff_id="1000"  sto_id="1000"/>
-    <study_personnel id="1001" version="1" retired_indicator = "false" research_staff_id="1001"  sto_id="1000"/>
-    <study_personnel id="1002" version="1" retired_indicator = "false" research_staff_id="1002"  sto_id="1000"/>
+    <study_personnel id="1000" version="1" retired_indicator = "false" persons_users_id="1000"  sto_id="1000"/>
+    <study_personnel id="1001" version="1" retired_indicator = "false" persons_users_id="1001"  sto_id="1000"/>
+    <study_personnel id="1002" version="1" retired_indicator = "false" persons_users_id="1002"  sto_id="1000"/>
     
     <rs_hc_site_assocn rs_id="1000" hcs_id="1000" />
     <rs_hc_site_assocn rs_id="1001" hcs_id="1000" />
@@ -162,20 +164,20 @@
     <study_subject_versions id="1003" version="1" study_site_ver_id="1011" spa_id="1003" retired_indicator = "false" />
     <study_subject_versions id="1004" version="1" study_site_ver_id="1011" spa_id="1004" retired_indicator = "false" />
 
- 	<STUDY_SUBJECT_CONSENTS id="1000" version="1" study_subject_ver_id="1000" informed_consent_signed_date="2010-10-12" consent_id="1000" consenting_method="WRITTEN" consent_delivery_date="2010-10-10" informed_consent_signed_tstamp="2010-11-12" consent_presenter="Himanshu" retired_indicator = "false"/>	
- 	<STUDY_SUBJECT_CONSENTS id="1001" version="1" study_subject_ver_id="1001" informed_consent_signed_date="2011-10-12" consent_id="1000" consenting_method="VERBAL" consent_delivery_date="2010-11-10" informed_consent_signed_tstamp="2010-10-12" consent_presenter="Kruttik" retired_indicator = "false"/>
- 	<STUDY_SUBJECT_CONSENTS id="1002" version="1" study_subject_ver_id="1002" informed_consent_signed_date="2010-10-12" consent_id="1000" consenting_method="WRITTEN" consent_delivery_date="2009-01-10" informed_consent_signed_tstamp="2011-10-12" consent_presenter="Vinay" retired_indicator = "false"/>
- 	<STUDY_SUBJECT_CONSENTS id="1003" version="1" study_subject_ver_id="1003" informed_consent_signed_date="2009-10-12" consent_id="1000" consenting_method="WRITTEN" consent_delivery_date="2010-10-10" informed_consent_signed_tstamp="2010-10-12" consent_presenter="Himanshu" retired_indicator = "false"/>
+ 	<STUDY_SUBJECT_CONSENTS id="1000" version="1" study_subject_ver_id="1000" informed_consent_signed_date="2010-10-12" consent_id="1000" consenting_method="WRITTEN" consent_delivery_date="2010-10-10" informed_consent_signed_tstamp="2010-11-12" consent_presenter="Himanshu" document_id="abc" retired_indicator = "false"/>	
+ 	<STUDY_SUBJECT_CONSENTS id="1001" version="1" study_subject_ver_id="1001" informed_consent_signed_date="2011-10-12" consent_id="1000" consenting_method="VERBAL" consent_delivery_date="2010-11-10" informed_consent_signed_tstamp="2010-10-12" consent_presenter="Kruttik" document_id="abc" retired_indicator = "false"/>
+ 	<STUDY_SUBJECT_CONSENTS id="1002" version="1" study_subject_ver_id="1002" informed_consent_signed_date="2010-10-12" consent_id="1000" consenting_method="WRITTEN" consent_delivery_date="2009-01-10" informed_consent_signed_tstamp="2011-10-12" consent_presenter="Vinay" document_id="1.2" retired_indicator = "false"/>
+ 	<STUDY_SUBJECT_CONSENTS id="1003" version="1" study_subject_ver_id="1003" informed_consent_signed_date="2009-10-12" consent_id="1000" consenting_method="WRITTEN" consent_delivery_date="2010-10-10" informed_consent_signed_tstamp="2010-10-12" consent_presenter="Himanshu" document_id="abc" retired_indicator = "false"/>
  	
  	<SUB_CON_QUE_ANS/>
  	
 	<stu_sub_associations parent_stu_sub_id="1000" child_stu_sub_id="1001" />
     
-    <SCHEDULED_EPOCHS id="1000" version="1" start_date="2006-03-05" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1000" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
-    <SCHEDULED_EPOCHS id="1001" version="1" start_date="2007-01-02" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1005" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />  
+    <SCHEDULED_EPOCHS id="1000" version="1" start_date="2006-03-05" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1000" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" off_epoch_date="2007-01-01"/>
+    <SCHEDULED_EPOCHS id="1001" version="1" start_date="2007-01-02" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1005" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" off_epoch_date="2008-11-10"/>  
 	<SCHEDULED_EPOCHS id="1002" version="1" start_date="2008-11-11" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1001" sc_epoch_workflow_status="PENDING_ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
     <SCHEDULED_EPOCHS id="1003" version="1" start_date="2000-01-01" eligibility_indicator="0" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1003"  eph_id="1000" sc_epoch_workflow_status="PENDING_ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
-    <SCHEDULED_EPOCHS id="1004" version="1" start_date="2010-01-11" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1004"  eph_id="1000" sc_epoch_workflow_status="OFF_EPOCH" sc_epoch_data_entry_status="COMPLETE" retired_indicator = "false" />
+    <SCHEDULED_EPOCHS id="1004" version="1" start_date="2010-01-11" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1004"  eph_id="1000" sc_epoch_workflow_status="OFF_EPOCH" sc_epoch_data_entry_status="COMPLETE" retired_indicator = "false" off_epoch_date="2010-11-11"/>
     
     <off_epoch_reasons id="1000" version="1" retired_indicator="false"  sceph_id="1004" reason_id="1000" />
    

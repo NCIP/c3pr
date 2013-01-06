@@ -36,13 +36,13 @@ YAHOO.example.Data = {
 YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.CustomSort = function() {
         var myColumnDefs = [
-            {key:"studyIdentifier",         	label:"Study Identifier", 	sortable:true,      resizeable:true},
-            {key:"subjectFullName",         	label:"Subject Name",       sortable:true,      resizeable:true},
-            {key:"subjectPrimaryIdentifier",    label:"Subject Identifier", sortable:true,      resizeable:true},
-            {key:"studySite",      				label:"Study Site",       	sortable:true,     	resizeable:true},
-            {key:"registrationStatus",        	label:"Registration Status",sortable:true,      resizeable:true},
-            {key:"registrationDate",         	label:"Registration Date",  sortable:true,      resizeable:true , sortOptions: { field: "registrationDateSort" }  },
-            {key:"registrationTreatingPhysician",label:"Treating Physician",sortable:true,      resizeable:true}
+            {key:"studyIdentifier",         	label:"Study Identifier", 	sortable:true,      resizeable:true, width:150},
+            {key:"subjectFullName",         	label:"Subject Name",       sortable:true,      resizeable:true, width:120},
+            {key:"subjectPrimaryIdentifier",    label:"Subject Identifier", sortable:true,      resizeable:true, width:160},
+            {key:"studySite",      				label:"Study Site",       	sortable:true,     	resizeable:true, width:150},
+            {key:"registrationStatus",        	label:"Registration Status",sortable:true,      resizeable:true, width:170},
+            {key:"registrationDate",         	label:"Registration Date",  sortable:true,      resizeable:true, width:160, sortOptions: { field: "registrationDateSort" }  },
+            {key:"registrationTreatingPhysician",label:"Treating Physician",sortable:true,      resizeable:true, width:170}
         ];
         
         var registrationDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.registrationList);
@@ -134,10 +134,11 @@ YAHOO.util.Event.addListener(window, "load", function() {
                 width: "30em",
 			    visible: false,
 			    modal: true,
+			    x: 700,
+			    y: 300,
 			    buttons: [ 
 					{ text:"Close",  handler:hideDlg }
                 ],
-                fixedcenter: true,
                 constrainToViewport: true
 		});
 		myDlg.render();
@@ -166,19 +167,21 @@ YAHOO.util.Event.addListener(window, "load", function() {
 <!--  tags:instructions code="participant_search_report"/>  -->
 <chrome:box title="Search Results">
 <chrome:division>
+	<c:if test="${fn:length(registrations)>0}">
+		${fn:length(registrations)} records found.
+	</c:if>
 	<div align="right">
-		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
-		<div align="right">
 		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
 		<a style="text-decoration:none; color:black; font-weight:bold;" href="<c:url value="/pages/report/advancedSearch/advanceSearchResultsExport"/>" />&nbsp;
 		<span style="behavior: url('/c3pr/js/button-pseudoclass-IE-hack.htc');background:#330033;border:medium none;font-size:11px;	color:white;
 			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span></a>
 	</div>
-	</div>
-	<div id="printable">
+	
 	<div id="dt-example">
 			<div id="dt-options"><a id="dt-options-link" href="fallbacklink.html">Table Options</a></div>
-		</div>
+	</div>
+	<div id="printable">
+	
 		<div id="registrationTable" class="yui-skin-sam"></div>
 		
 		<div id="dt-dlg" class="yui-skin-sam">

@@ -24,7 +24,7 @@ public class RecipientScheduledNotificationDaoTest extends ContextDaoTestCase<Re
         assertEquals("Title", recipientScheduledNotification.getScheduledNotification().getTitle());
         try{
 	        for(StudyPersonnel sp: recipientScheduledNotification.getScheduledNotification().getStudyOrganization().getStudyPersonnel()){
-	        	assertNotNull("ResearchStaff is null", sp.getResearchStaff());
+	        	assertNotNull("ResearchStaff is null", sp.getPersonUser());
 	        }
 	        for(StudyInvestigator si: recipientScheduledNotification.getScheduledNotification().getStudyOrganization().getStudyInvestigators()){
 	        	assertNotNull("Investigator is null", si.getHealthcareSiteInvestigator().getInvestigator());

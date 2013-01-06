@@ -12,9 +12,10 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.RandomStringUtils;
 
-
+import edu.duke.cabig.c3pr.web.security.SecureWebServiceHandler;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETST;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
@@ -22,7 +23,6 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvancedQuerySubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidSubjectDataExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SecurityExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementService;
 
@@ -35,8 +35,7 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementService
  * @version 1.0
  */
 public class SecurityWebServiceTest extends C3PREmbeddedTomcatTestBase {
-
-	private static final int TIMEOUT = 1000 * 60 * 3;
+	
 	private static final String WS_ENDPOINT_SERVLET_PATH = "/services/services/SubjectManagement";
 
 	private static final QName SERVICE_NAME = new QName(
@@ -73,11 +72,6 @@ public class SecurityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		logger.info("endpointURL: " + endpointURL);
 		logger.info("wsdlLocation: " + wsdlLocation);
-
-		// just to make sure we don't lock ourselves out on I/O to service
-		// calls.
-		System.setProperty("sun.net.client.defaultConnectTimeout", "" + TIMEOUT);
-		System.setProperty("sun.net.client.defaultReadTimeout", "" + TIMEOUT);
 	}
 
 	@Override

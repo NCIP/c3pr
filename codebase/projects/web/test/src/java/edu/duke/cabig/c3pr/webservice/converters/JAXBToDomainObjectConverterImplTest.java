@@ -33,8 +33,8 @@ import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStat
 import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.helpers.WebServiceRelatedTestCase;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 
 /**
  * @author dkrylov

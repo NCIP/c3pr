@@ -16,23 +16,39 @@
 	<title>${tab.longTitle}</title>
 	<tags:dwrJavascriptLink objects="CommonAjaxFacade" />
 <script>
+	function setValueFalseIfChecked(element){
+		attributeId = element.id + '-hidden';
+		if(element.checked == true){
+			$(attributeId).value = false;
+		}else {
+			$(attributeId).value = true;
+		}
+	}
 	function validateAndSubmitForm(){
+		
+		if($('registrationStartDate').value == ""){
+			$('enrolledRegistrationStatus').value="" ;
+		}
+		
+		if($('scheduledEpochStatus').value == "" || $('scheduledEpochStatus').value == "OFF_EPOCH"){
+			$('offEpochStatus').value="" ;
+		}
+		
+		if($('versionDateFirst').value == "" && $('versionDateLast').value == ""){
+			$('originalIndicatorStudyOpen-hidden').value="" ;
+			$('coordinatingCenterStudyStatusStudyOpen-hidden').value="" ;
+		}
+		
+		if($('offStudyDateFirst').value == "" && $('offStudyDateLast').value == ""){
+			$('offStudyRegistrationStatus').value="" ;
+			$('offScheduledEpochStatus').value="" ;
+		}
+		
 		if($('enrollingsite-hidden').value == ""){
 			$('enrollingsite-identifier-type').value="" ;
 		}
 		
-		if($('studyorganization-hidden').value == "" || $('studyorganization-type').value == ""){
-			$('studyorganization-identifier-type').value="" ;
-			$('studyorganization-hidden').value = "";
-			$('studyorganization-type').value = "";
-		}else {
-			if($('studyorganization-type').value=="SCC" || $('studyorganization-type').value=="SFS" ){
-				$('studyorganization-contextObject').value='StudyOrganization';
-			} else if($('studyorganization-type').value=="SST")  {
-				$('studyorganization-contextObject').value='EnrollingSite' ;
-			}
-		}
-		 $('search').submit();	
+		$('search').submit();	
 	}
 	
 	function showAgeTextBox(selectbox){
@@ -168,27 +184,61 @@
 		 }
     }
 	
-	var studyOrgAutocompleterProps = {
-        basename: "studyorganization",
-        populator: function(autocompleter, text) {
-            CommonAjaxFacade.matchHealthcareSites(text,function(values) {
-                autocompleter.setChoices(values)
-            })
-        },
-        valueSelector: function(obj) {
-        	return (obj.name+" ("+obj.ctepCode+")" )
-        },
-        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-								hiddenField=studyOrgAutocompleterProps.basename+"-hidden"
-    							$(hiddenField).value=selectedChoice.ctepCode;
-		 }
-    }
+	var coordinatingCenterAutocompleterProps = {
+	        basename: "coordinatingCenter",
+	        populator: function(autocompleter, text) {
+	            CommonAjaxFacade.matchHealthcareSites(text,function(values) {
+	                autocompleter.setChoices(values)
+	            })
+	        },
+	        valueSelector: function(obj) {
+	        	return (obj.name + '(' + obj.ctepCode +')')
+	        },
+	        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+									hiddenField=coordinatingCenterAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+			 }
+	    }
+
+	var fundingSponsorAutocompleterProps = {
+	        basename: "fundingSponsor",
+	        populator: function(autocompleter, text) {
+	            CommonAjaxFacade.matchHealthcareSites(text,function(values) {
+	                autocompleter.setChoices(values)
+	            })
+	        },
+	        valueSelector: function(obj) {
+	        	return (obj.name + '(' + obj.ctepCode +')')
+	        },
+	        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+									hiddenField=fundingSponsorAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+			 }
+	    }
+
+	var studySiteAutocompleterProps = {
+	        basename: "studySite",
+	        populator: function(autocompleter, text) {
+	            CommonAjaxFacade.matchHealthcareSites(text,function(values) {
+	                autocompleter.setChoices(values)
+	            })
+	        },
+	        valueSelector: function(obj) {
+	        	return (obj.name + '(' + obj.ctepCode +')')
+	        },
+	        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+									hiddenField=studySiteAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+			 }
+	    }
 	
 	AutocompleterManager.addAutocompleter(enrollingSiteAutocompleterProps);
 	AutocompleterManager.addAutocompleter(diseaseSiteAutocompleterProps);
 	AutocompleterManager.addAutocompleter(diseaseAutocompleterProps);
 	AutocompleterManager.addAutocompleter(treatingPhysicianAutocompleterProps);
-	AutocompleterManager.addAutocompleter(studyOrgAutocompleterProps);
+	AutocompleterManager.addAutocompleter(coordinatingCenterAutocompleterProps);
+	AutocompleterManager.addAutocompleter(fundingSponsorAutocompleterProps);
+	AutocompleterManager.addAutocompleter(studySiteAutocompleterProps);
 	
 
 </script>
@@ -379,6 +429,22 @@ color:white;
         		<input type="text"  size="25" name="searchCriteriaList[12].values" />
         	</div>
         </div>
+        <div class="row" >
+        	<div class="label"><fmt:message key="c3pr.common.currentStatus"/></div>
+          	<div class="value">
+          		<input type="hidden" name="searchCriteriaList[37].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
+          		<input type="hidden" name="searchCriteriaList[37].attributeName" value="coordinatingCenterStudyStatus.code" />
+          		<input type="hidden" name="searchCriteriaList[37].predicate" value="in"/>
+        		<select id="studyStatus" size="4" multiple="multiple" name="searchCriteriaList[37].values">
+                   <option value="" selected="selected">All</option>
+                   <c:forEach items="${statusRefData}" var="studyStatus">
+                       <c:if test="${!empty studyStatus}">
+                           <option value="${studyStatus.key}">${studyStatus.value}</option>
+                       </c:if>
+                   </c:forEach>
+                </select>
+        	</div>
+        </div>
         <div class="row" id="showStudyOptions">
         	<div class="value">
         		<a  href="javascript:showExtraCriteriaForStudy();">+ show more options</a>
@@ -390,7 +456,7 @@ color:white;
         	<div class="value">
         		<input type="hidden" name="searchCriteriaList[13].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
           		<input type="hidden" name="searchCriteriaList[13].predicate" value="in"/>
-          		<input type="hidden" name="searchCriteriaList[13].attributeName" value="typeInternal" />
+          		<input type="hidden" name="searchCriteriaList[13].attributeName" value="type" />
   	            <select id="studyType" size="4" multiple="multiple" name="searchCriteriaList[13].values" >
                    <option value="" selected="selected">All</option>
                    <c:forEach items="${typeRefData}" var="studyType">
@@ -414,9 +480,9 @@ color:white;
           	<div class="value">
           		<input type="hidden" name="searchCriteriaList[14].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
           		<input type="hidden" name="searchCriteriaList[14].predicate" value="in"/>
-          		<input type="hidden" name="searchCriteriaList[14].attributeName" value="typeInternal" />
-  	            <select id="studyPhaseCode" size="4" multiple="multiple">
-                   <option value="" name="searchCriteriaList[14].values" selected="selected">All</option>
+          		<input type="hidden" name="searchCriteriaList[14].attributeName" value="phaseCode" />
+  	            <select id="studyPhaseCode" size="4" multiple="multiple" name="searchCriteriaList[14].values">
+                   <option value="" selected="selected">All</option>
                    <c:forEach items="${phaseCodeRefData}" var="studyPhaseCode">
                        <c:if test="${!empty studyPhaseCode.desc}">
                            <option value="${studyPhaseCode.code}">${studyPhaseCode.desc}</option>
@@ -425,38 +491,92 @@ color:white;
                 </select>
    	    	</div>
         </div>
+        <div class="row" >
+       		<div class="label"><fmt:message key="study.openDate"/>&nbsp;<b>after</b></div>
+         	<div class="value"> 
+         		
+         		<input type="hidden" name="searchCriteriaList[33].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
+        		<input type="hidden" name="searchCriteriaList[33].predicate" value="="/>
+      			<input type="hidden" name="searchCriteriaList[33].attributeName" value="originalIndicator" />
+      			<input type="hidden" id="originalIndicatorStudyOpen-hidden" name="searchCriteriaList[33].values" value="true"/>
+      			
+      			
+      			<input type="hidden" name="searchCriteriaList[34].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
+         		<input type="hidden" name="searchCriteriaList[34].attributeName" value="coordinatingCenterStudyStatus.code" />
+         		<input type="hidden" name="searchCriteriaList[34].predicate" value="!="/>
+         		<input type="hidden" id="coordinatingCenterStudyStatusStudyOpen-hidden" name="searchCriteriaList[34].values" value="PENDING"/>
+      			
+       			<input type="hidden" name="searchCriteriaList[35].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
+         		<input type="hidden" name="searchCriteriaList[35].attributeName" value="versionDate" />
+         		<input type="hidden" name="searchCriteriaList[35].predicate" value=">"/>
+         		<input type="text" name="searchCriteriaList[35].values" size="10" id="versionDateFirst" class="date validate-DATE" />
+           		<a href="#" id="versionDateFirst-calbutton">
+          	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+          		</a>
+	          		<script type="text/javascript">
+						Calendar.setup(
+				            {
+				                inputField  : "versionDateFirst",
+				                button      : "versionDateFirst-calbutton",
+				                ifFormat    : "%m/%d/%Y", 
+				                weekNumbers : false
+				            }
+				        );
+					</script>
+					<b>and before</b>
+				<input type="hidden" name="searchCriteriaList[36].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
+         		<input type="hidden" name="searchCriteriaList[36].attributeName" value="versionDate" />
+         		<input type="hidden" name="searchCriteriaList[36].predicate" value="<"/>
+         		<input type="text" name="searchCriteriaList[36].values" size="10" id="versionDateLast" class="date validate-DATE" />
+           		<a href="#" id="versionDateLast-calbutton">
+          	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+          		</a>
+          		<script type="text/javascript">
+					Calendar.setup(
+			            {
+			                inputField  : "versionDateLast",
+			                button      : "versionDateLast-calbutton",
+			                ifFormat    : "%m/%d/%Y", 
+			                weekNumbers : false
+			            }
+		        	);
+				</script>
+       		</div>
+       	</div>
         <div id="advancedStudyOption2" style="display:none">
+        	<div class="row" >
+	        	<div class="label"><fmt:message key="study.consent.consentVersion.name"/></div>
+		        <div class="value">
+	        		<input type="hidden" name="searchCriteriaList[30].objectName" value="edu.duke.cabig.c3pr.domain.Consent"/>
+	          		<input type="hidden" name="searchCriteriaList[30].attributeName" value="versionId" />
+	          		<input type="hidden" name="searchCriteriaList[30].predicate" value="like"/>
+	        		<input type="text"  size="25" name="searchCriteriaList[30].values" />
+        		</div>
+        	</div>
 			<div class="row" >
-	        	<div class="label">
-	        		<input type="hidden" name="searchCriteriaList[15].objectName" value="edu.duke.cabig.c3pr.domain.StudyOrganization"/>
-          			<input type="hidden" name="searchCriteriaList[15].attributeName" value="type" />
-          			<input type="hidden" name="searchCriteriaList[15].predicate" value="="/>
-	        		<select id="studyorganization-type" name="searchCriteriaList[15].values" >
-	        			<option value="" selected="selected">Please Select</option>
-	        			<option value="">Any</option>
-	                    <option value="SCC">Coordinating Center</option>
-	                    <option value="SFS">Funding Sponsor</option>
-	                    <option value="SST">Study Site</option>
-                	</select>
-	        	</div>
-	        	
-	          	<div class="value">
-	          		<input type="hidden" name="searchCriteriaList[16].objectName" value="edu.duke.cabig.c3pr.domain.Identifier"/>
-	          		<input type="hidden" name="searchCriteriaList[16].contextObjectName" id="studyorganization-contextObject" value="" />
-          			<input type="hidden" name="searchCriteriaList[16].attributeName" value="typeInternal" />
-          			<input type="hidden" name="searchCriteriaList[16].predicate" value="="/>
-	       			<input id="studyorganization-identifier-type" type="hidden" name="searchCriteriaList[16].values" value="CTEP"  />
-	       			
-	       			<input type="hidden" name="searchCriteriaList[17].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
-		       		<input type="hidden" name="searchCriteriaList[17].contextObjectName" value="StudyCoordinatingCenter"/>
-	   	        	<input type="hidden" name="searchCriteriaList[17].predicate" value="="/>
-	          		<input type="hidden" name="searchCriteriaList[17].attributeName" value="id" />
-	          		<input type="hidden" id="studyorganization-hidden" name="searchCriteriaList[17].values"/>
-					<tags:autocompleter name="studyorganization" displayValue="" value="" basename="studyorganization"></tags:autocompleter>
-	          		
-	        </div>
-        </div>	
-     </div>
+        	<div class="label"><fmt:message key="dashboard.coordinatingCenter"/></div>
+          	<div class="value">
+	       		<input type="hidden" name="searchCriteriaList[15].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
+	       		<input type="hidden" name="searchCriteriaList[15].contextObjectName" value="StudyCoordinatingCenter"/>
+   	        	<input type="hidden" name="searchCriteriaList[15].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[15].attributeName" value="id" />
+          		<input type="hidden" id="coordinatingCenter-hidden" name="searchCriteriaList[15].values"/>
+				<tags:autocompleter name="coordinatingCenter" displayValue="" 	value="" basename="coordinatingCenter"></tags:autocompleter>
+   	    	</div>
+        </div>
+        <div class="row" >
+        	<div class="label"><fmt:message key="study.sponsor"/></div>
+          	<div class="value">
+	       		<input type="hidden" name="searchCriteriaList[16].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
+	       		<input type="hidden" name="searchCriteriaList[16].contextObjectName" value="StudyFundingSponsor"/>
+   	        	<input type="hidden" name="searchCriteriaList[16].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[16].attributeName" value="id" />
+          		<input type="hidden" id="fundingSponsor-hidden" name="searchCriteriaList[16].values"/>
+				<tags:autocompleter name="fundingSponsor" displayValue="" value="" basename="fundingSponsor"></tags:autocompleter>
+   	    	</div>
+        </div>
+     	</div>
+    </div>
 </chrome:division>
 <chrome:division title="Registration Criteria">
 	<div class="leftpanel">
@@ -510,7 +630,7 @@ color:white;
         </div>
         
         <div class="row" >
-        	<div class="label"><fmt:message key="epoch.type"/></div>
+        	<div class="label"><fmt:message key="c3pr.common.epoch.type"/></div>
           	<div class="value" >
           		<input type="hidden" name="searchCriteriaList[27].objectName" value="edu.duke.cabig.c3pr.domain.Epoch"/>
           		<input type="hidden" name="searchCriteriaList[27].attributeName" value="type.code" />
@@ -523,6 +643,29 @@ color:white;
 	               <option value="RESERVING"> Reserving</option>
                 </select>
    	    	</div>
+        </div>
+        <div class="row" >
+        	<div class="label"><fmt:message key="registration.epochStatus"/></div>
+          	<div class="value">
+          		<input type="hidden" name="searchCriteriaList[39].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
+          		<input type="hidden" name="searchCriteriaList[39].attributeName" value="scEpochWorkflowStatus.code" />
+          		<input type="hidden" name="searchCriteriaList[39].predicate" value="like"/>
+        		<select id="scheduledEpochStatus" name="searchCriteriaList[39].values" size="4" multiple="multiple">
+                   <option value="" selected="selected">All</option>
+                   <c:forEach items="${scheduledEpochStatusRefData}" var="scheduledEpochStatus">
+                       <c:if test="${!empty scheduledEpochStatus.value}">
+                           <option value="${scheduledEpochStatus.key}">${scheduledEpochStatus.value}</option>
+                       </c:if>
+                   </c:forEach>
+                </select>
+                
+                <input type="hidden" name="searchCriteriaList[40].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
+          		<input type="hidden" name="searchCriteriaList[40].attributeName" value="scEpochWorkflowStatus.code" />
+          		<input type="hidden" name="searchCriteriaList[40].predicate" value="!="/>
+          		<input type="hidden" id="offEpochStatus" name="searchCriteriaList[40].values" value="OFF_EPOCH"/>
+                
+                
+        	</div>
         </div>
         
          <div class="row" >
@@ -566,6 +709,144 @@ color:white;
         </div>
     </div>
     <div class="rightpanel">
+    	<div class="row" >
+       		<div class="label"><fmt:message key="scheduledEpoch.startDate"/>&nbsp;<b>after</b></div>
+         	<div class="value"> 
+         		
+       			<input type="hidden" name="searchCriteriaList[31].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
+         		<input type="hidden" name="searchCriteriaList[31].attributeName" value="startDate" />
+         		<input type="hidden" name="searchCriteriaList[31].predicate" value=">"/>
+         		<input type="text" name="searchCriteriaList[31].values" size="10" id="scheduledEpochStartDateFirst" class="date validate-DATE" />
+           		<a href="#" id="scheduledEpochStartDateFirst-calbutton">
+          	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+          		</a>
+	          		<script type="text/javascript">
+						Calendar.setup(
+				            {
+				                inputField  : "scheduledEpochStartDateFirst",
+				                button      : "scheduledEpochStartDateFirst-calbutton",
+				                ifFormat    : "%m/%d/%Y", 
+				                weekNumbers : false
+				            }
+				        );
+					</script>
+					<b>and before</b>
+				<input type="hidden" name="searchCriteriaList[32].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
+         		<input type="hidden" name="searchCriteriaList[32].attributeName" value="startDate" />
+         		<input type="hidden" name="searchCriteriaList[32].predicate" value="<"/>
+         		<input type="text" name="searchCriteriaList[32].values" size="10" id="scheduledEpochStartDateLast" class="date validate-DATE" />
+           		<a href="#" id="scheduledEpochStartDateLast-calbutton">
+          	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+          		</a>
+          		<script type="text/javascript">
+					Calendar.setup(
+			            {
+			                inputField  : "scheduledEpochStartDateLast",
+			                button      : "scheduledEpochStartDateLast-calbutton",
+			                ifFormat    : "%m/%d/%Y", 
+			                weekNumbers : false
+			            }
+		        	);
+				</script>
+       		</div>
+       	</div>
+       	
+       	  	<div class="row" >
+       		<div class="label"><fmt:message key="scheduledEpoch.offEpochDate"/>&nbsp;<b>after</b></div>
+         	<div class="value"> 
+         		
+       			<input type="hidden" name="searchCriteriaList[45].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
+         		<input type="hidden" name="searchCriteriaList[45].attributeName" value="offEpochDate" />
+         		<input type="hidden" name="searchCriteriaList[45].predicate" value=">"/>
+         		<input type="text" name="searchCriteriaList[45].values" size="10" id="offEpochDateFirst" class="date validate-DATE" />
+           		<a href="#" id="offEpochDateFirst-calbutton">
+          	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+          		</a>
+	          		<script type="text/javascript">
+						Calendar.setup(
+				            {
+				                inputField  : "offEpochDateFirst",
+				                button      : "offEpochDateFirst-calbutton",
+				                ifFormat    : "%m/%d/%Y", 
+				                weekNumbers : false
+				            }
+				        );
+					</script>
+					<b>and before</b>
+				<input type="hidden" name="searchCriteriaList[46].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
+         		<input type="hidden" name="searchCriteriaList[46].attributeName" value="offEpochDate" />
+         		<input type="hidden" name="searchCriteriaList[46].predicate" value="<"/>
+         		<input type="text" name="searchCriteriaList[46].values" size="10" id="offEpochDateLast" class="date validate-DATE" />
+           		<a href="#" id="offEpochDateLast-calbutton">
+          	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+          		</a>
+          		<script type="text/javascript">
+					Calendar.setup(
+			            {
+			                inputField  : "offEpochDateLast",
+			                button      : "offEpochDateLast-calbutton",
+			                ifFormat    : "%m/%d/%Y", 
+			                weekNumbers : false
+			            }
+		        	);
+				</script>
+       		</div>
+       	</div>
+       	
+       	<div class="row" >
+       		<div class="label"><fmt:message key="registration.offStudyDate"/>&nbsp;<b>after</b></div>
+         	<div class="value"> 
+         		
+       			<input type="hidden" name="searchCriteriaList[41].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
+         		<input type="hidden" name="searchCriteriaList[41].attributeName" value="offEpochDate" />
+         		<input type="hidden" name="searchCriteriaList[41].predicate" value=">"/>
+         		<input type="text" name="searchCriteriaList[41].values" size="10" id="offStudyDateFirst" class="date validate-DATE" />
+           		<a href="#" id="offStudyDateFirst-calbutton">
+          	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+          		</a>
+	          		<script type="text/javascript">
+						Calendar.setup(
+				            {
+				                inputField  : "offStudyDateFirst",
+				                button      : "offStudyDateFirst-calbutton",
+				                ifFormat    : "%m/%d/%Y", 
+				                weekNumbers : false
+				            }
+				        );
+					</script>
+					<b>and before</b>
+				<input type="hidden" name="searchCriteriaList[42].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
+         		<input type="hidden" name="searchCriteriaList[42].attributeName" value="offEpochDate" />
+         		<input type="hidden" name="searchCriteriaList[42].predicate" value="<"/>
+         		<input type="text" name="searchCriteriaList[42].values" size="10" id="offStudyDateLast" class="date validate-DATE" />
+           		<a href="#" id="offStudyDateLast-calbutton">
+          	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+          		</a>
+          		<script type="text/javascript">
+					Calendar.setup(
+			            {
+			                inputField  : "offStudyDateLast",
+			                button      : "offStudyDateLast-calbutton",
+			                ifFormat    : "%m/%d/%Y", 
+			                weekNumbers : false
+			            }
+		        	);
+				</script>
+				
+				<input type="hidden" name="searchCriteriaList[43].objectName" value="edu.duke.cabig.c3pr.domain.StudySubject"/>
+          		<input type="hidden" name="searchCriteriaList[43].attributeName" value="regWorkflowStatus.code" />
+          		<input type="hidden" name="searchCriteriaList[43].predicate" value="="/>
+        		<input type="hidden" id="offStudyRegistrationStatus" name="searchCriteriaList[44].values" value="OFF_STUDY">
+        		
+        		<input type="hidden" name="searchCriteriaList[44].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
+          		<input type="hidden" name="searchCriteriaList[44].attributeName" value="scEpochWorkflowStatus.code" />
+          		<input type="hidden" name="searchCriteriaList[44].predicate" value="="/>
+        		<input type="hidden" id="offScheduledEpochStatus" name="searchCriteriaList[44].values" value="OFF_EPOCH">
+				
+				
+       		</div>
+       	</div>
+       	
     	<div class="row" >
 	       	<div class="label"><fmt:message key="registration.consentSignedDate"/></div>
    	        <div class="value">
@@ -622,6 +903,11 @@ color:white;
 			            }
 			        );
 				</script>
+				
+				<input type="hidden" name="searchCriteriaList[38].objectName" value="edu.duke.cabig.c3pr.domain.StudySubject"/>
+          		<input type="hidden" name="searchCriteriaList[38].attributeName" value="regWorkflowStatus.code" />
+          		<input type="hidden" name="searchCriteriaList[38].predicate" value="!="/>
+        		<input type="hidden" id="enrolledRegistrationStatus" name="searchCriteriaList[38].values" value="PENDING">
    	    	</div>
         </div>
         <div class="row" >
@@ -657,18 +943,51 @@ color:white;
    	    	</div>
         </div>
         <div class="row" >
+        	<div class="label"><fmt:message key="registration.enrollingSite"/></div>
+          	<div class="value">
+	       		<input type="hidden" name="searchCriteriaList[17].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
+	       		<input type="hidden" name="searchCriteriaList[17].contextObjectName" value="EnrollingSite"/>
+   	        	<input type="hidden" name="searchCriteriaList[17].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[17].attributeName" value="id" />
+          		<input type="hidden" id="studySite-hidden" name="searchCriteriaList[17].values"/>
+				<tags:autocompleter name="studySite" displayValue="" value="" basename="studySite"></tags:autocompleter>
+   	    	</div>
+        </div>
+        <div class="row"  style="display:none">
 	       	<div class="label"><fmt:message key="registration.enrollingSite"/></div>
 	       	<div class="value">
           		<input type="hidden" name="searchCriteriaList[26].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
-          		<input type="hidden" name="searchCriteriaList[26].contextObjectName" value="EnrollingSite" />
+          		<input type="hidden" name="searchCriteriaList[26].contextObjectName" value="" />
        			<input type="hidden" name="searchCriteriaList[26].predicate" value="="/>
-       			<input type="hidden" name="searchCriteriaList[26].attributeName" value="id" />
-       			<input id="enrollingsite-identifier-type" type="hidden" name="searchCriteriaList[26].values" value="CTEP"  />
+       			<input type="hidden" name="searchCriteriaList[26].attributeName" value="" />
+       			<input id="enrollingsite-identifier-type" type="hidden" name="searchCriteriaList[26].values" value=""  />
 				<%-- Autocompleter Section --%>	
 				<input type="hidden" id="enrollingsite-hidden" name="searchCriteriaList[26].values"/>
 				<tags:autocompleter name="enrollingsite" displayValue="" value="" basename="enrollingsite"></tags:autocompleter>
    	    	</div>
         </div>
+        <div class="row" >
+        	<div class="label"><fmt:message key="registration.subject.inEligible"/></div>
+          	<div class="value" >
+          		<input type="hidden" name="searchCriteriaList[29].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
+          		<input type="hidden" name="searchCriteriaList[29].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[29].attributeName" value="eligibilityIndicator" />
+          		<input type="hidden" id="inEligibleRegistrations-hidden" name="searchCriteriaList[29].values"/>
+          		<input type="checkbox" id="inEligibleRegistrations" name="inEligibleRegistrations" onclick="setValueFalseIfChecked(this);">
+   	    	</div>
+        </div>
+        <!-- 
+        <div class="row" >
+        	<div class="label"><fmt:message key="registration.pending.reConsent"/></div>
+          	<div class="value" >
+          		<input type="hidden" name="searchCriteriaList[38].objectName" value="edu.duke.cabig.c3pr.domain.StudySubject"/>
+          		<input type="hidden" name="searchCriteriaList[38].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[38].attributeName" value="regWorkflowStatus.code" />
+          		<input type="hidden" id="pendingReConsentRegistrations-hidden" name="searchCriteriaList[38].values" value=""/>
+          		<input type="checkbox" id="pendingReConsentRegistrations" name="pendingReConsentRegistrations">
+   	    	</div>
+        </div>
+         -->
       <div class="divison"></div>
       </div>
      </div>

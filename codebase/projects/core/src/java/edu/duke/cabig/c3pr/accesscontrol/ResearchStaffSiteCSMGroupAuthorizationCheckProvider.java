@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 
@@ -32,8 +32,8 @@ public class ResearchStaffSiteCSMGroupAuthorizationCheckProvider implements
         boolean hasPermission = false;
         log.debug("Invoking checkPermission on StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider");
 
-        if (domainObject instanceof ResearchStaff) {
-        	ResearchStaff researchStaff = (ResearchStaff) domainObject;
+        if (domainObject instanceof PersonUser) {
+        	PersonUser researchStaff = (PersonUser) domainObject;
         	//get the researchStaff's hcs and see if logged in user has access to that organization.
         	
         	List<HealthcareSite> hcSites = researchStaff.getHealthcareSites();

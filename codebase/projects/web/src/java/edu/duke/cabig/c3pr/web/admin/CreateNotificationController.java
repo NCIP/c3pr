@@ -29,16 +29,15 @@ import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.constants.NotificationFrequencyEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
-import edu.duke.cabig.c3pr.domain.Organization;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
 import edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledNotificationJob;
@@ -62,7 +61,7 @@ public class CreateNotificationController extends SimpleFormController {
     private static Log log = LogFactory.getLog(CreateNotificationController.class);
 
     private HealthcareSiteDao healthcareSiteDao;
-    private ResearchStaffDao researchStaffDao;
+    private PersonUserDao personUserDao;
     private InvestigatorDao investigatorDao;
     private PlannedNotificationDao plannedNotificationDao;
 
@@ -96,9 +95,9 @@ public class CreateNotificationController extends SimpleFormController {
     			wrapper.setHealthcareSite(healthcareSite);
     		} else{
     		//get the logged in users site.If the logged in user is not yet associated to a site then get the hosting site.
-	    		ResearchStaff researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
-	    		if(researchStaff.getHealthcareSites().size()>0){
-	    			wrapper.setHealthcareSite(researchStaff.getHealthcareSites().get(0));
+	    		PersonUser personUser = (PersonUser)userDao.getByLoginId(user.getUserId().longValue());
+	    		if(personUser.getHealthcareSites().size()>0){
+	    			wrapper.setHealthcareSite(personUser.getHealthcareSites().get(0));
 	    		} else{
 	    			log.debug("Logged in User is not associated to a site, so getting the hosting site organization");
 	    			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
@@ -128,8 +127,8 @@ public class CreateNotificationController extends SimpleFormController {
         refdata.put("notificationReportEventsRefData", configMap.get("notificationReportEventsRefData"));
         gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
 		.getSession().getAttribute("userObject");
-        ResearchStaff researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
-        refdata.put("assignedIdentifier", researchStaff.getAssignedIdentifier());
+        PersonUser personUser = (PersonUser)userDao.getByLoginId(user.getUserId().longValue());
+        refdata.put("assignedIdentifier", personUser.getAssignedIdentifier());
         return refdata;
     }
     
@@ -139,22 +138,22 @@ public class CreateNotificationController extends SimpleFormController {
     	binder.registerCustomEditor(NotificationEventTypeEnum.class, new EnumByNameEditor(
     			NotificationEventTypeEnum.class));
     	binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
-    	binder.registerCustomEditor(ResearchStaff.class, new CustomDaoEditor(researchStaffDao));
+    	binder.registerCustomEditor(PersonUser.class, new CustomDaoEditor(personUserDao));
     }
     
     /*
      * This is the method that gets called on form submission. All it does it cast the command into
      * Organization and call the service to persist.
-     * On succesful submission it sets the type attribute to confirm which is used to show the
+     * On successful submission it sets the type attribute to confirm which is used to show the
      * confirmation screen.
      */
     protected ModelAndView processFormSubmission(HttpServletRequest request,
                     HttpServletResponse response, Object command, BindException errors)
                     throws Exception {
     	
-    	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
-																		.getSession().getAttribute("userObject");
-    	ResearchStaff researchStaff = null;
+//    	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
+//																		.getSession().getAttribute("userObject");
+//    	PersonUser personUser = null;
     	NotificationWrapper notificationWrapper = (NotificationWrapper) command;
     	HealthcareSite healthcareSite = notificationWrapper.getHealthcareSite();
     	if (isAjaxRequest(request)) {
@@ -176,7 +175,7 @@ public class CreateNotificationController extends SimpleFormController {
 		} else {
 			
 	        //assign the Rs or Inv to the userBasedRecpients
-	        ResearchStaff rs = null;
+	        PersonUser rs = null;
 	        Investigator investigator = null; 
 	        Trigger trigger = null;
 	        
@@ -208,13 +207,13 @@ public class CreateNotificationController extends SimpleFormController {
 	        	for(UserBasedRecipient ubr: pn.getUserBasedRecipient()){
 	        		if(!StringUtils.isBlank(ubr.getEmailAddress())){
 	        			//TODO: This method is removed from researchstaff dao. Check CPR-1570.
-	        			//rs = researchStaffDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
+	        			//rs = personUserDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
 	        			
 	        			//TODO: This method is removed from investigator dao. Check CPR-1568. 
 	        			//investigator = investigatorDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
 	        		}
 	        		if(rs != null){
-	        			ubr.setResearchStaff(rs);
+	        			ubr.setPersonUser(rs);
 	        		}else if(investigator != null){
 	        			ubr.setInvestigator(investigator);
 	        		}
@@ -232,7 +231,7 @@ public class CreateNotificationController extends SimpleFormController {
 	        	}
 	        }
 	        
-	        Map map = errors.getModel();
+	        Map<String, Object> map = errors.getModel();
 	        map.put("command", notificationWrapper);
 	        ModelAndView mv = new ModelAndView(getSuccessView(), map);
 	        return mv;
@@ -399,12 +398,12 @@ public class CreateNotificationController extends SimpleFormController {
 		this.investigatorDao = investigatorDao;
 	}
 
-	public ResearchStaffDao getResearchStaffDao() {
-		return researchStaffDao;
+	public PersonUserDao getPersonUserDao() {
+		return personUserDao;
 	}
 
-	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-		this.researchStaffDao = researchStaffDao;
+	public void setPersonUserDao(PersonUserDao personUserDao) {
+		this.personUserDao = personUserDao;
 	}
 
 	public PlannedNotificationDao getPlannedNotificationDao() {

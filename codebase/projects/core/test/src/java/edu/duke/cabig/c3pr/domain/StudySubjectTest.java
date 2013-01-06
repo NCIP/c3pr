@@ -677,18 +677,21 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     public void testEvaluateRegistrationDataEntryStatusWithErrors() throws Exception{
     	List<Error> errors = new ArrayList<Error>();
     	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(1);
-    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	//EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	EasyMock.expect(studySiteStudyVersion.getStudyVersion()).andReturn(studyVersion);
+    	
 
 
 		EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
 		EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true).times(1);
-		EasyMock.expect(studySite.getStudy()).andReturn(study);
+		//EasyMock.expect(studySite.getStudy()).andReturn(study);
 
 		CompanionStudyAssociation companionStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
 		ArrayList<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
 		companionStudyAssociations.add(companionStudyAssociation);
 
-		EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(companionStudyAssociations).times(1);
+		//EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(companionStudyAssociations).times(1);
+		EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(companionStudyAssociations).times(1);
 		EasyMock.expect(companionStudyAssociation.getMandatoryIndicator()).andReturn(true).times(1);
 
     	replayMocks();
@@ -1322,17 +1325,18 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
    */
 	public void testPrepareForEnrollment2() throws Exception {
     	EasyMock.expect(study.getStandaloneIndicator()).andReturn(false);
-		EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+		EasyMock.expect(studySite.getStudy()).andReturn(study);
 	    EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
 	    EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true);
 		EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
-	    EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(2);
+	    EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	EasyMock.expect(studySiteStudyVersion.getStudyVersion()).andReturn(studyVersion);
 
 		List<CompanionStudyAssociation> compStudyAssociations = new ArrayList<CompanionStudyAssociation>();
 		CompanionStudyAssociation compStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
 		compStudyAssociations.add(compStudyAssociation);
 
-		EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(compStudyAssociations);
+		EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(compStudyAssociations).times(1);
 		EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
 
 		replayMocks();
@@ -1354,7 +1358,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
    * @throws Exception the exception
    */
   public void testPrepareForEnrollment3() throws Exception{
-	  EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+	  EasyMock.expect(studySite.getStudy()).andReturn(study);
 	  EasyMock.expect(study.getStandaloneIndicator()).andReturn(false);
 
 	  List<CompanionStudyAssociation> compStudyAssociations = new ArrayList<CompanionStudyAssociation>();
@@ -1364,12 +1368,13 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
 
 	  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
-	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(2);
+	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+	  EasyMock.expect(studySiteStudyVersion.getStudyVersion()).andReturn(studyVersion);
 
 	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
 	  EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true);
 
-	  EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(compStudyAssociations);
+	  EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(compStudyAssociations).times(1);
 
 	  replayMocks();
 	  try{
@@ -1681,20 +1686,20 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	studySubjectStudyVersion.setStudySubject(studySubject);
 		StudySite studyOrganization = new StudySite();
 		StudyPersonnel studyPersonnel = studyOrganization.getStudyPersonnel().get(0);
-		ResearchStaff researchStaff = new LocalResearchStaff();
+		PersonUser researchStaff = new LocalPersonUser();
 		researchStaff.setAssignedIdentifier("test1");
 		studyPersonnel.setStatusCode("Active");
-		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel.setPersonUser(researchStaff);
 		studyPersonnel = studyOrganization.getStudyPersonnel().get(1);
-		researchStaff = new LocalResearchStaff();
+		researchStaff = new LocalPersonUser();
 		researchStaff.setAssignedIdentifier("test2");
 		studyPersonnel.setStatusCode("Inactive");
-		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel.setPersonUser(researchStaff);
 		EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studyOrganization);
 	  	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
 	  	replayMocks();
 	  	studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
-		researchStaff = new LocalResearchStaff();
+		researchStaff = new LocalPersonUser();
 		researchStaff.setAssignedIdentifier("test1");
 		assertTrue(studySubject.isAssignedAndActivePersonnel(researchStaff));
 		verifyMocks();
@@ -1705,16 +1710,16 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	
 		StudySite dummyStudySite = new StudySite();
 		StudyPersonnel studyPersonnel = dummyStudySite.getStudyPersonnel().get(0);
-		ResearchStaff researchStaff = new LocalResearchStaff();
+		PersonUser researchStaff = new LocalPersonUser();
 		researchStaff.setAssignedIdentifier("test1");
 		studyPersonnel.setStatusCode("Active");
-		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel.setPersonUser(researchStaff);
 		
 		studyPersonnel = dummyStudySite.getStudyPersonnel().get(1);
-		researchStaff = new LocalResearchStaff();
+		researchStaff = new LocalPersonUser();
 		researchStaff.setAssignedIdentifier("test2");
 		studyPersonnel.setStatusCode("Inactive");
-		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel.setPersonUser(researchStaff);
 		
 		EasyMock.expect(studySite.getIsCoordinatingCenter()).andReturn(false);
 		EasyMock.expect(studySite.getActiveStudyPersonnel()).andReturn(new ArrayList<StudyPersonnel>());
@@ -1726,7 +1731,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	
 	  	replayMocks();
 	  	studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
-		researchStaff = new LocalResearchStaff();
+		researchStaff = new LocalPersonUser();
 		researchStaff.setAssignedIdentifier("test2");
 		assertFalse(studySubject.isAssignedAndActivePersonnel(researchStaff));
 		verifyMocks();
@@ -2019,7 +2024,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(true);
 	  replayMocks();
 	  studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
-	  ResearchStaff researchStaff = new LocalResearchStaff();
+	  PersonUser researchStaff = new LocalPersonUser();
 	  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 	  assertFalse(subjectEligibilityAnswer1.getAllowWaiver());
 	  assertTrue(subjectEligibilityAnswer2.getAllowWaiver());
@@ -2050,7 +2055,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  replayMocks();
 	  studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
 	  try {
-		  ResearchStaff researchStaff = new LocalResearchStaff();
+		  PersonUser researchStaff = new LocalPersonUser();
 		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
@@ -2085,7 +2090,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  replayMocks();
 	  studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
 	  try {
-		  ResearchStaff researchStaff = new LocalResearchStaff();
+		  PersonUser researchStaff = new LocalPersonUser();
 		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
@@ -2119,7 +2124,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  replayMocks();
 	  studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
 	  try {
-		  ResearchStaff researchStaff = new LocalResearchStaff();
+		  PersonUser researchStaff = new LocalPersonUser();
 		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
@@ -2153,7 +2158,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  replayMocks();
 	  studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
 	  try {
-		  ResearchStaff researchStaff = null;
+		  PersonUser researchStaff = null;
 		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
@@ -2200,7 +2205,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  replayMocks();
 	  studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
 	  try {
-		  ResearchStaff researchStaff = null;
+		  PersonUser researchStaff = null;
 		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
@@ -2963,7 +2968,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
 	  	try {
-			studySubject.updateRegistryStatus("XYZ", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true)}));
+			studySubject.updateRegistryStatus("XYZ", date, null, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true)}));
 			fail();
 		} catch (C3PRCodedRuntimeException e) {
 			e.printStackTrace();
@@ -2993,9 +2998,10 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	replayMocks();
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
-	  	studySubject.updateRegistryStatus("Pre-Enrolled", date, new ArrayList<RegistryStatusReason>());
+	  	studySubject.updateRegistryStatus("Pre-Enrolled", date, "some comment", new ArrayList<RegistryStatusReason>());
 		assertEquals(1, studySubject.getStudySubjectRegistryStatusHistoryInternal().size());
 		assertEquals(date, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getEffectiveDate());
+		assertEquals("some comment", studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getCommentText());
 		assertEquals(permissibleStudySubjectRegistryStatus1, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getPermissibleStudySubjectRegistryStatus());
 		verifyMocks();
   }
@@ -3023,7 +3029,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	replayMocks();
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
-	  	studySubject.updateRegistryStatus("Enrolled", date, null);
+	  	studySubject.updateRegistryStatus("Enrolled", date, null, null);
 		assertEquals(1, studySubject.getStudySubjectRegistryStatusHistoryInternal().size());
 		assertEquals(date, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getEffectiveDate());
 		assertEquals(permissibleStudySubjectRegistryStatus2, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getPermissibleStudySubjectRegistryStatus());
@@ -3059,7 +3065,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
 	  	try {
-	  		studySubject.updateRegistryStatus("Screen Failed", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("C","C",null,true)}));
+	  		studySubject.updateRegistryStatus("Screen Failed", date, null, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("C","C",null,true)}));
 	  		fail();
 		} catch (C3PRCodedRuntimeException e) {
 			e.printStackTrace();
@@ -3097,7 +3103,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	replayMocks();
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
-	  	studySubject.updateRegistryStatus("Screen Failed", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("B","B",null,true)}));
+	  	studySubject.updateRegistryStatus("Screen Failed", date, null, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("B","B",null,true)}));
 		assertEquals(1, studySubject.getStudySubjectRegistryStatusHistoryInternal().size());
 		assertEquals(date, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getEffectiveDate());
 		assertEquals(permissibleStudySubjectRegistryStatus3, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getPermissibleStudySubjectRegistryStatus());
@@ -3137,7 +3143,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
 	  	try {
-	  		studySubject.updateRegistryStatus("Screen Failed", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
+	  		studySubject.updateRegistryStatus("Screen Failed", date, null, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
 	  																											new RegistryStatusReason("C","C",null,false)}));
 	  		fail();
 		} catch (C3PRCodedRuntimeException e) {
@@ -3178,7 +3184,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		replayMocks();
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
-	  	studySubject.updateRegistryStatus("Screen Failed", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
+	  	studySubject.updateRegistryStatus("Screen Failed", date, null, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
 					new RegistryStatusReason("Q","Q",null,false)}));
 		assertEquals(1, studySubject.getStudySubjectRegistryStatusHistoryInternal().size());
 		assertEquals(date, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getEffectiveDate());
@@ -3195,15 +3201,15 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
         Date date3= new GregorianCalendar(2008, 01, 30).getTime();
         Date date2= new GregorianCalendar(2007, 01, 30).getTime();
         Date date1= new GregorianCalendar(2006, 01, 30).getTime();
-        StudySubjectRegistryStatus studySubjectRegistryStatus = new StudySubjectRegistryStatus(date2,null);
+        StudySubjectRegistryStatus studySubjectRegistryStatus = new StudySubjectRegistryStatus(date2,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date4,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date4,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date3,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date3,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date5,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date5,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date1,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date1,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
         
         List<StudySubjectRegistryStatus> history = studySubject.getStudySubjectRegistryStatusHistory();
@@ -3227,15 +3233,15 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
         Date date3= new GregorianCalendar(2008, 01, 30).getTime();
         Date date2= new GregorianCalendar(2007, 01, 30).getTime();
         Date date1= new GregorianCalendar(2006, 01, 30).getTime();
-        StudySubjectRegistryStatus studySubjectRegistryStatus = new StudySubjectRegistryStatus(date2,null);
+        StudySubjectRegistryStatus studySubjectRegistryStatus = new StudySubjectRegistryStatus(date2,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date4,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date4,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date3,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date3,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date5,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date5,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date1,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date1,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
         
         assertEquals(date5, studySubject.getStudySubjectRegistryStatus().getEffectiveDate());

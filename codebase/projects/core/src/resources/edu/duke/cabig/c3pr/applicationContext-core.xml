@@ -14,6 +14,10 @@
     <bean id="c3pr-study-xml-castorMapping" class="java.lang.String">
         <constructor-arg value="c3pr-study-xml-castor-mapping.xml"/>
     </bean>
+    
+    <bean id="c3pr-remote-study-xml-castor-mapping" class="java.lang.String">
+        <constructor-arg value="c3pr-remote-study-xml-castor-mapping.xml"/>
+    </bean>
 
 	<bean id="c3pr-registration-xml-castor-mapping" class="java.lang.String">
         <constructor-arg value="c3pr-registration-xml-castor-mapping.xml"/>
@@ -72,8 +76,8 @@
                 <value>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyPersonnel</value>
                 <value>edu.duke.cabig.c3pr.domain.Participant</value>
-                <value>edu.duke.cabig.c3pr.domain.LocalResearchStaff</value>
-                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalPersonUser</value>
+                <value>edu.duke.cabig.c3pr.domain.RemotePersonUser</value>
                 <value>edu.duke.cabig.c3pr.domain.LocalInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
@@ -150,6 +154,8 @@
                 <value>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</value>
                 <value>edu.duke.cabig.c3pr.domain.RegistryStatusReason</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyPersonnelRole</value>
+                <value>edu.duke.cabig.c3pr.domain.ContactMechanismUseAssociation</value>
+                <value>edu.duke.cabig.c3pr.domain.AddressUseAssociation</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -159,7 +165,19 @@
         <property name="hibernateProperties">
             <ref bean="hibernateProperties"/>
         </property>
+		<property name="eventListeners">
+  			<map>  
+   				<entry key="post-insert">   					
+   					<ref local="cctsNotificationsPersistenceListener"/>   					    				
+   				</entry>
+   				<entry key="post-update">   					
+   					<ref local="cctsNotificationsPersistenceListener"/>   					    				
+   				</entry>   				
+  			</map>
+ 		</property>         
     </bean>
+    
+    <bean id="cctsNotificationsPersistenceListener" class="edu.duke.cabig.c3pr.infrastructure.CCTSNotificationsPersistenceListener" autowire="byType"/>
 
     <bean id="configuration" parent="configurationDaoTemplate"
       class="edu.duke.cabig.c3pr.tools.Configuration"/>
@@ -232,8 +250,8 @@
                 <value>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyPersonnel</value>
                 <value>edu.duke.cabig.c3pr.domain.Participant</value>
-                <value>edu.duke.cabig.c3pr.domain.LocalResearchStaff</value>
-                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalPersonUser</value>
+                <value>edu.duke.cabig.c3pr.domain.RemotePersonUser</value>
                 <value>edu.duke.cabig.c3pr.domain.LocalInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
@@ -310,6 +328,8 @@
                <value>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</value>
                <value>edu.duke.cabig.c3pr.domain.RegistryStatusReason</value>
                <value>edu.duke.cabig.c3pr.domain.StudyPersonnelRole</value>
+               <value>edu.duke.cabig.c3pr.domain.ContactMechanismUseAssociation</value>
+               <value>edu.duke.cabig.c3pr.domain.AddressUseAssociation</value>
             </list>
         </property>
     </bean>
@@ -394,8 +414,8 @@
 	                <value>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</value>
 	                <value>edu.duke.cabig.c3pr.domain.StudyPersonnel</value>
 	                <value>edu.duke.cabig.c3pr.domain.Participant</value>
-	                <value>edu.duke.cabig.c3pr.domain.LocalResearchStaff</value>
-	                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+	                <value>edu.duke.cabig.c3pr.domain.LocalPersonUser</value>
+	                <value>edu.duke.cabig.c3pr.domain.RemotePersonUser</value>
 	                <value>edu.duke.cabig.c3pr.domain.LocalInvestigator</value>
 	                <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
 	                <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
@@ -460,6 +480,8 @@
                   <value>edu.duke.cabig.c3pr.domain.RegistryStatus</value>
                   <value>edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus</value>
                   <value>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</value>
+                  <value>edu.duke.cabig.c3pr.domain.ContactMechanismUseAssociation</value>
+                  <value>edu.duke.cabig.c3pr.domain.AddressUseAssociation</value>
               </list>
         </property>
         <!--  <property name="auditAll">
@@ -494,7 +516,7 @@
 
         <property name="remoteEntities">
             <list>
-                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.RemotePersonUser</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteHealthcareSite</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteStudy</value>
@@ -613,7 +635,7 @@
           autowire="byName">
           <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
     </bean>
-    <bean id="researchStaffDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffDao" autowire="byName" >
+    <bean id="personUserDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.PersonUserDao" autowire="byName" >
 	    <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
     </bean>
     <bean id="investigatorGroupDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.InvestigatorGroupDao" autowire="byName"/>
@@ -765,7 +787,7 @@
 
 	<!-- Scheduler jobs -->
 	<bean id="scheduledNotificationJob" class="edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledNotificationJob" autowire="byName" />
-
+	<bean id="cctsNotificationMessageJob" class="edu.duke.cabig.c3pr.domain.scheduler.runtime.job.CCTSNotificationMessageJob"/>
 
     <!-- Repositories -->
 	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
@@ -867,6 +889,10 @@
         <constructor-arg ref="c3pr-study-xml-castorMapping"/>
     </bean>
     
+    <bean id="remoteStudyXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <constructor-arg ref="c3pr-remote-study-xml-castor-mapping"/>
+    </bean>
+    
     <bean id="registrationXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <constructor-arg ref="c3pr-registration-xml-castor-mapping"/>
     </bean>
@@ -903,7 +929,7 @@
           autowire="byName"/> 
           
           
-    <bean id="researchStaffRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.ResearchStaffRepositoryImpl"
+    <bean id="personUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl"
           lazy-init="true" autowire="byType">
         <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
     </bean>

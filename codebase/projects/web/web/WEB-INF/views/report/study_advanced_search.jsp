@@ -22,7 +22,7 @@
 			}else {
 				$(attributeId).value = false;
 			}
-		}
+	}
 	
 	function setValueFalseIfChecked(element){
 		attributeId = element.id + '-hidden';
@@ -84,11 +84,11 @@
 	            })
 	        },
 	        valueSelector: function(obj) {
-	        	return (obj.fullName + '(' + obj.assignedIdentifier +')')
+	        	return (obj.personUser.fullName + ' (' + obj.personUser.assignedIdentifier +')')
 	        },
 	        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
 									hiddenField=studyPersonAutocompleterProps.basename+"-hidden"
-	    							$(hiddenField).value=selectedChoice.assignedIdentifier;
+	    							$(hiddenField).value=selectedChoice.personUser.assignedIdentifier;
 			 }
 	    }
 
@@ -152,6 +152,9 @@ function validateAndSubmitForm(){
 				$('originalIndicatorStudyOpen-hidden').value="" ;
 				$('coordinatingCenterStudyStatusStudyOpen-hidden').value="" ;
  	 	}
+        if($('siteActivationDateFirst').value == "" && $('siteActivationDateLast').value == "") {
+			$('activeStudyStatus-hidden').value="" ;
+	 	}	
     $('search').submit();	
 } 
 
@@ -179,7 +182,7 @@ width:16em;
 <chrome:division>
 	<div class="leftpanel">
         <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.title"/></div>
+        	<div class="label"><fmt:message key="study.studyShortTitle"/></div>
           	<div class="value">
           		<input type="hidden" name="searchCriteriaList[0].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
           		<input type="hidden" name="searchCriteriaList[0].attributeName" value="shortTitleText" />
@@ -228,7 +231,7 @@ width:16em;
           		<input type="hidden" name="searchCriteriaList[3].predicate" value="in"/>
         		<select id="studyStatus" size="4" multiple="multiple" name="searchCriteriaList[3].values">
                    <option value="" selected="selected">All</option>
-                   <c:forEach items="${statusRefDate}" var="studyStatus">
+                   <c:forEach items="${statusRefData}" var="studyStatus">
                        <c:if test="${!empty studyStatus}">
                            <option value="${studyStatus.key}">${studyStatus.value}</option>
                        </c:if>
@@ -237,7 +240,25 @@ width:16em;
         	</div>
         </div>
         <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.identifier"/></div>
+        	<div class="label"><fmt:message key="study.category"/></div>
+          	<div class="value">
+          		<input type="hidden" name="searchCriteriaList[23].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
+          		<input type="hidden" name="searchCriteriaList[23].attributeName" value="category.code" />
+          		<input type="hidden" name="searchCriteriaList[23].predicate" value="in"/>
+        		<select id="studyStatus" size="4" multiple="multiple" name="searchCriteriaList[23].values">
+                   <option value="" selected="selected">All</option>
+                   <c:forEach items="${studyCategoryRefData}" var="studyCategory">
+                       <c:if test="${!empty studyCategory}">
+                           <option value="${studyCategory.key}">${studyCategory.value}</option>
+                       </c:if>
+                   </c:forEach>
+                </select>
+        	</div>
+        </div>
+    </div>
+    <div class="rightpanel">
+    	<div class="row" >
+        	<div class="label"><fmt:message key="study.studyIdentifier"/></div>
           	<div class="value">
           		<input type="hidden" name="searchCriteriaList[4].objectName" value="edu.duke.cabig.c3pr.domain.Identifier"/>
           		<input type="hidden" name="searchCriteriaList[4].contextObjectName" value="Study" />
@@ -246,18 +267,16 @@ width:16em;
         		<input type="text"  size="25" name="searchCriteriaList[4].values" />
         	</div>
         </div>
-         <div class="row" >
+        <div class="row" >
 	       	<div class="label"><fmt:message key="c3pr.common.disease"/></div>
 	       	<div class="value">
 	       		<input type="hidden" name="searchCriteriaList[5].objectName" value="edu.duke.cabig.c3pr.domain.DiseaseTerm"/>
-   	        	<input type="hidden" name="searchCriteriaList[5].predicate" value="="/>
-          		<input type="hidden" name="searchCriteriaList[5].attributeName" value="ctepTerm" />
-          		<input type="hidden" id="diseaseterm-hidden" name="searchCriteriaList[5].values"/>
+	  	        	<input type="hidden" name="searchCriteriaList[5].predicate" value="="/>
+	         		<input type="hidden" name="searchCriteriaList[5].attributeName" value="ctepTerm" />
+	         		<input type="hidden" id="diseaseterm-hidden" name="searchCriteriaList[5].values"/>
 				<tags:autocompleter name="diseaseterm" displayValue="" value="" basename="diseaseterm"></tags:autocompleter>
-   	    	</div>
-        </div>
-    </div>
-    <div class="rightpanel">
+	  	    	</div>
+	    </div>
         <div class="row" >
 	       	<div class="label"><fmt:message key="c3pr.common.investigator"/></div>
 	       	<div class="value">
@@ -271,22 +290,11 @@ width:16em;
         <div class="row" >
 	       	<div class="label"><fmt:message key="c3pr.common.personnel"/></div>
    	        <div class="value">
-	       		<input type="hidden" name="searchCriteriaList[7].objectName" value="edu.duke.cabig.c3pr.domain.ResearchStaff"/>
+	       		<input type="hidden" name="searchCriteriaList[7].objectName" value="edu.duke.cabig.c3pr.domain.PersonUser"/>
    	        	<input type="hidden" name="searchCriteriaList[7].predicate" value="="/>
           		<input type="hidden" name="searchCriteriaList[7].attributeName" value="assignedIdentifier" />
           		<input type="hidden" id="studyPerson-hidden" name="searchCriteriaList[7].values"/>
 				<tags:autocompleter name="studyPerson" displayValue="" value="" basename="studyPerson"></tags:autocompleter>
-   	    	</div>
-        </div>
-        <div class="row" >
-        	<div class="label"><fmt:message key="dashboard.coordinatingCenter"/></div>
-          	<div class="value">
-	       		<input type="hidden" name="searchCriteriaList[8].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
-	       		<input type="hidden" name="searchCriteriaList[8].contextObjectName" value="StudyCoordinatingCenter"/>
-   	        	<input type="hidden" name="searchCriteriaList[8].predicate" value="="/>
-          		<input type="hidden" name="searchCriteriaList[8].attributeName" value="id" />
-          		<input type="hidden" id="coordinatingCenter-hidden" name="searchCriteriaList[8].values"/>
-				<tags:autocompleter name="coordinatingCenter" displayValue="" 	value="" basename="coordinatingCenter"></tags:autocompleter>
    	    	</div>
         </div>
         <div class="row" >
@@ -301,17 +309,88 @@ width:16em;
    	    	</div>
         </div>
         <div class="row" >
-        	<div class="label"><fmt:message key="study.site"/></div>
+        	<div class="label"><fmt:message key="study.sponsorType"/></div>
           	<div class="value">
-	       		<input type="hidden" name="searchCriteriaList[10].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
-	       		<input type="hidden" name="searchCriteriaList[10].contextObjectName" value="StudySite"/>
-   	        	<input type="hidden" name="searchCriteriaList[10].predicate" value="="/>
-          		<input type="hidden" name="searchCriteriaList[10].attributeName" value="id" />
-          		<input type="hidden" id="studySite-hidden" name="searchCriteriaList[10].values"/>
-				<tags:autocompleter name="studySite" displayValue="" value="" basename="studySite"></tags:autocompleter>
+          		<input type="hidden" name="searchCriteriaList[24].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
+          		<input type="hidden" name="searchCriteriaList[24].attributeName" value="sponsorType.code" />
+          		<input type="hidden" name="searchCriteriaList[24].predicate" value="in"/>
+        		<select id="studySponsorType" size="4" multiple="multiple" name="searchCriteriaList[24].values">
+                   <option value="" selected="selected">All</option>
+                   <c:forEach items="${studySponsorTypeRefData}" var="studySponsorType">
+                       <c:if test="${!empty studySponsorType}">
+                           <option value="${studySponsorType.key}">${studySponsorType.value}</option>
+                       </c:if>
+                   </c:forEach>
+                </select>
+        	</div>
+        </div>
+        <div class="row" >
+        	<div class="label"><fmt:message key="study.nciRecognizedProgramName"/></div>
+          	<div class="value">
+          		<input type="hidden" name="searchCriteriaList[25].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
+          		<input type="hidden" name="searchCriteriaList[25].attributeName" value="nciRecognizedProgramName.code" />
+          		<input type="hidden" name="searchCriteriaList[25].predicate" value="in"/>
+        		<select id="nCIRecognizedProgramName" size="4" multiple="multiple" name="searchCriteriaList[25].values">
+                   <option value="" selected="selected">All</option>
+                   <c:forEach items="${nCIRecognizedProgramsRefData}" var="nCIRecognizedProgramName">
+                       <c:if test="${!empty nCIRecognizedProgramName}">
+                           <option value="${nCIRecognizedProgramName.key}">${nCIRecognizedProgramName.value}</option>
+                       </c:if>
+                   </c:forEach>
+                </select>
+        	</div>
+        </div>
+        <div class="row" >
+			<div class="label"><fmt:message key="study.therapeuticIntentIndicator"/></div>
+        	<div class="value">
+        		<input type="hidden" name="searchCriteriaList[12].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
+  	        		<input type="hidden" name="searchCriteriaList[12].predicate" value="="/>
+         			<input type="hidden" name="searchCriteriaList[12].attributeName" value="therapeuticIntentIndicator" />
+         			<input type="hidden" id="therapeuticIntentIndicator-hidden" name="searchCriteriaList[12].values"/>
+        		<input type="checkbox" id="therapeuticIntentIndicator" name="therapeuticIntentIndicator" onclick="setValueTrueIfChecked(this);">
+        	</div>        		
+        </div>
+        <div class="row" >
+			<div class="label"><fmt:message key="study.investigatorInitiated"/></div>
+        	<div class="value">
+        		<input type="hidden" name="searchCriteriaList[26].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
+  	        		<input type="hidden" name="searchCriteriaList[26].predicate" value="="/>
+         			<input type="hidden" name="searchCriteriaList[26].attributeName" value="investigatorInitiated" />
+         			<input type="hidden" id="investigatorInitiatedIndicator-hidden" name="searchCriteriaList[26].values"/>
+        		<input type="checkbox" id="investigatorInitiatedIndicator" name="investigatorInitiatedIndicator" onclick="setValueTrueIfChecked(this);">
+        	</div>        		
+        </div>
+        
+    </div>
+      
+</chrome:division>
+<chrome:division title="Coordinating Center Criteria" >
+	<div class="leftpanel">
+		<div class="row" >
+        	<div class="label"><fmt:message key="dashboard.coordinatingCenter"/></div>
+          	<div class="value">
+	       		<input type="hidden" name="searchCriteriaList[8].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
+	       		<input type="hidden" name="searchCriteriaList[8].contextObjectName" value="StudyCoordinatingCenter"/>
+   	        	<input type="hidden" name="searchCriteriaList[8].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[8].attributeName" value="id" />
+          		<input type="hidden" id="coordinatingCenter-hidden" name="searchCriteriaList[8].values"/>
+				<tags:autocompleter name="coordinatingCenter" displayValue="" 	value="" basename="coordinatingCenter"></tags:autocompleter>
    	    	</div>
         </div>
-             <div class="row" >
+        <%-- 
+         <div class="row" >
+       	    <div class="label"><fmt:message key="c3pr.common.targetAccrualPercentage"/></div>
+	  	        <div class="value">
+	  	        	<select id="age">
+	                  <option value="" selected="selected">Please select</option>
+	                  <option value="">Greater than</option>
+	                  <option value="">Less than</option>
+	                  <option value="">Equal to</option>
+	               </select>
+	      			<input type="text"  size="5">
+	  	    	</div>
+        </div>
+        <div class="row" >
         	<div class="label"><fmt:message key="study.bookExhaustionPercentage"/></div>
    	        <div class="value">
    	        	<select id="age">
@@ -321,39 +400,31 @@ width:16em;
                    <option value="">Equal to</option>
                 </select>
        			<input type="text"  size="5">
+       			<tags:hoverHint keyProp="study.randomization.book.exhaustion.percentage"/>
    	    	</div>
-        </div>
-        <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.targetAccrualPercentage"/></div>
-   	        <div class="value">
-   	        	<select id="age">
-                   <option value="" selected="selected">Please select</option>
-                   <option value="">Greater than</option>
-                   <option value="">Less than</option>
-                   <option value="">Equal to</option>
-                </select>
-       			<input type="text"  size="5">
-   	    	</div>
-        </div>
-        <div class="row" >
+        </div> --%>
+		
+    </div>
+    <div class="rightpanel">
+    	<div class="row" >
         	<div class="label"><fmt:message key="study.openDate"/>&nbsp;<b>after</b></div>
           	<div class="value"> 
           		
-          		<input type="hidden" name="searchCriteriaList[18].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
-	        	<input type="hidden" name="searchCriteriaList[18].predicate" value="="/>
-       			<input type="hidden" name="searchCriteriaList[18].attributeName" value="originalIndicator" />
-       			<input type="hidden" id="originalIndicatorStudyOpen-hidden" name="searchCriteriaList[18].values" value="true"/>
+          		<input type="hidden" name="searchCriteriaList[17].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
+	        	<input type="hidden" name="searchCriteriaList[17].predicate" value="="/>
+       			<input type="hidden" name="searchCriteriaList[17].attributeName" value="originalIndicator" />
+       			<input type="hidden" id="originalIndicatorStudyOpen-hidden" name="searchCriteriaList[17].values" value="true"/>
        			
        			
-       			<input type="hidden" name="searchCriteriaList[19].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
-          		<input type="hidden" name="searchCriteriaList[19].attributeName" value="coordinatingCenterStudyStatus.code" />
-          		<input type="hidden" name="searchCriteriaList[19].predicate" value="!="/>
-          		<input type="hidden" id="coordinatingCenterStudyStatusStudyOpen-hidden" name="searchCriteriaList[19].values" value="PENDING"/>
+       			<input type="hidden" name="searchCriteriaList[18].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
+          		<input type="hidden" name="searchCriteriaList[18].attributeName" value="coordinatingCenterStudyStatus.code" />
+          		<input type="hidden" name="searchCriteriaList[18].predicate" value="!="/>
+          		<input type="hidden" id="coordinatingCenterStudyStatusStudyOpen-hidden" name="searchCriteriaList[18].values" value="PENDING"/>
        			
-        		<input type="hidden" name="searchCriteriaList[16].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
-          		<input type="hidden" name="searchCriteriaList[16].attributeName" value="versionDate" />
-          		<input type="hidden" name="searchCriteriaList[16].predicate" value=">"/>
-          		<input type="text" name="searchCriteriaList[16].values" size="10" id="versionDateFirst" class="date validate-DATE" />
+        		<input type="hidden" name="searchCriteriaList[15].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
+          		<input type="hidden" name="searchCriteriaList[15].attributeName" value="versionDate" />
+          		<input type="hidden" name="searchCriteriaList[15].predicate" value=">"/>
+          		<input type="text" name="searchCriteriaList[15].values" size="10" id="versionDateFirst" class="date validate-DATE" />
             	<a href="#" id="versionDateFirst-calbutton">
            	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
            		</a>
@@ -368,10 +439,10 @@ width:16em;
 			        );
 				</script>
 				<b>and before</b>
-				<input type="hidden" name="searchCriteriaList[17].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
-          		<input type="hidden" name="searchCriteriaList[17].attributeName" value="versionDate" />
-          		<input type="hidden" name="searchCriteriaList[17].predicate" value="<"/>
-          		<input type="text" name="searchCriteriaList[17].values" size="10" id="versionDateLast" class="date validate-DATE" />
+				<input type="hidden" name="searchCriteriaList[16].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
+          		<input type="hidden" name="searchCriteriaList[16].attributeName" value="versionDate" />
+          		<input type="hidden" name="searchCriteriaList[16].predicate" value="<"/>
+          		<input type="text" name="searchCriteriaList[16].values" size="10" id="versionDateLast" class="date validate-DATE" />
             	<a href="#" id="versionDateLast-calbutton">
            	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
            		</a>
@@ -388,67 +459,126 @@ width:16em;
         	</div>
         </div>
         <div class="row" >
-        	<div class="leftpanel" >
+       		<div class="label"><fmt:message key="study.pendingAmendment"/></div>
+	       	<div class="value">
+	       		
+	       		<input type="hidden" name="searchCriteriaList[13].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
+	        	<input type="hidden" name="searchCriteriaList[13].predicate" value="="/>
+       			<input type="hidden" name="searchCriteriaList[13].attributeName" value=versionStatus.code />
+       			<input type="hidden" id="versionStatus-hidden" name="searchCriteriaList[13].values" value=""/>
+	       	
+	       	
+	       		<input type="hidden" name="searchCriteriaList[14].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
+ 	        	<input type="hidden" name="searchCriteriaList[14].predicate" value="="/>
+        		<input type="hidden" name="searchCriteriaList[14].attributeName" value="originalIndicator" />
+        		<input type="hidden" id="originalIndicator-hidden" name="searchCriteriaList[14].values"/>
+        		<input type="checkbox" id="originalIndicator" name="originalIndicator" onclick="managePendingAmendmentCheckBox(this);">
+	       	</div>
+        </div>	
+    </div>
+</chrome:division>
+<chrome:division title="Study Site Criteria" >
+	<div class="leftpanel">
+		<div class="row" >
+        	<div class="label"><fmt:message key="study.site"/></div>
+          	<div class="value">
+	       		<input type="hidden" name="searchCriteriaList[10].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
+	       		<input type="hidden" name="searchCriteriaList[10].contextObjectName" value="StudySite"/>
+   	        	<input type="hidden" name="searchCriteriaList[10].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[10].attributeName" value="id" />
+          		<input type="hidden" id="studySite-hidden" name="searchCriteriaList[10].values"/>
+				<tags:autocompleter name="studySite" displayValue="" value="" basename="studySite"></tags:autocompleter>
+   	    	</div>
+        </div>
+	<%-- 	<div class="row" >
+       		<div class="label"><fmt:message key="c3pr.common.targetAccrualPercentage"/></div>
+  	        <div class="value">
+  	        	<select id="age">
+                  <option value="" selected="selected">Please select</option>
+                  <option value="">Greater than</option>
+                  <option value="">Less than</option>
+                  <option value="">Equal to</option>
+               </select>
+      			<input type="text"  size="5">
+  	    	</div>
+       </div>
+       
+       --%>
+       
+        
+    </div>
+    <div class="rightpanel">
+    	<div class="row" >
+       		<div class="label"><fmt:message key="site.activationDate"/>&nbsp;<b>after</b></div>
+         	<div class="value"> 
+         		
+         		<input type="hidden" name="searchCriteriaList[19].objectName" value="edu.duke.cabig.c3pr.domain.SiteStatusHistory"/>
+        		<input type="hidden" name="searchCriteriaList[19].predicate" value="="/>
+      			<input type="hidden" name="searchCriteriaList[19].attributeName" value="" />
+      			<input type="hidden" id="originalIndicatorStudyOpen-hidden" name="searchCriteriaList[19].values" value=""/>
+      			
+      			
+      			<input type="hidden" name="searchCriteriaList[20].objectName" value="edu.duke.cabig.c3pr.domain.SiteStatusHistory"/>
+         		<input type="hidden" name="searchCriteriaList[20].attributeName" value="siteStudyStatus.code" />
+         		<input type="hidden" name="searchCriteriaList[20].predicate" value="="/>
+         		<input type="hidden" id="activeStudyStatus-hidden" name="searchCriteriaList[20].values" value="ACTIVE"/>
+      			
+       			<input type="hidden" name="searchCriteriaList[21].objectName" value="edu.duke.cabig.c3pr.domain.SiteStatusHistory"/>
+         		<input type="hidden" name="searchCriteriaList[21].attributeName" value="startDate" />
+         		<input type="hidden" name="searchCriteriaList[21].predicate" value=">"/>
+         		<input type="text" name="searchCriteriaList[21].values" size="10" id="siteActivationDateFirst" class="date validate-DATE" />
+           		<a href="#" id="siteActivationDateFirst-calbutton">
+          	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+          		</a>
+	          		<script type="text/javascript">
+						Calendar.setup(
+				            {
+				                inputField  : "siteActivationDateFirst",
+				                button      : "siteActivationDateFirst-calbutton",
+				                ifFormat    : "%m/%d/%Y", 
+				                weekNumbers : false
+				            }
+				        );
+					</script>
+					<b>and before</b>
+				<input type="hidden" name="searchCriteriaList[22].objectName" value="edu.duke.cabig.c3pr.domain.SiteStatusHistory"/>
+         		<input type="hidden" name="searchCriteriaList[22].attributeName" value="endDate" />
+         		<input type="hidden" name="searchCriteriaList[22].predicate" value="<"/>
+         		<input type="text" name="searchCriteriaList[22].values" size="10" id="siteActivationDateLast" class="date validate-DATE" />
+           		<a href="#" id="siteActivationDateLast-calbutton">
+          	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+          		</a>
+          		<script type="text/javascript">
+					Calendar.setup(
+			            {
+			                inputField  : "siteActivationDateLast",
+			                button      : "siteActivationDateLast-calbutton",
+			                ifFormat    : "%m/%d/%Y", 
+			                weekNumbers : false
+			            }
+		        	);
+				</script>
+       		</div>
+       	</div>
+       	<%-- 
+    	<div class="row" >
+	       	<div class="label" style="width: 16em;"><fmt:message key="study.pendingSiteAmendment"/></div>
+	       	<div class="value">
+	       		<input type="checkbox" id="studySiteAmendment" name="studySiteAmendment" >
+	       		<tags:hoverHint keyProp="study.pendingSiteAmendment"/>
+	       	</div>
+        </div> --%>
+      	<div class="row" style="display:none" >
 				<div class="label"><fmt:message key="study.site.irbExpired"/></div>
 	        	<div class="value">
 	        		<input type="hidden" name="searchCriteriaList[11].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
    	        		<input type="hidden" name="searchCriteriaList[11].predicate" value="="/>
-          			<input type="hidden" name="searchCriteriaList[11].attributeName" value="irbExpired" />
+          			<input type="hidden" name="searchCriteriaList[11].attributeName" value="" />
           			<input type="hidden" id="irbExpired-hidden" name="searchCriteriaList[11].values"/>
 	        		<input type="checkbox" id="irbExpired" name="irbExpired" onclick="setValueTrueIfChecked(this);">
 	        	</div>	        	
-        	</div>
-        	<div class="rightpanel" >
-				<div class="label"><fmt:message key="study.therapeuticIntentIndicator"/></div>
-	        	<div class="value">
-	        		<input type="hidden" name="searchCriteriaList[12].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
-   	        		<input type="hidden" name="searchCriteriaList[12].predicate" value="="/>
-          			<input type="hidden" name="searchCriteriaList[12].attributeName" value="therapeuticIntentIndicator" />
-          			<input type="hidden" id="therapeuticIntentIndicator-hidden" name="searchCriteriaList[12].values"/>
-	        		<input type="checkbox" id="therapeuticIntentIndicator" name="therapeuticIntentIndicator" onclick="setValueTrueIfChecked(this);">
-	        	</div>        		
-        	</div>
         </div>
-        <div class="row" >
-        	<div class="leftpanel"  style="width: 40%">
-        		<div class="label"><fmt:message key="study.pendingAmendment"/></div>
-		       	<div class="value">
-		       		
-		       		<input type="hidden" name="searchCriteriaList[13].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
-   	        		<input type="hidden" name="searchCriteriaList[13].predicate" value="="/>
-          			<input type="hidden" name="searchCriteriaList[13].attributeName" value=versionStatus.code />
-          			<input type="hidden" id="versionStatus-hidden" name="searchCriteriaList[13].values" value=""/>
-		       	
-		       	
-		       		<input type="hidden" name="searchCriteriaList[14].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
-   	        		<input type="hidden" name="searchCriteriaList[14].predicate" value="="/>
-          			<input type="hidden" name="searchCriteriaList[14].attributeName" value="originalIndicator" />
-          			<input type="hidden" id="originalIndicator-hidden" name="searchCriteriaList[14].values"/>
-	        		<input type="checkbox" id="originalIndicator" name="originalIndicator" onclick="managePendingAmendmentCheckBox(this);">
-		       	</div>
-	        </div>
-	        <div class="rightpanel" style="display:none">
-				<div class="labelCompanion"><fmt:message key="study.includeEmbeddedCompanionStudies"/></div>
-	          	<div class="value">
-	          		<input type="hidden" name="searchCriteriaList[15].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
-   	        		<input type="hidden" name="searchCriteriaList[15].predicate" value="="/>
-          			<input type="hidden" name="searchCriteriaList[15].attributeName" value="standaloneIndicator" />
-          			<input type="hidden" id="standaloneIndicator-hidden" name="searchCriteriaList[15].values" value=""/>
-	        	</div>		        
-	        </div>	
-	        
-	        <div class="row" >
-	       		<div class="rightpanel" style="width: 60%">
-			       	<div class="label" style="width: 16em;"><fmt:message key="study.pendingSiteAmendment"/></div>
-			       	<div class="value">
-			       		<input type="checkbox" id="studySiteAmendment" name="studySiteAmendment" >
-			       		<tags:hoverHint keyProp="study.pendingSiteAmendment"/>
-			       	</div>
-		       	</div>
-       		</div>
-     </div>	
-       	</div>
-      
+    </div>
 </chrome:division>
 <chrome:division>
 <br>

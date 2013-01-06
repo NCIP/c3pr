@@ -16,63 +16,64 @@ protection_group_id in (select protection_group_id from csm_protection_group
 where protection_group_name like 'Study.%');
 
 --All Site access to admin
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-1,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='person_and_organization_information_manager';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and 
+r.role_name='person_and_organization_information_manager') aaa;
 
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-1,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='user_administrator';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='user_administrator') aaa;
 
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-1,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='study_qa_manager';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='study_qa_manager') aaa;
 
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-1,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='study_creator';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='study_creator') aaa;
 
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-1,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='supplemental_study_information_manager';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='supplemental_study_information_manager') aaa;
 
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-1,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='study_site_participation_administrator';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='study_site_participation_administrator') aaa;
 
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-1,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='study_team_administrator';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='study_team_administrator') aaa;
 
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-1,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='registration_qa_manager';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='registration_qa_manager') aaa;
 
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-1,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='subject_manager';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='subject_manager') aaa;
 
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-1,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='registrar';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='registrar') aaa;
 
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-1,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='data_reader';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='data_reader') aaa;
 
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-1,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='data_analyst';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='data_analyst') aaa;
 
 --All Study access to admin and Site Co
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-2,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -25 and r.role_name='registrar';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-2,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -25 and r.role_name='registrar') aaa;
 
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-2,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -25 and r.role_name='data_reader';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-2,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -25 and r.role_name='data_reader') aaa;
 
-Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
-select distinct u.user_id,r.role_id,-2,(select SYSDATE from dual) from csm_user u, csm_group g, csm_user_group ug, csm_role r
-where u.user_id = ug.user_id and ug.group_id = -25 and r.role_name='data_analyst';
+Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
+select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-2,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -25 and r.role_name='data_analyst') aaa;

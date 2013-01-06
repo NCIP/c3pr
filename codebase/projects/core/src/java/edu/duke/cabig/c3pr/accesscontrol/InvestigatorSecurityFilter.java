@@ -58,7 +58,7 @@ public class InvestigatorSecurityFilter implements DomainObjectSecurityFilterer{
 	
 	private boolean hasSiteAndStudyLevelAccess(Investigator investigator){
 		//load all the roles the user has with the specified privilege
-		Set<C3PRUserGroupType> userRoles = SecurityUtils.getUserRoles(UserPrivilegeType.INVESTIGATOR_READ);
+		Set<C3PRUserGroupType> userRoles = SecurityUtils.getRolesForLoggedInUser(UserPrivilegeType.INVESTIGATOR_READ);
 		Iterator<C3PRUserGroupType> iter = userRoles.iterator();
 
 		C3PRUserGroupType role;
@@ -71,7 +71,7 @@ public class InvestigatorSecurityFilter implements DomainObjectSecurityFilterer{
 				return true;
 			} else {
 				if(SecurityUtils.hasAllSiteAccess(role) || hasSiteLevelAccessPermission(SecurityUtils
-						.buildUserAccessibleOrganizationIdsList(role), investigator)){
+						.buildAccessibleOrganizationIdsListForLoggedInUser(role), investigator)){
 					return true;
 				}
 			}
@@ -79,11 +79,12 @@ public class InvestigatorSecurityFilter implements DomainObjectSecurityFilterer{
 		return false;
 	}
 	
+
 	/**
 	 * Checks for site level access permission.
 	 *
-	 * @param loggedIdResearchStaff the research staff
-	 * @param researchStaff the study
+	 * @param userAccessibleOrganizationIdsList the user accessible organization ids list
+	 * @param investigator the investigator
 	 * @return true, if successful
 	 */
 	private boolean hasSiteLevelAccessPermission(List<String> userAccessibleOrganizationIdsList , Investigator investigator){

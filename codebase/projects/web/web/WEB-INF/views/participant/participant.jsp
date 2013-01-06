@@ -202,7 +202,7 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 										</c:when>
 										<c:otherwise>
 											<form:select path="participant.organizationAssignedIdentifiers[0].healthcareSite" cssClass="required validate-notEmpty" cssStyle="width: 350px;">
-												<tags:userOrgOptions preSelectedSiteId="${command.participant.organizationAssignedIdentifiers[0].healthcareSite.id}"/>
+												<tags:userOrgOptions preSelectedSiteId="${command.participant.organizationAssignedIdentifiers[0].healthcareSite.id}" privilege="UI_SUBJECT_UPDATE"/>
 											</form:select>
 										</c:otherwise>
 									</c:choose>

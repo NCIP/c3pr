@@ -10,6 +10,7 @@
 
     <util:map id="messageTypesMapping"
               map-class="java.util.LinkedHashMap">
+        <entry key="notification" value="NOTIFICATION_BROADCAST"/>
         <entry key="registration" value="REGISTER_SUBJECT"/>
         <entry key="study" value="STUDY_CREATION"/>
         <entry key="Person" value="PERSON"/>
@@ -62,6 +63,13 @@
     	<property name="timeout" value="${esb.timeout}"/>
     </bean>
     
+    <bean id="cctsNotificationsBroadcaster"
+          class="edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl" lazy-init="true">
+        <property name="caXchangeURL" value="${esbUrl}"/>
+        <property name="messageTypesMapping" ref="messageTypesMapping"/>        
+        <property name="delegatedCredentialProvider" ref="delegatedCredentialProvider"/>
+    	<property name="timeout" value="${esb.timeout}"/>
+    </bean>
     
      <bean id="coppaMessageBroadcaster"
           class="edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl" lazy-init="true">

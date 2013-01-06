@@ -118,18 +118,22 @@ class MigrateToStudyVersion extends edu.northwestern.bioinformatics.bering.Migra
     	if (databaseMatches('oracle')){
 	    	//migrate study to study version
 			
-			execute("insert into study_versions (id,version,retired_indicator,version_status,study_id,name,short_title_text,long_title_text,description_text,precis_text,randomization_type,data_entry_status,amendment_type,original_indicator,version_date)(select id,version,retired_indicator,'AC',id,'Original version',short_title_text,long_title_text,description_text,precis_text,randomization_type,data_entry_status,'IMMEDIATE','1','01/01/1909' from studies)");
+			 // updated for Baylor Oracle Migration
+			execute("insert into study_versions (id,version,retired_indicator,version_status,study_id,name,short_title_text,long_title_text,description_text,precis_text,randomization_type,data_entry_status,amendment_type,original_indicator,version_date)(select id,version,retired_indicator,'AC',id,'Original version',short_title_text,long_title_text,description_text,precis_text,randomization_type,data_entry_status,'IMMEDIATE','1',to_date('01/01/1909', 'dd/mm/yyyy') from studies)");
 			
 			execute("update study_versions set version_status = 'IN' where data_entry_status like 'INCOMPLETE'");
 			
 			// Set  the consent_version to 'Original Consent' when it is not given
-	 		execute("update studies set consent_version = 'Original Consent' where consent_version is null or consent_version like ''");
-	 		
+			execute("update studies set consent_version = 'Original Consent' where consent_version is null or consent_version like ''");
+	 			 		
 	 		execute('insert into consents(id, retired_indicator, version, name, stu_version_id) select id, retired_indicator, 0, consent_version, id from studies') ;
 			
 			// insert amendments into study versions. set study_versions sequence to the current max(id) value
 	 			
 	 		execute("alter sequence study_versions_id_seq increment by 5000");
+	 		
+	 		execute("DROP SEQUENCE study_versions_id_seq");
+          	execute("CREATE SEQUENCE study_versions_id_seq start with 15000 increment by 1 NOMAXVALUE minvalue 1 nocycle nocache noorder");
 	 		
 	 		
 	 		// setting default version in study_amendments table if it is null or blank
@@ -168,9 +172,10 @@ class MigrateToStudyVersion extends edu.northwestern.bioinformatics.bering.Migra
 	 		
 	 		execute("alter table study_amendments drop column data_entry_status");
 	 		
-	 		execute("update study_versions set (short_title_text,long_title_text,precis_text,randomization_type,description_text) = (select sv.short_title_text,sv.long_title_text,sv.precis_text,sv.randomization_type,sv.description_text from study_versions sv WHERE sv.study_id=study_versions.study_id and sv.short_title_text is not null and sv.short_title_text not like '')");
+	 		execute("update study_versions set (short_title_text,long_title_text,precis_text,randomization_type,description_text) = (select sv.short_title_text,sv.long_title_text,sv.precis_text,sv.randomization_type,sv.description_text from study_versions sv WHERE sv.study_id=study_versions.study_id and sv.short_title_text is not null and sv.short_title_text not like '') where original_indicator != 1");
 	 
-	        execute("alter sequence consents_id_seq increment by 10000");
+	        execute("DROP SEQUENCE consents_id_seq");
+          	execute("CREATE SEQUENCE consents_id_seq start with 15000 increment by 1 NOMAXVALUE minvalue 1 nocycle nocache noorder");
 	        
 	       	execute("insert into consents(id,version,retired_indicator,name,stu_version_id) (select consents_id_seq.nextval,0,'false', study_amendments.consent_version,study_versions.id from study_versions, study_amendments where study_versions.study_id = study_amendments.stu_id and study_versions.version_date = study_amendments.amendment_date and study_amendments.consent_version is not null and study_amendments.consent_version not like '')");
 	 				
@@ -194,6 +199,14 @@ class MigrateToStudyVersion extends edu.northwestern.bioinformatics.bering.Migra
 	 		execute("drop table max_study_study_version_temp");
 	 		execute("drop table max_study_version");
 	 		execute("alter table study_versions drop column latest_study_ver_id");
+	 		
+	 		// migrate study site to study site study status history
+
+ 			execute("insert into stu_site_status_history(id,retired_indicator,version,start_date,site_study_status,sto_id) (SELECT stu_site_status_history_id_seq.NEXTVAL ,retired_indicator,0,current_date - interval '100' year(3),'PENDING',id from study_organizations where type='SST')");
+ 			execute("update stu_site_status_history set end_date=(select end_date from (select id as sites_status_id, start_date - interval '1' day as end_date from study_organizations where study_organizations.type = 'SST' and study_organizations.site_study_status not like'PENDING') where stu_site_status_history.sto_id=sites_status_id)");
+ 			execute("insert into stu_site_status_history(id,retired_indicator,version,start_date,site_study_status,sto_id) (select stu_site_status_history_id_seq.NEXTVAL,retired_indicator,0,start_date,'ACTIVE',id from study_organizations where type='SST'and site_study_status not like'PENDING')");
+ 			execute("update stu_site_status_history set end_date=(select end_date from (select id as sites_status_id, CURRENT_DATE - interval '1' day as end_date from study_organizations where study_organizations.type = 'SST' and study_organizations.site_study_status not like'PENDING' and site_study_status not like 'ACTIVE' and site_study_status not like 'AMENDMENT_PENDING') where stu_site_status_history.sto_id=sites_status_id) where stu_site_status_history.site_study_status like 'ACTIVE'");
+ 			execute("insert into stu_site_status_history(id,retired_indicator,version,start_date,site_study_status,sto_id) (select stu_site_status_history_id_seq.NEXTVAL,retired_indicator,0,CURRENT_DATE,'ACTIVE',id from study_organizations where type='SST'and site_study_status not like'PENDING' and site_study_status not like 'ACTIVE' and site_study_status not like 'AMENDMENT_PENDING')");
 			
 			
 			// migrate study site to study site study version

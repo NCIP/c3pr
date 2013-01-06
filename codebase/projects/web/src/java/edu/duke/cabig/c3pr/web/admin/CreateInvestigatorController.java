@@ -140,13 +140,16 @@ public class CreateInvestigatorController<C extends Investigator> extends
 			}
 			List<Investigator> remoteInvestigators = investigatorDao.getRemoteInvestigators(investigator);
     		boolean matchingExternalInvestigatorPresent = false;
+    		investigator.getExternalInvestigators().clear();
     		for(Investigator remoteInv : remoteInvestigators){
     			if(remoteInv.getAssignedIdentifier().equals(investigator.getAssignedIdentifier())){
     				investigator.addExternalInvestigator(remoteInv);
     				matchingExternalInvestigatorPresent = true;
     			}
     		}
-    		if(matchingExternalInvestigatorPresent){
+    		if(!matchingExternalInvestigatorPresent){
+    			errors.reject("REMOTE_INV_EXISTS","Investigator with assigned identifier " +investigator.getAssignedIdentifier()+ " does not exist in external system");
+    		}else{
     			errors.reject("REMOTE_INV_EXISTS","Investigator with assigned identifier " +investigator.getAssignedIdentifier()+ " exists in external system");
     		}
     	}

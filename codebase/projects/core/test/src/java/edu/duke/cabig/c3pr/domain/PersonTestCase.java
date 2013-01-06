@@ -119,9 +119,9 @@ public class PersonTestCase extends AbstractTestCase {
 	 */
 	public void testGetFullName(){
 		person.setFirstName("First");
-		person.setMiddleName("Middle");
+		//person.setMiddleName("Middle");
 		person.setLastName("Last");
-		assertEquals("Full name is First Middle Last","First Middle Last", person.getFullName());
+		assertEquals("Full name is First Last","First Last", person.getFullName());
 	}
 	
 	/**
@@ -135,7 +135,7 @@ public class PersonTestCase extends AbstractTestCase {
 	 * Test equals1.
 	 */
 	public void testEquals1(){
-		User user = new LocalResearchStaff();
+		C3PRUser user = new LocalPersonUser();
 		assertFalse("comparing person object to user", person.equals(user));
 	}
 	

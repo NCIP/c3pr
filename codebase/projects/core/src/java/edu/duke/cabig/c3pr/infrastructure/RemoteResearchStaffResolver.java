@@ -11,11 +11,12 @@ import org.iso._21090.II;
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
+import edu.duke.cabig.c3pr.constants.PersonUserType;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
-import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.RemotePersonUser;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
@@ -46,14 +47,14 @@ public class RemoteResearchStaffResolver extends BaseResolver implements RemoteR
 		
 		List<String> results = XMLUtils.getObjectsFromCoppaResponse(resultXml);
 		Person coppaPerson = null;
-		ResearchStaff researchStaff = null;
+		PersonUser personUser = null;
 		if (results.size() > 0) {
 			coppaPerson = CoppaObjectFactory.getCoppaPerson(results.get(0));
-			researchStaff = (RemoteResearchStaff)populateRole(coppaPerson, "", null);
+			personUser = (RemotePersonUser)populateRole(coppaPerson, "", null);
 		}
 		
 		log.debug("Exiting getRemoteEntityByUniqueId() for:" + this.getClass());
-		return researchStaff;
+		return personUser;
 	}
 	
 	
@@ -62,50 +63,51 @@ public class RemoteResearchStaffResolver extends BaseResolver implements RemoteR
 	 */
 	public List<Object> find(Object example) {
 		log.debug("Entering find() for:" + this.getClass());
-		RemoteResearchStaff remoteResearchStaff = null;
-		List<Object> remoteResearchStaffList = new ArrayList<Object>();
+		RemotePersonUser remotePersonUser = null;
+		List<Object> remotePersonUserList = new ArrayList<Object>();
 		try{
-			if(example instanceof RemoteResearchStaff){
-				remoteResearchStaff = (RemoteResearchStaff) example;
+			if(example instanceof RemotePersonUser){
+				remotePersonUser = (RemotePersonUser) example;
 				
-				if(!StringUtils.isEmpty(remoteResearchStaff.getAssignedIdentifier())){
+				if(!StringUtils.isEmpty(remotePersonUser.getAssignedIdentifier())){
 					log.debug("Searching based on NciId");
-					remoteResearchStaffList = searchRoleBasedOnNciId(remoteResearchStaff.getAssignedIdentifier(), new ClinicalResearchStaff());
-				} else if(remoteResearchStaff.getHealthcareSites().size() > 0 
-						&& remoteResearchStaff.getHealthcareSites().get(0).getPrimaryIdentifier() != null){ // It is search by example so only one org will be present in object
+					remotePersonUserList = searchRoleBasedOnNciId(remotePersonUser.getAssignedIdentifier(), new ClinicalResearchStaff());
+				} else if(remotePersonUser.getHealthcareSites().size() > 0 
+						&& remotePersonUser.getHealthcareSites().get(0).getPrimaryIdentifier() != null){ // It is search by example so only one org will be present in object
 					log.debug("Searching based on Organization");
-					remoteResearchStaffList = searchRoleBasedOnOrganization(remoteResearchStaff.getHealthcareSites().get(0).getPrimaryIdentifier(), new ClinicalResearchStaff());
+					remotePersonUserList = searchRoleBasedOnOrganization(remotePersonUser.getHealthcareSites().get(0).getPrimaryIdentifier(), new ClinicalResearchStaff());
 				} else {
 					log.debug("Searching based on Name");
-					remoteResearchStaffList = searchRoleBasedOnName(remoteResearchStaff.getFirstName(), remoteResearchStaff.getMiddleName(), remoteResearchStaff.getLastName(), new ClinicalResearchStaff());
+					remotePersonUserList = searchRoleBasedOnName(remotePersonUser.getFirstName(), remotePersonUser.getMiddleName(), remotePersonUser.getLastName(), new ClinicalResearchStaff());
 				}
 			}
 		} catch (Exception e){
 			log.error(e.getMessage());
 		}
 		log.debug("Exiting find() for:" + this.getClass());
-		return remoteResearchStaffList;
+		return remotePersonUserList;
 	}
 	
 	
 	/**
-	 * Populate remote research staff.
+	 * Populate remote PersonUser.
 	 * 
 	 * @param personDTO the person dto
 	 * @param orgCtepId the org ctep id
 	 * @param coppaOrgId the coppa org id
 	 * 
-	 * @return the research staff
+	 * @return the personUser Object
 	 */
 	public Object populateRole(Person coppaPerson, String staffAssignedIdentifier, List<gov.nih.nci.coppa.po.Organization> coppaOrganizationList,
 																		Map<String, IdentifiedOrganization>	organizationIdToIdentifiedOrganizationsMap){
-		Object object = personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
+		Object object = personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemotePersonUser());
 		if(object == null){
 			return null;
 		} else {
-			RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff) object;
-			remoteResearchStaff.setExternalId(coppaPerson.getIdentifier().getExtension());
-			remoteResearchStaff.setAssignedIdentifier(staffAssignedIdentifier);
+			RemotePersonUser remotePersonUser = (RemotePersonUser) object;
+			remotePersonUser.setExternalId(coppaPerson.getIdentifier().getExtension());
+			remotePersonUser.setAssignedIdentifier(staffAssignedIdentifier);
+			remotePersonUser.setPersonUserType(PersonUserType.STAFF);
 			
 			//Build HealthcareSite
 			RemoteHealthcareSite healthcareSite = null;
@@ -122,39 +124,40 @@ public class RemoteResearchStaffResolver extends BaseResolver implements RemoteR
 						Address address = personOrganizationResolverUtils.getAddressFromCoppaOrganization(coppaOrganization);
 						healthcareSite.setAddress(address);
 						
-						remoteResearchStaff.addHealthcareSite(healthcareSite);
+						remotePersonUser.addHealthcareSite(healthcareSite);
 					} else {
 						log.error("IdentifiedOrganization is null for Organization with coppaId: "+coppaOrganization.getIdentifier().getExtension());
 					}
 				}
 			}
-			return remoteResearchStaff;
+			return remotePersonUser;
 		}
 	}
 	
 	/**
-	 * Populate remote research staff. Called from searchStaffByrganization()
+	 * Populate remote PersonUser. Called from searchStaffByrganization()
 	 * 
 	 * @param personDTO the person dto
 	 * @param orgCtepId the org ctep id
 	 * @param coppaOrgId the coppa org id
 	 * 
-	 * @return the research staff
+	 * @return the PersonUser Object
 	 */
 	public Object populateRole(Person coppaPerson, String staffAssignedIdentifier, IdentifiedOrganization identifiedOrganization){
-		Object object = personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
+		Object object = personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemotePersonUser());
 		if(object != null){
-			RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff) object;
-			remoteResearchStaff.setAssignedIdentifier(staffAssignedIdentifier);
-			remoteResearchStaff.setExternalId(coppaPerson.getIdentifier().getExtension());
+			RemotePersonUser remotePersonUser = (RemotePersonUser) object;
+			remotePersonUser.setAssignedIdentifier(staffAssignedIdentifier);
+			remotePersonUser.setExternalId(coppaPerson.getIdentifier().getExtension());
+			remotePersonUser.setPersonUserType(PersonUserType.STAFF);
 			
 			if(identifiedOrganization != null){	
 				//Build HealthcareSite
 				HealthcareSite healthcareSite = new RemoteHealthcareSite();
 				personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite,identifiedOrganization.getAssignedId().getExtension());
-				remoteResearchStaff.addHealthcareSite(healthcareSite);
+				remotePersonUser.addHealthcareSite(healthcareSite);
 			}
-			return remoteResearchStaff;
+			return remotePersonUser;
 		}
 		return null;
 	}

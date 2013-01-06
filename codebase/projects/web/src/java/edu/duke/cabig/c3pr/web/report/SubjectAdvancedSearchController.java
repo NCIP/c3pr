@@ -25,6 +25,7 @@ public class SubjectAdvancedSearchController extends AdvancedSearchController{
         refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
         refdata.put("ethnicGroupCodes", configMap.get("ethnicGroupCode"));
         refdata.put("raceCodes", configMap.get("raceCode"));
+        refdata.put("identifiersType", configMap.get("participantIdentifiersType"));
         return refdata;
     }
 	

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <consents retired_indicator="true" name="Consent UPDATED" description_text="Consent Description UPDATED"
+    mandatory_indicator="1" version_id="1.0" consenting_methods="WRITTEN : VERBAL" />
+    <consents retired_indicator="false" name="Consent" description_text="Consent Description UPDATED 2"
+        mandatory_indicator="1" version_id="1.0" consenting_methods="WRITTEN : VERBAL" />
+</dataset>

@@ -14,6 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.NCIRecognizedProgramName;
+import edu.duke.cabig.c3pr.constants.StudyCategory;
+import edu.duke.cabig.c3pr.constants.StudySponsorType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.web.WebUtils;
 
@@ -26,12 +29,31 @@ public class StudyAdvancedSearchController extends AdvancedSearchController{
         refdata.put("phaseCodeRefData", configMap.get("phaseCodeRefData"));
         refdata.put("typeRefData", configMap.get("typeRefData"));
         refdata.put("yesNo", configMap.get("yesNo"));
+        
         Map<String,Object> studyStatusMap = new HashMap<String,Object>();
         for(CoordinatingCenterStudyStatus studyStatus : CoordinatingCenterStudyStatus.values()){
         	studyStatusMap.put(studyStatus.getName(), studyStatus.getCode());
         }
+        refdata.put("statusRefData",studyStatusMap);
         
-        refdata.put("statusRefDate",studyStatusMap);
+        Map<String,Object> studyCategoryMap = new HashMap<String,Object>();
+        for(StudyCategory studyCategory : StudyCategory.values()){
+        	studyCategoryMap.put(studyCategory.getName(), studyCategory.getCode());
+        }
+        refdata.put("studyCategoryRefData",studyCategoryMap);
+        
+        Map<String,Object> studySponsorTypeMap = new HashMap<String,Object>();
+        for(StudySponsorType  studySponsorType : StudySponsorType.values()){
+        	studySponsorTypeMap.put( studySponsorType.getName(),  studySponsorType.getCode());
+        }
+        refdata.put("studySponsorTypeRefData",studySponsorTypeMap);
+        
+        
+        Map<String,Object> nCIRecognizedProgramsMap = new HashMap<String,Object>();
+        for(NCIRecognizedProgramName nCIRecognizedProgram : NCIRecognizedProgramName.values()){
+        	nCIRecognizedProgramsMap.put(nCIRecognizedProgram.getName(), nCIRecognizedProgram.getCode());
+        }
+        refdata.put("nCIRecognizedProgramsRefData",nCIRecognizedProgramsMap);
         return refdata;
     }
 	
@@ -128,7 +150,7 @@ public class StudyAdvancedSearchController extends AdvancedSearchController{
 			AdvancedSearchColumn advancedSearchColumn7 = new AdvancedSearchColumn();
 			advancedSearchColumn7.setColumnHeader("Companion");
 			advancedSearchColumn7.setValue(study.getCompanionIndicator()?"Yes":"No");
-			columnList.add(advancedSearchColumn6);
+			columnList.add(advancedSearchColumn7);
 			
 			advancedSearchRow.setColumnList(columnList);
 			advancedSearchStudies.add(advancedSearchRow);

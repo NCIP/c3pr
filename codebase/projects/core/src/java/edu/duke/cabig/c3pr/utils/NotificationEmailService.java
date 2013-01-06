@@ -27,7 +27,7 @@ import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
@@ -216,7 +216,7 @@ public class NotificationEmailService implements ApplicationContextAware {
         	RoleBasedRecipient rbr = (RoleBasedRecipient)recipientScheduledNotification.getRecipient();
         	
             List<C3PRUserGroupType> groupList = null;
-            List<ResearchStaff> rStaffList = new ArrayList<ResearchStaff>();
+            List<PersonUser> rStaffList = new ArrayList<PersonUser>();
             
             //Incase the scheduledNotification does not have a studyOrg related to it(legacy data) then return empty list.
             //this means that roleBasedRecipients for pre-existing ScheduledNotifications(reports) will be ignored.
@@ -227,10 +227,10 @@ public class NotificationEmailService implements ApplicationContextAware {
             
             //Handle the researchStaff first
             for(StudyPersonnel sp: recipientScheduledNotification.getScheduledNotification().getStudyOrganization().getStudyPersonnel()){
-            	rStaffList.add(sp.getResearchStaff());
+            	rStaffList.add(sp.getPersonUser());
             }
             
-            for (ResearchStaff rs : rStaffList) {
+            for (PersonUser rs : rStaffList) {
                 try {
                     groupList = personnelServiceImpl.getGroups(rs);
                 }
@@ -259,7 +259,7 @@ public class NotificationEmailService implements ApplicationContextAware {
     }
 
     //merge this with getEmailAddressesFromInvestigator
-    public List<String> getEmailAddressesFromResearchStaff(ResearchStaff rs) {
+    public List<String> getEmailAddressesFromResearchStaff(PersonUser rs) {
         List<String> returnList = new ArrayList<String>();
         returnList.add(rs.getEmail());
         return returnList;
@@ -278,8 +278,8 @@ public class NotificationEmailService implements ApplicationContextAware {
     	
     	if(recipientScheduledNotification.getRecipient() instanceof UserBasedRecipient){
     		UserBasedRecipient ubr = (UserBasedRecipient)recipientScheduledNotification.getRecipient();
-    		if(ubr.getResearchStaff() != null){
-    			returnList.addAll(getEmailAddressesFromResearchStaff(ubr.getResearchStaff()));
+    		if(ubr.getPersonUser() != null){
+    			returnList.addAll(getEmailAddressesFromResearchStaff(ubr.getPersonUser()));
     		}
             if(ubr.getInvestigator() != null){
             	returnList.addAll(getEmailAddressesFromInvestigator(ubr.getInvestigator()));

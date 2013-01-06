@@ -18,12 +18,14 @@
 		autowire="byType" />
 		
 	<!-- Study Import -->
-	<bean id="studyImportService"
-		class="edu.duke.cabig.c3pr.webservice.studyimport.impl.StudyImportImpl"
-		autowire="byType" />	
+	<bean id="studyImportExportService"
+		class="edu.duke.cabig.c3pr.webservice.studyimportexport.impl.StudyImportExportImpl"
+		autowire="byType">
+		<property name="marshaller" ref="studyXmlUtility"/>
+	</bean>	
 	
-	<jaxws:endpoint id="studyImportEndpoint"
-		implementor="#studyImportService" address="/services/StudyImport">
+	<jaxws:endpoint id="studyImportExportEndpoint"
+		implementor="#studyImportExportService" address="/services/StudyImportExport">
 		<jaxws:properties>
 			<entry key="schema-validation-enabled" value="true" />
 		</jaxws:properties>
@@ -42,8 +44,9 @@
 		
 	<!-- Study Utility -->
 	<bean id="studyUtilityService"
-		class="edu.duke.cabig.c3pr.webservice.studyutility.impl.StudyUtilityImpl"
-		autowire="byType" />	
+		class="edu.duke.cabig.c3pr.webservice.studyutility.impl.StudyUtilityImpl" autowire="byName">
+		<property name="converter" ref="jAXBToDomainObjectConverter"></property>
+	</bean>	
 	
 	<jaxws:endpoint id="studyUtilityEndpoint"
 		implementor="#studyUtilityService" address="/services/StudyUtility">
@@ -64,8 +67,9 @@
 	</jaxws:endpoint>		
 	
 	<bean id="subjectManagementService"
-		class="edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl"
-		autowire="byType" />
+		class="edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl" autowire="byName">
+		<property name="converter" ref="jAXBToDomainObjectConverter"></property>
+	</bean>
 	
 	
 	<jaxws:endpoint id="subjectManagementEndpoint"
@@ -86,9 +90,14 @@
 		</jaxws:inInterceptors>
 	</jaxws:endpoint>
 	
-	<bean id="subjectRegistrationService"
-		class="edu.duke.cabig.c3pr.webservice.subjectregistration.SubjectRegistrationImpl"
+	<bean id="subjectRegistrationJAXBToDomainObjectConverter"
+		class="edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverterImpl"
 		autowire="byType" />
+	
+	<bean id="subjectRegistrationService"
+		class="edu.duke.cabig.c3pr.webservice.subjectregistration.impl.SubjectRegistrationImpl" autowire="byName">
+		<property name="converter" ref="subjectRegistrationJAXBToDomainObjectConverter"></property>
+	</bean>
 	
 	
 	<jaxws:endpoint id="subjectRegistrationEndpoint"
@@ -96,7 +105,7 @@
 		<jaxws:properties>
 			<entry key="schema-validation-enabled" value="true" />
 		</jaxws:properties>
-		<!--<jaxws:inInterceptors>
+		<jaxws:inInterceptors>
 			<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
 			<constructor-arg>
 			<map>
@@ -106,16 +115,17 @@
 			</bean>
 			<bean class="edu.duke.cabig.c3pr.web.security.SecureWebServiceHandler"
 			p:cryptoPropFile="server_sign.properties" />
-			</jaxws:inInterceptors>-->
+		</jaxws:inInterceptors>
 	</jaxws:endpoint>
 	
 	<bean id="subjectRegistryJAXBToDomainObjectConverter"
-		class="edu.duke.cabig.c3pr.webservice.subjectregistry.convertes.SubjectRegistryJAXBToDomainObjectConverterImpl"
+		class="edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverterImpl"
 		autowire="byType" />
 	
 	<bean id="subjectRegistryService"
-		class="edu.duke.cabig.c3pr.webservice.subjectregistry.impl.SubjectRegistryImpl"
-		autowire="byType" />
+		class="edu.duke.cabig.c3pr.webservice.subjectregistry.impl.SubjectRegistryImpl" autowire="byName">
+		<property name="converter" ref="subjectRegistryJAXBToDomainObjectConverter"></property>
+	</bean>
 	
 	<jaxws:endpoint id="subjectRegistryEndpoint"
 		implementor="#subjectRegistryService" address="/services/SubjectRegistry">

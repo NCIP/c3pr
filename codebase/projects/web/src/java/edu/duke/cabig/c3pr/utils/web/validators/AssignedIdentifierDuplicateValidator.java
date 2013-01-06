@@ -1,34 +1,43 @@
 package edu.duke.cabig.c3pr.utils.web.validators;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
+import edu.duke.cabig.c3pr.domain.PersonUser;
+import edu.duke.cabig.c3pr.web.admin.PersonOrUserWrapper;
 
 
 public class AssignedIdentifierDuplicateValidator implements Validator {
 
-	protected ResearchStaffDao researchStaffDao;
+	protected PersonUserDao personUserDao;
 	
     public boolean supports(Class aClass) {
-    	return ResearchStaffWrapper.class.isAssignableFrom(aClass);
+    	return PersonOrUserWrapper.class.isAssignableFrom(aClass);
     }
 
     public void validate(Object object, Errors errors) {
-        ResearchStaffWrapper wrapper = (ResearchStaffWrapper) object;
-        ResearchStaff researchStaff = wrapper.getResearchStaff();
-        ResearchStaff rStaffFromDB = researchStaffDao.getByAssignedIdentifierFromLocal(researchStaff.getAssignedIdentifier());
-		if (rStaffFromDB != null && !rStaffFromDB.getId().equals(researchStaff.getId())) {
-			errors.reject("RSTAFF_EXISTS","Research Staff with identifier " +researchStaff.getAssignedIdentifier()+ " already exists");
+    	PersonUser personUser = null;
+    	if(object instanceof PersonOrUserWrapper){
+    		PersonOrUserWrapper wrapper = (PersonOrUserWrapper) object;
+    		personUser = wrapper.getPersonUser();
+    	}
+    	
+    	//Since assigned identifier can be empty during user creation
+    	if(StringUtils.isBlank(personUser.getAssignedIdentifier())){
+    		return;
+    	}
+        PersonUser rStaffFromDB = personUserDao.getByAssignedIdentifierFromLocal(personUser.getAssignedIdentifier());
+		if (rStaffFromDB != null && !rStaffFromDB.getId().equals(personUser.getId())) {
+			errors.reject("RSTAFF_EXISTS","Research Staff with identifier " +personUser.getAssignedIdentifier()+ " already exists");
 			return;
 		}
     }
 
     @Required
-	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-		this.researchStaffDao = researchStaffDao;
+	public void setPersonUserDao(PersonUserDao personUserDao) {
+		this.personUserDao = personUserDao;
 	}
 }

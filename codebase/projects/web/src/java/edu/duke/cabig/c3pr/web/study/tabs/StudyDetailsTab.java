@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
+import edu.duke.cabig.c3pr.constants.NCIRecognizedProgramName;
+import edu.duke.cabig.c3pr.constants.StudyCategory;
+import edu.duke.cabig.c3pr.constants.StudySponsorType;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
@@ -55,6 +59,25 @@ public class StudyDetailsTab extends StudyTab {
         addConfigMapToRefdata(refdata, "phaseCodeRefData");
         addConfigMapToRefdata(refdata, "typeRefData");
         addConfigMapToRefdata(refdata, "yesNo");
+        
+        Map<String,Object> studySponsorTypeMap = new HashMap<String,Object>();
+        for(StudySponsorType sponsorType : StudySponsorType.values()){
+        	studySponsorTypeMap.put(sponsorType.getName(), sponsorType.getCode());
+        }
+        refdata.put("studySponsorRefData",studySponsorTypeMap);
+        
+        Map<String,Object> nciRecognizedProgramNamesMap = new HashMap<String,Object>();
+        for(NCIRecognizedProgramName nciRecognizedProgramName : NCIRecognizedProgramName.values()){
+        	nciRecognizedProgramNamesMap.put(nciRecognizedProgramName.getName(), nciRecognizedProgramName.getCode());
+        }
+        refdata.put("nciRecognizedProgramNames",nciRecognizedProgramNamesMap);
+        
+        Map<String,Object> studyCategoryMap = new HashMap<String,Object>();
+        for(StudyCategory studyCategory : StudyCategory.values()){
+        	studyCategoryMap.put(studyCategory.getName(), studyCategory.getCode());
+        }
+        refdata.put("studyCategoryRefData",studyCategoryMap);
+        
         if(wrapper.getStudy().getId() == null || SecurityUtils.hasAnyPrivilege(Arrays.asList(new UserPrivilegeType[]{UserPrivilegeType.STUDY_DEFINITION_DETAILS_UPDATE}))){
         	refdata.put("mandatory", "true");
         }

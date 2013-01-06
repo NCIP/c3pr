@@ -12,7 +12,6 @@ import edu.duke.cabig.c3pr.utils.AuthenticationProviderDaoTestCase;
 public class StudySubjectSecurityFilterTest extends AuthenticationProviderDaoTestCase {
 	
 	private StudySubjectSecurityFilter studySubjectSecurityFilter;
-	private Authentication authentication;
 	private StudySubjectDao studySubjectDao;
 	
 	@Override

@@ -20,8 +20,8 @@
 	<!--CSM Tomcat dirs-->
 	<property name="conf.dir" value="${basedir}/conf/"/>
 	<property name="csm.conf.dir" value="${conf.dir}/csm"/>
-
-	<target name="module-specific-flow" depends="find-datasource" description="Copy resources into classpath">
+		
+	<target name="module-specific-flow" depends="find-datasource, generate-jaxb-ccts" description="Copy resources into classpath">
 
 		<property name="build.context.dir" location="${classes.dir}/context"/>
 		<!--copy the properties file-->
@@ -65,6 +65,20 @@
 		<copy todir="${classes.dir}/${db.scripts.basedir}" overwrite="true">
 			<fileset dir="${db.scripts.dir}"/>
 		</copy>
+	</target>
+		
+	<target name="generate-jaxb-ccts" depends="resolve">
+		<echo message="Building JAXB objects from /core/resources/xsd/ccts-notifications.xsd"/>
+		<antcall target="run-xjc" inheritAll="true" inheritRefs="true">
+			<param name="xjc.schema.location" value="${resources.dir}/xsd"/>
+			<param name="xjc.schema.pattern" value="ccts-notifications.xsd"/>
+		</antcall>
+		
+		<echo>Copying resources from ${generated.src.dir} to ${classes.dir}</echo>
+	    <copy-resources src="${generated.src.dir}" dest="${classes.dir}" filter="true"/>
+	    	
+		<echo>Compiling generated JAXB classes from ${generated.src.dir} to ${classes.dir}</echo>	    	
+	    <javac srcdir="${generated.src.dir}" destdir="${classes.dir}" classpathref="main.classpath" debug="true" source="1.5" target="1.5"/>		
 	</target>
 
 	<!-- ========================================================================

@@ -72,6 +72,8 @@
   	</div>
  </div>
 <chrome:division title="${offEpochDivisionTitle}">
+<tags:errors path="*"/> 
+
 <table border="0" id="table1" cellspacing="10" width="100%">
 	<tr>
 	<td valign="top" width="45%">

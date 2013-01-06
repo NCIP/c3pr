@@ -19,6 +19,7 @@ YAHOO.example.Data = {
 					<c:forEach items="${subjects}" var="subject" varStatus="status">
 					        {
 					            subjectFullName: "${subject.fullName}",
+					            identifierSource: "${subject.primaryIdentifierSource}",
 					            identifier: "${subject.primaryIdentifierValue}",
 					            subjectGender: "${subject.administrativeGenderCode}",
 					            subjectEthnicity: "${subject.ethnicGroupCode}",
@@ -29,12 +30,18 @@ YAHOO.example.Data = {
 					         <c:if test="${!status.last}">,</c:if>
 					</c:forEach>
 					 ]
-}
+};
+
+<c:if test="${studyOrganization.class.name == 'edu.duke.cabig.c3pr.domain.StudyFundingSponsor' && !command.hasFundingSponsorAsStudySite}">
+<c:set var="canDisplay" value="true"/>				
+<c:set var="orgType" value="Funding Sponsor"/>																										
+</c:if>
 
 YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.CustomSort = function() {
         var myColumnDefs = [
             {key:"subjectFullName",       label:"Full Name",       sortable:true,      resizeable:true , minWidth:250},
+            {key:"identifierSource",   label:"Primary Identifier Source", sortable:true,      resizeable:true},
             {key:"identifier",         label:"Primary Identifier", sortable:true,      resizeable:true},
             {key:"subjectGender",         label:"Gender",          sortable:true,      resizeable:true},
             {key:"subjectEthnicity",      label:"Ethnicity",       sortable:true,      resizeable:true},
@@ -44,7 +51,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
         var subjectDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.subjectList);
         subjectDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
         subjectDataSource.responseSchema = {
-            fields: ["subjectFullName", "identifier", "subjectGender", "subjectEthnicity", "subjectBirthDate", "subjectBirthDateSort", "identifierStr"]
+            fields: ["subjectFullName", "identifierSource", "identifier", "subjectGender", "subjectEthnicity", "subjectBirthDate", "subjectBirthDateSort", "identifierStr"]
         };
 
         //Create config
@@ -128,10 +135,11 @@ YAHOO.util.Event.addListener(window, "load", function() {
                 width: "30em",
 			    visible: false,
 			    modal: true,
+			    x: 700,
+			    y: 300,
 			    buttons: [ 
 					{ text:"Close",  handler:hideDlg }
                 ],
-                fixedcenter: true,
                 constrainToViewport: true
 		});
 		myDlg.render();
@@ -158,11 +166,14 @@ YAHOO.util.Event.addListener(window, "load", function() {
 <!--  tags:instructions code="participant_search_report"/>  -->
 <chrome:box title="Subject Search Results">
 <chrome:division>
+	<c:if test="${fn:length(subjects)>0}">
+		${fn:length(subjects)} records found.
+	</c:if>
 	<div align="right">
 		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
 		<a style="text-decoration:none; color:black; font-weight:bold;" href="<c:url value="/pages/report/advancedSearch/advanceSearchResultsExport"/>" />&nbsp;
 		<span style="behavior: url('/c3pr/js/button-pseudoclass-IE-hack.htc');background:#330033;border:medium none;font-size:11px;	color:white;
-			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span></a>
+			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span>
 	</div>
 	<div id="printable">
 		<div id="dt-example">
@@ -186,7 +197,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
 		<a style="text-decoration:none; color:black; font-weight:bold;" href="<c:url value="/pages/report/advancedSearch/advanceSearchResultsExport"/>" />&nbsp;
 		<span style="behavior: url('/c3pr/js/button-pseudoclass-IE-hack.htc');background:#330033;border:medium none;font-size:11px;	color:white;
-			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span></a>
+			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span>
 	</div>
 </chrome:division>
 </chrome:box>

@@ -82,17 +82,17 @@ public class RemoteStudyResolverTest extends ApplicationContextTest{
 	
 	/**
 	 * Test get remote entity by unique id.
-	 */
+	
 	public void testGetRemoteEntityByUniqueId(){
 		Object object = remoteStudyResolver.getRemoteEntityByUniqueId("3582231");
 		assertNotNull(object);
 		assertTrue(object instanceof RemoteHealthcareSite);
-	}
+	} */
 		
 	
 	/**
 	 * Test broadcast organization search.
-	 */
+	 
 	public void testBroadcastIdentifiedOrganizationSearch(){
 
 		String resultXml = null;
@@ -109,7 +109,7 @@ public class RemoteStudyResolverTest extends ApplicationContextTest{
 		
 		assertNotNull(resultXml);
 		assertTrue(resultXml.contains("SUCCESS"));
-	}
+	}*/
 
 	public void setPersonResolverUtils(PersonOrganizationResolverUtils personResolverUtils) {
 		this.personResolverUtils = personResolverUtils;

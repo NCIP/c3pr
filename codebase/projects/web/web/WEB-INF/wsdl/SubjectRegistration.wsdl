@@ -4,6 +4,8 @@
 	xmlns:tns="http://enterpriseservices.nci.nih.gov/SubjectRegistrationService"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sr="http://enterpriseservices.nci.nih.gov/SubjectRegistration"
 	xmlns:ISO="uri:iso.org:21090" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:common="http://enterpriseservices.nci.nih.gov/Common"
+	xmlns:a="http://www.w3.org/2005/08/addressing"
 	xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SubjectRegistrationService"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd uri:iso.org:21090 ISO_datatypes_Narrative.xsd http://enterpriseservices.nci.nih.gov/SubjectRegistration SubjectRegistration.xsd http://schemas.xmlsoap.org/ws/2005/07/securitypolicy http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/ws-securitypolicy.xsd"
@@ -25,14 +27,135 @@
 			<xsd:import namespace="http://enterpriseservices.nci.nih.gov/SubjectRegistration"
 				schemaLocation="SubjectRegistration.xsd" />
 			<xsd:import namespace="uri:iso.org:21090" schemaLocation="ISO_datatypes_Narrative.xsd" />
+			<xsd:import namespace="http://enterpriseservices.nci.nih.gov/Common" schemaLocation="Common.xsd"/>
 			<xsd:element name="InitiateSubjectEnrollmentRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studyIdentifier" type="common:DocumentIdentifier"/>
+						<xsd:element name="siteIdentifier" type="common:OrganizationIdentifier"/>
+						<xsd:element name="subjectIdentifier" type="common:BiologicEntityIdentifier"/>
+						<xsd:element name="studySubject" type="sr:StudySubject"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="InitiateSubjectEnrollmentResponse">
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="studySubject" type="sr:StudySubject"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
-			<xsd:element name="InitiateSubjectEnrollmentResponse">
+			<xsd:element name="RegisterButNotEnrollSubjectNewRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studyIdentifier" type="common:DocumentIdentifier"/>
+						<xsd:element name="siteIdentifier" type="common:OrganizationIdentifier"/>
+						<xsd:element name="subjectIdentifier" type="common:BiologicEntityIdentifier"/>
+						<xsd:element name="studySubject" type="sr:StudySubject"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="RegisterButNotEnrollSubjectNewResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studySubject" type="sr:StudySubject"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="RegisterButNotEnrollSubjectExistingRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
+						<xsd:element name="epochStartDate" type="ISO:TS.DateTime"/>
+						<xsd:element name="offPreviousEpochReasons" type="sr:DSET_PerformedObservationResult" minOccurs="0"/>
+						<xsd:element name="offPreviousEpochDate" type="ISO:TS.DateTime" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="RegisterButNotEnrollSubjectExistingResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studySubject" type="sr:StudySubject"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ReserveSlotNewRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studyIdentifier" type="common:DocumentIdentifier"/>
+						<xsd:element name="siteIdentifier" type="common:OrganizationIdentifier"/>
+						<xsd:element name="subjectIdentifier" type="common:BiologicEntityIdentifier"/>
+						<xsd:element name="studySubject" type="sr:StudySubject"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ReserveSlotNewResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studySubject" type="sr:StudySubject"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ReserveSlotExistingRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
+						<xsd:element name="epochStartDate" type="ISO:TS.DateTime"/>
+						<xsd:element name="offPreviousEpochReasons" type="sr:DSET_PerformedObservationResult" minOccurs="0"/>
+						<xsd:element name="offPreviousEpochDate" type="ISO:TS.DateTime" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ReserveSlotExistingResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studySubject" type="sr:StudySubject"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="EnrollSubjectNewRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studyIdentifier" type="common:DocumentIdentifier"/>
+						<xsd:element name="siteIdentifier" type="common:OrganizationIdentifier"/>
+						<xsd:element name="subjectIdentifier" type="common:BiologicEntityIdentifier"/>
+						<xsd:element name="studySubject" type="sr:StudySubject"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="EnrollSubjectNewResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studySubject" type="sr:StudySubject"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="EnrollSubjectExistingRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
+						<xsd:element name="enrollmentDate" type="ISO:TS.DateTime"/>
+						<xsd:element name="offPreviousEpochReasons" type="sr:DSET_PerformedObservationResult" minOccurs="0"/>
+						<xsd:element name="offPreviousEpochDate" type="ISO:TS.DateTime" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="EnrollSubjectExistingResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studySubject" type="sr:StudySubject"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="UpdateStudySubjectConsentRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
+						<xsd:element name="studySubjectConsentVersions" type="common:DSET_StudySubjectConsentVersion"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="UpdateStudySubjectConsentResponse">
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="studySubject" type="sr:StudySubject"/>
@@ -58,7 +181,7 @@
 			<xsd:element name="DiscontinueEnrollmentRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studySubjectIdentifier" type="sr:SubjectIdentifier"/>
+						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
 						<xsd:element name="offEpochReasons" type="sr:DSET_PerformedObservationResult"/>
 						<xsd:element name="offEpochDate" type="ISO:TS.DateTime"/>
 					</xsd:sequence>
@@ -74,7 +197,7 @@
 			<xsd:element name="FailSubjectScreeningRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studySubjectIdentifier" type="sr:SubjectIdentifier"/>
+						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
 						<xsd:element name="offScreeningReasons" type="sr:DSET_PerformedObservationResult"/>
 						<xsd:element name="offScreeningDate" type="ISO:TS.DateTime"/>
 					</xsd:sequence>
@@ -90,7 +213,7 @@
 			<xsd:element name="TakeSubjectOffStudyRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studySubjectIdentifier" type="sr:SubjectIdentifier"/>
+						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
 						<xsd:element name="offStudyReasons" type="sr:DSET_PerformedObservationResult"/>
 						<xsd:element name="offStudyDate" type="ISO:TS.DateTime"/>
 					</xsd:sequence>
@@ -106,9 +229,9 @@
 			<xsd:element name="ReconsentStudySubjectRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studySubjectIdentifier" type="sr:SubjectIdentifier"/>
-						<xsd:element name="studyProtocolVersion" type="sr:StudyProtocolVersion"/>
-						<xsd:element name="studySubjectConsentVersions" type="sr:DSET_StudySubjectConsentVersion"/>
+						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
+						<xsd:element name="studyProtocolVersion" type="common:StudyProtocolVersion"/>
+						<xsd:element name="studySubjectConsentVersions" type="common:DSET_StudySubjectConsentVersion"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -150,21 +273,21 @@
 			<xsd:element name="RetrieveSubjectDemographyHistoryRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="patientIdentifier" type="sr:BiologicEntityIdentifier"/>
+						<xsd:element name="patientIdentifier" type="common:BiologicEntityIdentifier"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="RetrieveSubjectDemographyHistoryResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="patients" type="sr:DSET_Person"/>
+						<xsd:element name="patients" type="common:DSET_Person"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="QuerySubjectRegistrationRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="subjects" type="sr:DSET_AdvanceSearchCriterionParameter"/>
+						<xsd:element name="parameters" type="common:DSET_AdvanceSearchCriterionParameter"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -178,7 +301,7 @@
 			<xsd:element name="RetrieveAccrualDataRequest">
 			<xsd:complexType>
 				<xsd:sequence>
-					<xsd:element name="subjects" type="sr:DSET_AdvanceSearchCriterionParameter"/>
+					<xsd:element name="subjects" type="common:DSET_AdvanceSearchCriterionParameter"/>
 				</xsd:sequence>
 			</xsd:complexType>
 			</xsd:element>
@@ -192,7 +315,7 @@
 			<xsd:element name="GenerateSummary3ReportRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="siteIdentifier" type="sr:OrganizationIdentifier"/>
+						<xsd:element name="siteIdentifier" type="common:OrganizationIdentifier"/>
 						<xsd:element name="startDate" type="ISO:TS.DateTime"/>
 						<xsd:element name="endDate" type="ISO:TS.DateTime" minOccurs="0"/>
 						<xsd:element name="grantNumber" type="ISO:ST" minOccurs="0"/>
@@ -207,65 +330,11 @@
 				</xsd:complexType>
 			</xsd:element>
 
-			<xsd:element name="SubjectRegistrationFault" type="tns:SubjectRegistrationFault"/>
-			<xsd:element name="InvalidStudySubjectDataExceptionFault" type="tns:InvalidStudySubjectDataExceptionFault"/>
-			<xsd:element name="InvalidStudyProtocolExceptionFault" type="tns:InvalidStudyProtocolExceptionFault"/>
-			<xsd:element name="NoSuchStudySubjectExceptionFault" type="tns:NoSuchStudySubjectExceptionFault"/>
-			<xsd:element name="NoSuchPatientExceptionFault" type="tns:NoSuchPatientExceptionFault"/>
-			<xsd:element name="SubjectAlreadyRegisteredExceptionFault" type="tns:SubjectAlreadyRegisteredExceptionFault"/>
 			<xsd:element name="SubjectRegistrationRejectedExceptionFault" type="tns:SubjectRegistrationRejectedExceptionFault"/>
-			<xsd:element name="InvalidSiteExceptionFault" type="tns:InvalidSiteExceptionFault"/>
-			<xsd:element name="InvalidQueryExceptionFault" type="tns:InvalidQueryExceptionFault"/>
-			<xsd:element name="InsufficientPrivilegesExceptionFault" type="tns:InsufficientPrivilegesExceptionFault"/>
 			
-			<xsd:complexType name="SubjectRegistrationFault">
-				<xsd:sequence>
-					<xsd:element name="message" type="xsd:string" />
-				</xsd:sequence>
-			</xsd:complexType>
-			<xsd:complexType name="InvalidStudySubjectDataExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistrationFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="InvalidStudyProtocolExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistrationFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="NoSuchStudySubjectExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistrationFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="NoSuchPatientExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistrationFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="SubjectAlreadyRegisteredExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistrationFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
 			<xsd:complexType name="SubjectRegistrationRejectedExceptionFault">
 				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistrationFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="InvalidSiteExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistrationFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="InvalidQueryExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistrationFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="InsufficientPrivilegesExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistrationFault"/>
+					<xsd:extension base="common:BaseFault"/>
 				</xsd:complexContent>
 			</xsd:complexType>
 		</xsd:schema>
@@ -276,6 +345,48 @@
 	</wsdl:message>
 	<wsdl:message name="InitiateSubjectEnrollmentResponseMessage">
 		<wsdl:part name="parameters" element="tns:InitiateSubjectEnrollmentResponse" />
+	</wsdl:message>
+	<wsdl:message name="RegisterButNotEnrollSubjectNewRequestMessage">
+		<wsdl:part name="parameters" element="tns:RegisterButNotEnrollSubjectNewRequest" />
+	</wsdl:message>
+	<wsdl:message name="RegisterButNotEnrollSubjectNewResponseMessage">
+		<wsdl:part name="parameters" element="tns:RegisterButNotEnrollSubjectNewResponse" />
+	</wsdl:message>
+	<wsdl:message name="RegisterButNotEnrollSubjectExistingRequestMessage">
+		<wsdl:part name="parameters" element="tns:RegisterButNotEnrollSubjectExistingRequest" />
+	</wsdl:message>
+	<wsdl:message name="RegisterButNotEnrollSubjectExistingResponseMessage">
+		<wsdl:part name="parameters" element="tns:RegisterButNotEnrollSubjectExistingResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReserveSlotNewRequestMessage">
+		<wsdl:part name="parameters" element="tns:ReserveSlotNewRequest" />
+	</wsdl:message>
+	<wsdl:message name="ReserveSlotNewResponseMessage">
+		<wsdl:part name="parameters" element="tns:ReserveSlotNewResponse" />
+	</wsdl:message>
+	<wsdl:message name="ReserveSlotExistingRequestMessage">
+		<wsdl:part name="parameters" element="tns:ReserveSlotExistingRequest" />
+	</wsdl:message>
+	<wsdl:message name="ReserveSlotExistingResponseMessage">
+		<wsdl:part name="parameters" element="tns:ReserveSlotExistingResponse" />
+	</wsdl:message>
+	<wsdl:message name="EnrollSubjectNewRequestMessage">
+		<wsdl:part name="parameters" element="tns:EnrollSubjectNewRequest" />
+	</wsdl:message>
+	<wsdl:message name="EnrollSubjectNewResponseMessage">
+		<wsdl:part name="parameters" element="tns:EnrollSubjectNewResponse" />
+	</wsdl:message>
+	<wsdl:message name="EnrollSubjectExistingRequestMessage">
+		<wsdl:part name="parameters" element="tns:EnrollSubjectExistingRequest" />
+	</wsdl:message>
+	<wsdl:message name="EnrollSubjectExistingResponseMessage">
+		<wsdl:part name="parameters" element="tns:EnrollSubjectExistingResponse" />
+	</wsdl:message>
+	<wsdl:message name="UpdateStudySubjectConsentRequestMessage">
+		<wsdl:part name="parameters" element="tns:UpdateStudySubjectConsentRequest" />
+	</wsdl:message>
+	<wsdl:message name="UpdateStudySubjectConsentResponseMessage">
+		<wsdl:part name="parameters" element="tns:UpdateStudySubjectConsentResponse" />
 	</wsdl:message>
 	<wsdl:message name="ChangeStudySubjectEpochAssignmentRequestMessage">
 		<wsdl:part name="parameters" element="tns:ChangeStudySubjectEpochAssignmentRequest" />
@@ -346,44 +457,105 @@
 
 	<!-- Fault Messages -->
 	<wsdl:message name="InvalidStudySubjectDataExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:InvalidStudySubjectDataExceptionFault"></wsdl:part>
+		<wsdl:part name="fault" element="common:InvalidStudySubjectDataExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="InvalidStudyProtocolExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:InvalidStudyProtocolExceptionFault"></wsdl:part>
+		<wsdl:part name="fault" element="common:InvalidStudyProtocolExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="NoSuchStudySubjectExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:NoSuchStudySubjectExceptionFault"></wsdl:part>
+		<wsdl:part name="fault" element="common:NoSuchStudySubjectExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="NoSuchPatientExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:NoSuchPatientExceptionFault"></wsdl:part>
+		<wsdl:part name="fault" element="common:NoSuchPatientExceptionFault"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="SubjectAlreadyRegisteredExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:SubjectAlreadyRegisteredExceptionFault"></wsdl:part>
+	<wsdl:message name="DuplicateStudySubjectExceptionFaultMessage">
+		<wsdl:part name="fault" element="common:DuplicateStudySubjectExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="SubjectRegistrationRejectedExceptionFaultMessage">
 		<wsdl:part name="fault" element="tns:SubjectRegistrationRejectedExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="InvalidSiteExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:InvalidSiteExceptionFault"></wsdl:part>
+		<wsdl:part name="fault" element="common:InvalidSiteExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="InvalidQueryExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:InvalidQueryExceptionFault"></wsdl:part>
+		<wsdl:part name="fault" element="common:InvalidQueryExceptionFault"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="InsufficientPrivilegesExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:InsufficientPrivilegesExceptionFault"></wsdl:part>
+	<wsdl:message name="SecurityExceptionFaultMessage">
+		<wsdl:part name="fault" element="common:SecurityExceptionFault"></wsdl:part>
 	</wsdl:message>
 
 
 	<wsdl:portType name="SubjectRegistration">
-		<wsdl:operation name="initiateSubjectEnrollment">
+		<wsdl:operation name="initiateStudySubjectEnrollment">
 			<wsdl:input message="tns:InitiateSubjectEnrollmentRequestMessage" />
 			<wsdl:output message="tns:InitiateSubjectEnrollmentResponseMessage" />
 			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
 			<wsdl:fault message="tns:InvalidStudyProtocolExceptionFaultMessage" name="InvalidStudyProtocolException" />
-			<wsdl:fault message="tns:SubjectAlreadyRegisteredExceptionFaultMessage" name="SubjectAlreadyRegisteredException" />
+			<wsdl:fault message="tns:DuplicateStudySubjectExceptionFaultMessage" name="DuplicateStudySubjectException" />
 			<wsdl:fault message="tns:SubjectRegistrationRejectedExceptionFaultMessage" name="SubjectRegistrationRejectedException" />
 			<wsdl:fault message="tns:InvalidSiteExceptionFaultMessage" name="InvalidSiteException" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
+		</wsdl:operation>
+		<wsdl:operation name="registerButNotEnrollStudySubject">
+			<wsdl:input name="new" message="tns:RegisterButNotEnrollSubjectNewRequestMessage" />
+			<wsdl:output name="new" message="tns:RegisterButNotEnrollSubjectNewResponseMessage" />
+			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
+			<wsdl:fault message="tns:InvalidStudyProtocolExceptionFaultMessage" name="InvalidStudyProtocolException" />
+			<wsdl:fault message="tns:DuplicateStudySubjectExceptionFaultMessage" name="DuplicateStudySubjectException" />
+			<wsdl:fault message="tns:SubjectRegistrationRejectedExceptionFaultMessage" name="SubjectRegistrationRejectedException" />
+			<wsdl:fault message="tns:InvalidSiteExceptionFaultMessage" name="InvalidSiteException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
+		</wsdl:operation>
+		<wsdl:operation name="registerButNotEnrollExisitingStudySubject">
+			<wsdl:input name="existing" message="tns:RegisterButNotEnrollSubjectExistingRequestMessage" />
+			<wsdl:output name="existing" message="tns:RegisterButNotEnrollSubjectExistingResponseMessage" />
+			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
+			<wsdl:fault message="tns:SubjectRegistrationRejectedExceptionFaultMessage" name="SubjectRegistrationRejectedException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
+			<wsdl:fault message="tns:NoSuchStudySubjectExceptionFaultMessage" name="NoSuchStudySubjectException" />
+		</wsdl:operation>
+		<wsdl:operation name="reserveStudySubjectSlot">
+			<wsdl:input name="new" message="tns:ReserveSlotNewRequestMessage" />
+			<wsdl:output name="new" message="tns:ReserveSlotNewResponseMessage" />
+			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
+			<wsdl:fault message="tns:InvalidStudyProtocolExceptionFaultMessage" name="InvalidStudyProtocolException" />
+			<wsdl:fault message="tns:DuplicateStudySubjectExceptionFaultMessage" name="DuplicateStudySubjectException" />
+			<wsdl:fault message="tns:SubjectRegistrationRejectedExceptionFaultMessage" name="SubjectRegistrationRejectedException" />
+			<wsdl:fault message="tns:InvalidSiteExceptionFaultMessage" name="InvalidSiteException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
+		</wsdl:operation>
+		<wsdl:operation name="reserveExistingStudySubjectSlot">
+			<wsdl:input name="existing" message="tns:ReserveSlotExistingRequestMessage" />
+			<wsdl:output name="existing" message="tns:ReserveSlotExistingResponseMessage" />
+			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
+			<wsdl:fault message="tns:SubjectRegistrationRejectedExceptionFaultMessage" name="SubjectRegistrationRejectedException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
+			<wsdl:fault message="tns:NoSuchStudySubjectExceptionFaultMessage" name="NoSuchStudySubjectException" />
+		</wsdl:operation>
+		<wsdl:operation name="enrollStudySubject">
+			<wsdl:input name="new" message="tns:EnrollSubjectNewRequestMessage" />
+			<wsdl:output name="new" message="tns:EnrollSubjectNewResponseMessage" />
+			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
+			<wsdl:fault message="tns:InvalidStudyProtocolExceptionFaultMessage" name="InvalidStudyProtocolException" />
+			<wsdl:fault message="tns:DuplicateStudySubjectExceptionFaultMessage" name="DuplicateStudySubjectException" />
+			<wsdl:fault message="tns:SubjectRegistrationRejectedExceptionFaultMessage" name="SubjectRegistrationRejectedException" />
+			<wsdl:fault message="tns:InvalidSiteExceptionFaultMessage" name="InvalidSiteException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
+		</wsdl:operation>
+		<wsdl:operation name="enrollExistingStudySubject">
+			<wsdl:input name="existing" message="tns:EnrollSubjectExistingRequestMessage" />
+			<wsdl:output name="existing" message="tns:EnrollSubjectExistingResponseMessage" />
+			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
+			<wsdl:fault message="tns:SubjectRegistrationRejectedExceptionFaultMessage" name="SubjectRegistrationRejectedException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
+			<wsdl:fault message="tns:NoSuchStudySubjectExceptionFaultMessage" name="NoSuchStudySubjectException" />
+		</wsdl:operation>
+		<wsdl:operation name="updateStudySubjectConsent">
+			<wsdl:input message="tns:UpdateStudySubjectConsentRequestMessage" />
+			<wsdl:output message="tns:UpdateStudySubjectConsentResponseMessage" />
+			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
+			<wsdl:fault message="tns:NoSuchStudySubjectExceptionFaultMessage" name="NoSuchStudySubjectException" />
 		</wsdl:operation>
 		<wsdl:operation name="changeStudySubjectEpochAssignment">
 			<wsdl:input message="tns:ChangeStudySubjectEpochAssignmentRequestMessage" />
@@ -391,7 +563,7 @@
 			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
 			<wsdl:fault message="tns:InvalidStudyProtocolExceptionFaultMessage" name="InvalidStudyProtocolException" />
 			<wsdl:fault message="tns:SubjectRegistrationRejectedExceptionFaultMessage" name="SubjectRegistrationRejectedException" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
 			<wsdl:fault message="tns:NoSuchStudySubjectExceptionFaultMessage" name="NoSuchStudySubjectException" />
 		</wsdl:operation>
 		<wsdl:operation name="reconsentSubject">
@@ -399,66 +571,66 @@
 			<wsdl:output message="tns:ReconsentStudySubjectResponseMessage" />
 			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
 			<wsdl:fault message="tns:InvalidStudyProtocolExceptionFaultMessage" name="InvalidStudyProtocolException" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
 			<wsdl:fault message="tns:NoSuchStudySubjectExceptionFaultMessage" name="NoSuchStudySubjectException" />
 		</wsdl:operation>
 		<wsdl:operation name="takeSubjectOffStudy">
 			<wsdl:input message="tns:TakeSubjectOffStudyRequestMessage" />
 			<wsdl:output message="tns:TakeSubjectOffStudyResponseMessage" />
 			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
 			<wsdl:fault message="tns:NoSuchStudySubjectExceptionFaultMessage" name="NoSuchStudySubjectException" />
 		</wsdl:operation>
 		<wsdl:operation name="failSubjectScreening">
 			<wsdl:input message="tns:FailSubjectScreeningRequestMessage" />
 			<wsdl:output message="tns:FailSubjectScreeningResponseMessage" />
 			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
 			<wsdl:fault message="tns:NoSuchStudySubjectExceptionFaultMessage" name="NoSuchStudySubjectException" />
 		</wsdl:operation>
 		<wsdl:operation name="discontinueSubjectEnrollment">
 			<wsdl:input message="tns:DiscontinueEnrollmentRequestMessage" />
 			<wsdl:output message="tns:DiscontinueEnrollmentResponseMessage" />
 			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
 			<wsdl:fault message="tns:NoSuchStudySubjectExceptionFaultMessage" name="NoSuchStudySubjectException" />
 		</wsdl:operation>
 		<wsdl:operation name="retrieveSubjectDemographyHistory">
 			<wsdl:input message="tns:RetrieveSubjectDemographyHistoryRequestMessage" />
 			<wsdl:output message="tns:RetrieveSubjectDemographyHistoryResponseMessage" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
 			<wsdl:fault message="tns:NoSuchPatientExceptionFaultMessage" name="NoSuchPatientException" />
 		</wsdl:operation>
 		<wsdl:operation name="querySubjectRegistration">
 			<wsdl:input message="tns:QuerySubjectRegistrationRequestMessage" />
 			<wsdl:output message="tns:QuerySubjectRegistrationResponseMessage" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
 			<wsdl:fault message="tns:InvalidQueryExceptionFaultMessage" name="InvalidQueryException" />
 		</wsdl:operation>
 		<wsdl:operation name="importRegistrations">
 			<wsdl:input message="tns:ImportRegistrationsRequestMessage" />
 			<wsdl:output message="tns:ImportRegistrationsResponseMessage" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
 			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
 		</wsdl:operation>
 		<wsdl:operation name="updateSubjectRegistration">
 			<wsdl:input message="tns:UpdateRegistrationRequestMessage" />
 			<wsdl:output message="tns:UpdateRegistrationResponseMessage" />
 			<wsdl:fault message="tns:NoSuchStudySubjectExceptionFaultMessage" name="NoSuchStudySubjectException" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
 			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
 		</wsdl:operation>
 		<wsdl:operation name="retrieveAccuralData">
 			<wsdl:input message="tns:RetrieveAccrualDataRequestMessage" />
 			<wsdl:output message="tns:RetrieveAccrualDataResponseMessage" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
 			<wsdl:fault message="tns:InvalidStudyProtocolExceptionFaultMessage" name="InvalidStudyProtocolException" />
 			<wsdl:fault message="tns:InvalidSiteExceptionFaultMessage" name="InvalidSiteException" />
 		</wsdl:operation>
 		<wsdl:operation name="generateSummary3Report">
 			<wsdl:input message="tns:GenerateSummary3ReportRequestMessage" />
 			<wsdl:output message="tns:GenerateSummary3ReportResponseMessage" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
 			<wsdl:fault message="tns:InvalidSiteExceptionFaultMessage" name="InvalidSiteException" />
 		</wsdl:operation>
 	</wsdl:portType>
@@ -498,7 +670,7 @@
 		</wsp:Policy>
 		<soap:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
-		<wsdl:operation name="initiateSubjectEnrollment">
+		<wsdl:operation name="initiateStudySubjectEnrollment">
 			<soap:operation style="document" />
 			<wsdl:input>
 				<soap:body use="literal" />
@@ -506,8 +678,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidStudySubjectDataException">
 				<soap:fault name="InvalidStudySubjectDataException" />
@@ -515,14 +687,183 @@
 			<wsdl:fault name="InvalidStudyProtocolException">
 				<soap:fault name="InvalidStudyProtocolException" />
 			</wsdl:fault>
-			<wsdl:fault name="SubjectAlreadyRegisteredException">
-				<soap:fault name="SubjectAlreadyRegisteredException" />
+			<wsdl:fault name="DuplicateStudySubjectException">
+				<soap:fault name="DuplicateStudySubjectException" />
 			</wsdl:fault>
 			<wsdl:fault name="SubjectRegistrationRejectedException">
 				<soap:fault name="SubjectRegistrationRejectedException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidSiteException">
 				<soap:fault name="InvalidSiteException" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="registerButNotEnrollStudySubject">
+			<soap:operation style="document" />
+			<wsdl:input name="new">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="new">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidStudySubjectDataException">
+				<soap:fault name="InvalidStudySubjectDataException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidStudyProtocolException">
+				<soap:fault name="InvalidStudyProtocolException" />
+			</wsdl:fault>
+			<wsdl:fault name="DuplicateStudySubjectException">
+				<soap:fault name="DuplicateStudySubjectException" />
+			</wsdl:fault>
+			<wsdl:fault name="SubjectRegistrationRejectedException">
+				<soap:fault name="SubjectRegistrationRejectedException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidSiteException">
+				<soap:fault name="InvalidSiteException" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="registerButNotEnrollExisitingStudySubject">
+			<soap:operation style="document" />
+			<wsdl:input name="existing">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="existing">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidStudySubjectDataException">
+				<soap:fault name="InvalidStudySubjectDataException" />
+			</wsdl:fault>
+			<wsdl:fault name="SubjectRegistrationRejectedException">
+				<soap:fault name="SubjectRegistrationRejectedException" />
+			</wsdl:fault>
+			<wsdl:fault name="NoSuchStudySubjectException">
+				<soap:fault name="NoSuchStudySubjectException" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="reserveStudySubjectSlot">
+			<soap:operation style="document" />
+			<wsdl:input name="new">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="new">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidStudySubjectDataException">
+				<soap:fault name="InvalidStudySubjectDataException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidStudyProtocolException">
+				<soap:fault name="InvalidStudyProtocolException" />
+			</wsdl:fault>
+			<wsdl:fault name="DuplicateStudySubjectException">
+				<soap:fault name="DuplicateStudySubjectException" />
+			</wsdl:fault>
+			<wsdl:fault name="SubjectRegistrationRejectedException">
+				<soap:fault name="SubjectRegistrationRejectedException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidSiteException">
+				<soap:fault name="InvalidSiteException" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="reserveExistingStudySubjectSlot">
+			<soap:operation style="document" />
+			<wsdl:input name="existing">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="existing">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidStudySubjectDataException">
+				<soap:fault name="InvalidStudySubjectDataException" />
+			</wsdl:fault>
+			<wsdl:fault name="SubjectRegistrationRejectedException">
+				<soap:fault name="SubjectRegistrationRejectedException" />
+			</wsdl:fault>
+			<wsdl:fault name="NoSuchStudySubjectException">
+				<soap:fault name="NoSuchStudySubjectException" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="enrollStudySubject">
+			<soap:operation style="document" />
+			<wsdl:input name="new">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="new">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidStudySubjectDataException">
+				<soap:fault name="InvalidStudySubjectDataException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidStudyProtocolException">
+				<soap:fault name="InvalidStudyProtocolException" />
+			</wsdl:fault>
+			<wsdl:fault name="DuplicateStudySubjectException">
+				<soap:fault name="DuplicateStudySubjectException" />
+			</wsdl:fault>
+			<wsdl:fault name="SubjectRegistrationRejectedException">
+				<soap:fault name="SubjectRegistrationRejectedException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidSiteException">
+				<soap:fault name="InvalidSiteException" />
+			</wsdl:fault>
+		</wsdl:operation>
+		
+		<wsdl:operation name="enrollExistingStudySubject">
+			<soap:operation style="document" />
+			<wsdl:input name="existing">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="existing">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidStudySubjectDataException">
+				<soap:fault name="InvalidStudySubjectDataException" />
+			</wsdl:fault>
+			<wsdl:fault name="SubjectRegistrationRejectedException">
+				<soap:fault name="SubjectRegistrationRejectedException" />
+			</wsdl:fault>
+			<wsdl:fault name="NoSuchStudySubjectException">
+				<soap:fault name="NoSuchStudySubjectException" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="updateStudySubjectConsent">
+			<soap:operation style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidStudySubjectDataException">
+				<soap:fault name="InvalidStudySubjectDataException" />
+			</wsdl:fault>
+			<wsdl:fault name="NoSuchStudySubjectException">
+				<soap:fault name="NoSuchStudySubjectException" />
 			</wsdl:fault>
 		</wsdl:operation>
 
@@ -534,8 +875,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidStudySubjectDataException">
 				<soap:fault name="InvalidStudySubjectDataException" />
@@ -559,8 +900,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidStudySubjectDataException">
 				<soap:fault name="InvalidStudySubjectDataException" />
@@ -581,8 +922,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidStudySubjectDataException">
 				<soap:fault name="InvalidStudySubjectDataException" />
@@ -600,8 +941,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidStudySubjectDataException">
 				<soap:fault name="InvalidStudySubjectDataException" />
@@ -619,8 +960,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidStudySubjectDataException">
 				<soap:fault name="InvalidStudySubjectDataException" />
@@ -638,8 +979,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidStudyProtocolException">
 				<soap:fault name="InvalidStudyProtocolException" />
@@ -657,8 +998,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidSiteException">
 				<soap:fault name="InvalidSiteException" />
@@ -673,8 +1014,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidStudySubjectDataException">
 				<soap:fault name="InvalidStudySubjectDataException" />
@@ -692,8 +1033,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidStudySubjectDataException">
 				<soap:fault name="InvalidStudySubjectDataException" />
@@ -708,8 +1049,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidQueryException">
 				<soap:fault name="InvalidQueryException" />
@@ -724,8 +1065,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="NoSuchPatientException">
 				<soap:fault name="NoSuchPatientException" />

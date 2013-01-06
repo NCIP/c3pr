@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
 
 
 /**
@@ -18,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="subject" type="{http://enterpriseservices.nci.nih.gov}Subject"/>
+ *         &lt;element name="subject" type="{http://enterpriseservices.nci.nih.gov/Common}Subject"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>

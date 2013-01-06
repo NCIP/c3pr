@@ -126,11 +126,11 @@
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.advancedStudySearch(..))"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 	
-        <entry key="execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.search*(..))"
-               value="edu.duke.cabig.c3pr.domain.ResearchStaff:READ"/>
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.PersonUserDao.search*(..))"
+               value="edu.duke.cabig.c3pr.domain.PersonUser:READ"/>
 
-        <entry key="execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.get*(..))"
-               value="edu.duke.cabig.c3pr.domain.ResearchStaff:READ"/>
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.PersonUserDao.get*(..))"
+               value="edu.duke.cabig.c3pr.domain.PersonUser:READ"/>
                               
         <entry key="execution(* edu.duke.cabig.c3pr.dao.InvestigatorDao.search*(..))"
                value="edu.duke.cabig.c3pr.domain.Investigator:READ"/>	
@@ -174,7 +174,7 @@
                 edu.duke.cabig.c3pr.dao.StudyDao.*=CSM_AUTHN_CHECK,C3PR_AUTH_CHECK
                 edu.duke.cabig.c3pr.dao.StudySubjectDao.*=CSM_AUTHN_CHECK,C3PR_AUTH_CHECK
                 edu.duke.cabig.c3pr.dao.ParticipantDao.*=CSM_AUTHN_CHECK,C3PR_AUTH_CHECK
-				edu.duke.cabig.c3pr.dao.ResearchStaffDao.*=CSM_AUTHN_CHECK
+				edu.duke.cabig.c3pr.dao.PersonUserDao.*=CSM_AUTHN_CHECK
 				edu.duke.cabig.c3pr.dao.InvestigatorDao.*=CSM_AUTHN_CHECK
             </value>
         </property>
@@ -239,7 +239,7 @@
         		value-ref="studySubjectSecurityFilter"/>
         <entry key="edu.duke.cabig.c3pr.domain.Participant"
             	value-ref="subjectSecurityFilter"/>
-        <entry key="edu.duke.cabig.c3pr.domain.ResearchStaff"
+        <entry key="edu.duke.cabig.c3pr.domain.PersonUser"
             	value-ref="researchStaffSecurityFilter"/>
         <entry key="edu.duke.cabig.c3pr.domain.Investigator"
             	value-ref="investigatorSecurityFilter"/>            	        

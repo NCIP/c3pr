@@ -43,9 +43,14 @@ input[disabled] {
 	</tr>
 	<c:forEach items="${command.studySubject.studySite.study.epochs}" var="epoch" varStatus="epochStatus">
 		<c:set var="assignable" value="true"/>
-		<c:if test="${epoch.epochOrder <= command.studySubject.scheduledEpoch.epoch.epochOrder}">
+		<c:if test="${epoch.epochOrder < command.studySubject.scheduledEpoch.epoch.epochOrder}">
 			<c:set var="assignable" value="false"/>
 		</c:if>
+		<c:forEach items="${command.studySubject.scheduledEpochs}" var="schEpoch" varStatus="schEpochIndex">
+				<c:if test="${epoch.name eq schEpoch.epoch.name}">
+					<c:set var="assignable" value="false"/>
+				</c:if>
+		</c:forEach>
 		<c:set var="currentScheduledEpoch" value="false"/>
 		<c:if test="${epoch.id == command.studySubject.scheduledEpoch.epoch.id}">
 			<c:set var="currentScheduledEpoch" value="true"/>

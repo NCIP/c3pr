@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.acegisecurity.Authentication;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
 
@@ -31,23 +32,23 @@ public class ResearchStaffSecurityFilter implements DomainObjectSecurityFilterer
 	public Object filter(Authentication authentication, String permission,
 			Filterer returnObject) {
 		
-		logger.debug("Authorizing the user and filtering studies.");
-		ResearchStaff researchStaff;
+		logger.debug("Authorizing the user and filtering Persons.");
+		PersonUser personUser;
 		//check the type of filterer
 		if(returnObject instanceof CollectionFilterer || returnObject instanceof ArrayFilterer){
 			Iterator collectionIter = returnObject.iterator();
 			while (collectionIter.hasNext()) {
-				researchStaff = (ResearchStaff)collectionIter.next();
+				personUser = (PersonUser)collectionIter.next();
 				//If logged-in staff does not have site-level access, filter out the result.
-	        	if(!hasSiteAndStudyLevelAccess(researchStaff)){
-	        		returnObject.remove(researchStaff);
+	        	if(!hasAllSiteOrSiteLevelAccessPermission(personUser)){
+	        		returnObject.remove(personUser);
 	        	}
 			}
 		}else if(returnObject instanceof AbstractMutableDomainObjectFilterer){
-			researchStaff = (ResearchStaff)returnObject.getFilteredObject();
+			personUser = (PersonUser)returnObject.getFilteredObject();
 			//If logged-in staff does not have site-level access, filter out the result.
-			if(!hasSiteAndStudyLevelAccess(researchStaff)){
-        		returnObject.remove(researchStaff);
+			if(!hasAllSiteOrSiteLevelAccessPermission(personUser)){
+        		returnObject.remove(personUser);
         	}
 		}else{
 			logger.debug("Filterer instance does not match any of CollectionFilterer, ArrayFilterer or AbstractMutableDomainObjectFilterer. Skipping authorization.");
@@ -56,9 +57,21 @@ public class ResearchStaffSecurityFilter implements DomainObjectSecurityFilterer
 	}
 	
 	
-	private boolean hasSiteAndStudyLevelAccess(ResearchStaff researchStaff){
+	/**
+	 * Checks for site and study level access.
+	 *
+	 * @param personUser the person user
+	 * @return true, if successful
+	 */
+	private boolean hasAllSiteOrSiteLevelAccessPermission(PersonUser personUser){
+		
+		//if personUser is just a user(wont have assignedID) and not a staff, include it in search results
+		if(StringUtils.isBlank(personUser.getAssignedIdentifier())){
+			return true;
+		}
+		
 		//load all the roles the user has with the specified privilege
-		Set<C3PRUserGroupType> userRoles = SecurityUtils.getUserRoles(UserPrivilegeType.RESEARCHSTAFF_READ);
+		Set<C3PRUserGroupType> userRoles = SecurityUtils.getRolesForLoggedInUser(UserPrivilegeType.PERSONUSER_READ);
 		Iterator<C3PRUserGroupType> iter = userRoles.iterator();
 
 		C3PRUserGroupType role;
@@ -71,7 +84,7 @@ public class ResearchStaffSecurityFilter implements DomainObjectSecurityFilterer
 				return true;
 			} else {
 				if(SecurityUtils.hasAllSiteAccess(role) || hasSiteLevelAccessPermission(SecurityUtils
-						.buildUserAccessibleOrganizationIdsList(role), researchStaff)){
+						.buildAccessibleOrganizationIdsListForLoggedInUser(role), personUser)){
 					return true;
 				}
 			}
@@ -84,11 +97,11 @@ public class ResearchStaffSecurityFilter implements DomainObjectSecurityFilterer
 	 * Checks for site level access permission.
 	 *
 	 * @param loggedIdResearchStaff the research staff
-	 * @param researchStaff the study
+	 * @param personUser the study
 	 * @return true, if successful
 	 */
-	private boolean hasSiteLevelAccessPermission(List<String> userAccessibleOrganizationIdsList , ResearchStaff researchStaff){
-		for(HealthcareSite healthcareSite: researchStaff.getHealthcareSites()){
+	private boolean hasSiteLevelAccessPermission(List<String> userAccessibleOrganizationIdsList , PersonUser personUser){
+		for(HealthcareSite healthcareSite: personUser.getHealthcareSites()){
 			if(userAccessibleOrganizationIdsList.contains(healthcareSite.getPrimaryIdentifier())){
 				return true;
 			}

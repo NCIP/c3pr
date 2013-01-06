@@ -5,6 +5,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -66,8 +68,12 @@ public class StudySubjectDemographicsDao extends GridIdentifiableDao<StudySubjec
         	getHibernateTemplate().initialize(identifier.getHealthcareSite().getIdentifiersAssignedToOrganization());
         }
         getHibernateTemplate().initialize(studySubjectDemographics.getContactMechanisms());
+        for(ContactMechanism contactMechanism : studySubjectDemographics.getContactMechanisms()){
+        	getHibernateTemplate().initialize(contactMechanism.getContactMechanismUseAssociation());
+        }
         getHibernateTemplate().initialize(studySubjectDemographics.getRaceCodeAssociations());
         getHibernateTemplate().initialize(studySubjectDemographics.getCustomFieldsInternal());
+        getHibernateTemplate().initialize(studySubjectDemographics.getAddress().getAddressUseAssociation());
     }
 
 

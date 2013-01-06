@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.service.passwordpolicy.validators;
 
+import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.User;
 import edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordCreationPolicy;
 import edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy;

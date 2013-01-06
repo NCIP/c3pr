@@ -151,7 +151,7 @@ public class WebSSOAuthoritiesPopulator implements CasAuthoritiesPopulator {
     
     public String getUserIdFromGridIdentity(String gridIdentity){
         String[] sections=gridIdentity.split("=");
-        return sections[sections.length-1];
+        return sections[sections.length-1].toLowerCase();
     }
 
 	public RolePrivilegeDao getRolePrivilegeDao() {

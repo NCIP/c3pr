@@ -6,12 +6,21 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import gov.nih.nci.security.authorization.domainobjects.*;
-import gov.nih.nci.security.authorization.domainobjects.User;
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.domain.BaseInvestigatorDataContainer;
+import edu.duke.cabig.c3pr.domain.BaseResearchStaffDataContainer;
+import edu.duke.cabig.c3pr.domain.C3PRUser;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalInvestigator;
+import edu.duke.cabig.c3pr.domain.LocalPersonUser;
+import edu.duke.cabig.c3pr.domain.PersonUser;
+import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
+import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
+import edu.duke.cabig.c3pr.domain.RemotePersonUser;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.domain.*;
+import gov.nih.nci.security.authorization.domainobjects.User;
 
 /**
  * Service to handle C3PR Users management <p/> Created by IntelliJ IDEA. User: kherm Date: Aug 24,
@@ -29,7 +38,7 @@ public interface PersonnelService {
      * @throws C3PRBaseException
      * @throws C3PRBaseRuntimeException
      */
-    public void save(ResearchStaff staff) throws C3PRBaseException;
+    public void save(PersonUser staff) throws C3PRBaseException;
     
     /**
      * Will save Research Staff and add appropriate data into CSM
@@ -38,7 +47,7 @@ public interface PersonnelService {
      * @throws C3PRBaseException
      * @throws C3PRBaseRuntimeException
      */
-    public void saveUser(ResearchStaff staff) throws C3PRBaseException;
+    public void saveUser(PersonUser staff) throws C3PRBaseException;
 
     /**
      * Used to update Investigator domain object
@@ -47,14 +56,6 @@ public interface PersonnelService {
      * @throws C3PRBaseException
      */
     public Investigator merge(Investigator user) throws C3PRBaseException;
-
-    /**
-     * Used to update ResearchStaff domain object
-     * 
-     * @param staff
-     * @throws C3PRBaseException
-     */
-    public void merge(ResearchStaff staff) throws C3PRBaseException;
 
     /**
      * Get a list of csm groups for the user
@@ -68,7 +69,7 @@ public interface PersonnelService {
     /**
      * Get a list of csm groups for the emailId
      * Used by the dashboardController
-     * @param user
+     * @param emailId
      * @return
      * @throws C3PRBaseException
      */
@@ -86,7 +87,7 @@ public interface PersonnelService {
 
     public User getCSMUserByUsername(String userName);
     
-    public BaseResearchStaffDataContainer convertLocalResearchStaffToRemoteResearchStaff(LocalResearchStaff localResearchStaff,RemoteResearchStaff remoteResearchStaff);
+    public BaseResearchStaffDataContainer convertLocalPersonUserToRemotePersonUser(LocalPersonUser localPersonUser, RemotePersonUser remotePersonUser);
     
     public BaseInvestigatorDataContainer convertLocalInvestigatorToRemoteInvestigator(LocalInvestigator localInvestigator,RemoteInvestigator remoteInvestigator);
 

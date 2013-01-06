@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.domain.repository;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 import org.easymock.classextension.EasyMock;

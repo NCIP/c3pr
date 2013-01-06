@@ -6,7 +6,7 @@ package edu.duke.cabig.c3pr.dao.query;
  */
 public class ResearchStaffQuery extends AbstractQuery {
 
-    private static String queryString = "SELECT distinct rs from ResearchStaff rs left join fetch rs.healthcareSites order by rs.id";
+    private static String queryString = "SELECT distinct rs from PersonUser rs left join fetch rs.healthcareSites order by rs.id";
 
     private static String FIRST_NAME = "firstName";
 

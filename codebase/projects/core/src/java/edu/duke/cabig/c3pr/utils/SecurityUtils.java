@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.ServletContext;
+
 import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.context.SecurityContextHolder;
@@ -13,15 +15,22 @@ import org.acegisecurity.userdetails.User;
 import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.SessionFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import edu.duke.cabig.c3pr.accesscontrol.AuthorizedUser;
 import edu.duke.cabig.c3pr.accesscontrol.UserPrivilege;
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RolePrivilege;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
+import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRoleMembership;
 
@@ -36,7 +45,9 @@ public class SecurityUtils {
 	/** The log. */
 	private static Log log = LogFactory.getLog(SecurityUtils.class);
 	
-	public static final SuiteRole GLOBAL_ROLE = SuiteRole.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER;
+	public static final SuiteRole PERSON_AND_ORGANIZATION_INFORMATION_MANAGER = SuiteRole.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER;
+	
+	private ApplicationContext applicationContext;
 	
 	/**
 	 * Checks if is super user.
@@ -276,6 +287,12 @@ public class SecurityUtils {
 		return true;
 	}
 	
+	/**
+	 * Checks for all site access.
+	 *
+	 * @param roleType the role type
+	 * @return true, if successful
+	 */
 	public static boolean hasAllSiteAccess(RoleTypes roleType){
 		return hasAllSiteAccess(C3PRUserGroupType.valueOf(roleType.getName()));
 	}
@@ -289,7 +306,7 @@ public class SecurityUtils {
 	 * @return true, if successful
 	 */
 	public static boolean hasAllSiteAccess(String userPrivilegeString){
-		Set<C3PRUserGroupType> userGroupTypes = getUserRoles(UserPrivilegeType.valueOf(userPrivilegeString));
+		Set<C3PRUserGroupType> userGroupTypes = getRolesForLoggedInUser(UserPrivilegeType.valueOf(userPrivilegeString));
 		for(C3PRUserGroupType userGroupType : userGroupTypes){
 			if(hasAllSiteAccess(userGroupType)){
 				return true;
@@ -319,6 +336,25 @@ public class SecurityUtils {
 		return true;
 	}
 	
+	
+	/**
+	 * Checks for all study access.
+	 * Get the provisioningSession from the user and the roles from the authentication object to
+	 * determine hasAllSiteAccess
+	 * User has all Site access if he isnt scoped by site or suiteRoleMembership.isAllSites() is true
+	 * 
+	 * @return true, if successful
+	 */
+	public static boolean hasAllStudyAccess(String userPrivilegeString){
+		Set<C3PRUserGroupType> userGroupTypes = getRolesForLoggedInUser(UserPrivilegeType.valueOf(userPrivilegeString));
+		for(C3PRUserGroupType userGroupType : userGroupTypes){
+			if(hasAllStudyAccess(userGroupType)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Builds the user accessible organization ids list.
 	 * Get the provisioningSession from the user and the roles from the authentication object to
@@ -326,7 +362,7 @@ public class SecurityUtils {
 	 * 
 	 * @return the list
 	 */
-	public static List<String> buildUserAccessibleOrganizationIdsList(C3PRUserGroupType userRole){
+	public static List<String> buildAccessibleOrganizationIdsListForLoggedInUser(C3PRUserGroupType userRole){
 		List<String> userAccessibleOrganizationIdsList = new ArrayList<String>();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(authentication != null){
@@ -337,7 +373,7 @@ public class SecurityUtils {
 			} else {
 				//e.g: add NC010 from "HealthcareSite.NC010" to the userAccessibleOrganizationIdsList
 				for(String siteId:suiteRoleMembership.getSiteIdentifiers()){
-					userAccessibleOrganizationIdsList.add(siteId.substring(siteId.lastIndexOf(".") + 1));
+					userAccessibleOrganizationIdsList.add(siteId.substring(siteId.indexOf(".") + 1));
 				}
 			}
 		}
@@ -351,7 +387,7 @@ public class SecurityUtils {
 	 * 
 	 * @return the list
 	 */
-	public static List<String> buildUserAccessibleStudyIdsList(C3PRUserGroupType userRole){
+	public static List<String> buildAccessibleStudyIdsListForLoggedInUser(C3PRUserGroupType userRole){
 		List<String> userAccessibleStudyIdsList = new ArrayList<String>();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(authentication != null){
@@ -360,7 +396,7 @@ public class SecurityUtils {
 			
 			//add NC010 from "HealthcareSite.NC010" to the userAccessibleOrganizationIdsList
 			for(String studyId:suiteRoleMembership.getStudyIdentifiers()){
-				userAccessibleStudyIdsList.add(studyId.substring(studyId.lastIndexOf(".") + 1));
+				userAccessibleStudyIdsList.add(studyId.substring(studyId.indexOf(".") + 1));
 			}
 		}
 		return userAccessibleStudyIdsList;
@@ -373,7 +409,7 @@ public class SecurityUtils {
 	 * @param privlegeType the privilege type
 	 * @return the user roles
 	 */
-	public static Set<C3PRUserGroupType> getUserRoles(UserPrivilegeType privlegeType){
+	public static Set<C3PRUserGroupType> getRolesForLoggedInUser(UserPrivilegeType privlegeType){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Set<C3PRUserGroupType> rolesList = new HashSet<C3PRUserGroupType>();
 		if(authentication != null){
@@ -394,7 +430,7 @@ public class SecurityUtils {
 	 */
 	public static boolean isGlobalRole(C3PRUserGroupType groupType){
 		SuiteRole suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(groupType);
-		if(suiteRole.isScoped() && !suiteRole.equals(GLOBAL_ROLE)){
+		if(suiteRole.isScoped() && !suiteRole.equals(PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)){
 			return false;
 		}
 		return true;
@@ -406,8 +442,8 @@ public class SecurityUtils {
 	 * 
 	 * @return the logged in research staff
 	 */
-	public static ResearchStaff getLoggedInResearchStaff(){
-		return ((AuthorizedUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getResearchStaff();
+	public static PersonUser getLoggedInResearchStaff(){
+		return ((AuthorizedUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPersonUser();
 	}
 	
 	public static List<RoleTypes> getNonC3PRRoles(){
@@ -425,24 +461,101 @@ public class SecurityUtils {
 		return nonC3PRRoles;
 	}
 	
-	public static List<C3PRUserGroupType> getStudyScopedRoles(){
-		List<C3PRUserGroupType> studyScopedRoles = new ArrayList<C3PRUserGroupType>();
+	public static List<String> getStudyScopedRoles(){
+		List<String> studyScopedRoles = new ArrayList<String>();
 
-		studyScopedRoles.add(C3PRUserGroupType.REGISTRAR);
-		studyScopedRoles.add(C3PRUserGroupType.DATA_ANALYST);
-		studyScopedRoles.add(C3PRUserGroupType.DATA_READER);
+		studyScopedRoles.add(C3PRUserGroupType.REGISTRAR.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.DATA_ANALYST.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.DATA_READER.getCode());
 		
-		studyScopedRoles.add(C3PRUserGroupType.AE_STUDY_DATA_REVIEWER);
-		studyScopedRoles.add(C3PRUserGroupType.AE_EXPEDITED_REPORT_REVIEWER);
-		studyScopedRoles.add(C3PRUserGroupType.AE_REPORTER);
+		studyScopedRoles.add(C3PRUserGroupType.AE_STUDY_DATA_REVIEWER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.AE_EXPEDITED_REPORT_REVIEWER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.AE_REPORTER.getCode());
 		
-		studyScopedRoles.add(C3PRUserGroupType.LAB_DATA_USER);
-		studyScopedRoles.add(C3PRUserGroupType.LAB_IMPACT_CALENDAR_NOTIFIER);
+		studyScopedRoles.add(C3PRUserGroupType.LAB_DATA_USER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.LAB_IMPACT_CALENDAR_NOTIFIER.getCode());
 		
-		studyScopedRoles.add(C3PRUserGroupType.STUDY_CALENDAR_TEMPLATE_BUILDER);
-		studyScopedRoles.add(C3PRUserGroupType.STUDY_SUBJECT_CALENDAR_MANAGER);
+		studyScopedRoles.add(C3PRUserGroupType.STUDY_CALENDAR_TEMPLATE_BUILDER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.STUDY_SUBJECT_CALENDAR_MANAGER.getCode());
 		
 		return studyScopedRoles;
+	}
+	
+	
+	/**
+	 * Gets the site scoped roles.
+	 *
+	 * @return the site scoped roles code as string and not the C3PRUserGroupType as it is used from the UI
+	 */
+	public static List<String> getSiteScopedRoles(){
+		List<String> studyScopedRoles = new ArrayList<String>();
+
+		//studyScopedRoles.add(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.USER_ADMINISTRATOR.getCode());
+		
+		studyScopedRoles.add(C3PRUserGroupType.STUDY_CREATOR.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.SUPPLEMENTAL_STUDY_INFORMATION_MANAGER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.STUDY_TEAM_ADMINISTRATOR.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.STUDY_SITE_PARTICIPATION_ADMINISTRATOR.getCode());
+		
+		studyScopedRoles.add(C3PRUserGroupType.STUDY_CALENDAR_TEMPLATE_BUILDER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.STUDY_QA_MANAGER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.REGISTRATION_QA_MANAGER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.SUBJECT_MANAGER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.STUDY_SUBJECT_CALENDAR_MANAGER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.REGISTRAR.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.AE_REPORTER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.AE_EXPEDITED_REPORT_REVIEWER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.AE_STUDY_DATA_REVIEWER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.LAB_IMPACT_CALENDAR_NOTIFIER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.LAB_DATA_USER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.DATA_READER.getCode());
+		studyScopedRoles.add(C3PRUserGroupType.DATA_ANALYST.getCode());
+		
+		return studyScopedRoles;
+	}
+	
+	public static List<HealthcareSite> getLoggedInUsersOrganizations(String privlegeType, ServletContext servletContext){
+		List hcsList = new ArrayList<HealthcareSite>();
+		if(StringUtils.isBlank(privlegeType)){
+			return hcsList;
+		}
+		Set<C3PRUserGroupType> groupSet = getRolesForLoggedInUser(UserPrivilegeType.valueOf(privlegeType.trim()));
+		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+		
+		ProvisioningSessionFactory provisioningSessionFactory = (ProvisioningSessionFactory)context.getBean("provisioningSessionFactory");
+		HealthcareSiteDao healthcareSiteDao = (HealthcareSiteDao)context.getBean("healthcareSiteDao");
+		PersonUser personUser = ((AuthorizedUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPersonUser();
+		Set<String> organizationIdSet = new HashSet<String>();
+	    for(C3PRUserGroupType c3prUserGroupType:groupSet){
+	    	if(!SecurityUtils.isGlobalRole(c3prUserGroupType)){
+	    		ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(new Long(personUser.getLoginId()));
+	        	
+	            SuiteRole suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(c3prUserGroupType);
+	            SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
+	    	    //add all site identifiers to a set
+	    		if(suiteRole.isSiteScoped() && !suiteRoleMembership.isAllSites()){
+	    			organizationIdSet.addAll(suiteRoleMembership.getSiteIdentifiers());
+	    		}
+	    		HealthcareSite healthcareSite;
+	    		for(String hcsId: organizationIdSet){
+	     			healthcareSite = healthcareSiteDao.getByCtepCodeFromLocal(hcsId);
+	     			if(healthcareSite != null && ! hcsList.contains(healthcareSite)){
+	     				hcsList.add(healthcareSite);
+	     			}
+	     		}
+	    	}
+	    }
+        return hcsList;
+		
+	}
+
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
 	}
 
 }

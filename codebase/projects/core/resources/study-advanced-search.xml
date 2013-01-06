@@ -55,6 +55,26 @@
 				<label>Standalone Indicator</label>
 				<data-type>Boolean</data-type>
 			</search-criteria>
+			<search-criteria>
+				<name>sponsorType.code</name>
+				<label>Study Sponsor Type</label>
+				<data-type>StudySponsorType</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>category.code</name>
+				<label>Clinical Research Category</label>
+				<data-type>StudyCategory</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>nciRecognizedProgramName.code</name>
+				<label>NCI Recognized Program Name</label>
+				<data-type>NCIRecognizedProgramName</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>investigatorInitiated</name>
+				<label>Investigator Initiated Indicator</label>
+				<data-type>Boolean</data-type>
+			</search-criteria>
 		</dependent-object>
 		<!--Search by study version specific criterion-->
 		<dependent-object>
@@ -297,6 +317,42 @@
 				</association>
 			</association-context>
 		</dependent-object>
+			<!--Search by Study Site activation date and status --><dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.SiteStatusHistory</class-name>
+			<display-name>SiteStatusHistory</display-name>
+			<table-alias>SiteStatusHistory_xx</table-alias>
+			<search-criteria>
+				<name>siteStudyStatus.code</name>
+				<label>Site Status</label>
+				<data-type>SiteStatusHistory</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>startDate</name>
+				<label>Start date of the status</label>
+				<data-type>Date</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>endDate</name>
+				<label>End date of the status</label>
+				<data-type>Date</data-type>
+			</search-criteria>
+			<association-context>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudySite</name>
+					<role-name>studyOrganizations</role-name>
+					<table-alias>StudySite_xx</table-alias>
+					<joining-condition>StudySite_xx
+						= any elements (Study_xx.studyOrganizations)</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.SiteStatusHistory</name>
+					<role-name>siteStatusHistoryInternal</role-name>
+					<table-alias>SiteStatusHistory_xx</table-alias>
+					<joining-condition>SiteStatusHistory_xx = any elements(StudySite_xx.siteStatusHistoryInternal)
+					</joining-condition>
+				</association>
+			</association-context>
+		</dependent-object>
 		<!--Search by Healthcare Site in different contexts like Study Site,Coordinating Center, Funding Sponsor,
 		based on healthcare site database id and healthcare site name.  --><dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.HealthcareSite</class-name>
@@ -366,9 +422,9 @@
 		</dependent-object>
 		<!-- search by study personnel search criterion -->
 		<dependent-object>
-			<class-name>edu.duke.cabig.c3pr.domain.ResearchStaff</class-name>
-			<display-name>ResearchStaff</display-name>
-			<table-alias>ResearchStaff_xx</table-alias>
+			<class-name>edu.duke.cabig.c3pr.domain.PersonUser</class-name>
+			<display-name>PersonUser</display-name>
+			<table-alias>PersonUser_xx</table-alias>
 			<search-criteria>
 				<name>assignedIdentifier</name>
 				<label>Assigned Identifier</label>
@@ -399,11 +455,11 @@
 						elements(StudyOrganization_xx.studyPersonnelInternal)</joining-condition>
 				</association>
 				<association>
-					<name>edu.duke.cabig.c3pr.domain.ResearchStaff</name>
-					<role-name>researchStaff</role-name>
-					<table-alias>ResearchStaff_xx</table-alias>
-					<joining-condition> StudyPersonnel_xx.researchStaff =
-						ResearchStaff_xx</joining-condition>
+					<name>edu.duke.cabig.c3pr.domain.PersonUser</name>
+					<role-name>personUser</role-name>
+					<table-alias>PersonUser_xx</table-alias>
+					<joining-condition> StudyPersonnel_xx.personUser =
+						PersonUser_xx</joining-condition>
 				</association>
 			</association-context>
 		</dependent-object>
@@ -470,11 +526,6 @@
 			<search-criteria>
 				<name>typeInternal</name>
 				<label>Identifier Type</label>
-				<data-type>String</data-type>
-			</search-criteria>
-			<search-criteria>
-				<name>systemName</name>
-				<label>System name for system assigned identifiers</label>
 				<data-type>String</data-type>
 			</search-criteria>
 			<association-context>

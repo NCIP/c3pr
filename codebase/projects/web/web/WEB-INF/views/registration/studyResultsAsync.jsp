@@ -103,9 +103,6 @@ function toggleImage(id){
 											pageContext.setAttribute("yearOld",yearOld);
 										%>
 										<c:set var="expiredIrb" value="${site.studySiteStudyVersion.irbApprovalDate.time le yearOld.timeInMillis}"></c:set>
-										<c:if test="${expiredIrb}">
-											<c:set var="javLink" value="alert('The IRB approval date for this site has expired. Its more than an year old');"/>
-										</c:if>
 								<%--<c:if test='${site.siteStudyStatus.code=="Active"}'>--%>
 								<csmauthz:accesscontrol domainObject="${site}"
 		                                                  hasPrivileges="STUDYSUBJECT_CREATE"  authorizationCheckName="studySiteAuthorizationCheck">
@@ -123,7 +120,7 @@ function toggleImage(id){
 													${site.studySiteStudyVersion.irbApprovalDateStr}
 												</c:otherwise>
 											</c:choose>
-											<c:if test="${expiredIrb}"><font color='Red'><i>(expired)</i></font></c:if>
+											<c:if test="${expiredIrb}"><font color='Red'><i>(IRB expired)</i></font></c:if>
 										</td>
 									</tr>
 								</csmauthz:accesscontrol>

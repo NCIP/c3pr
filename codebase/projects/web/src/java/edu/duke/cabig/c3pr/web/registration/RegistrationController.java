@@ -286,8 +286,10 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
                     int page) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-        if (studySubject.getScheduledEpoch() != null && studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion()!=null) {
-            studySubject.updateDataEntryStatus();
+        
+        if (studySubject.getId()!=null && studySubject.getScheduledEpoch() != null && studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion()!=null) {
+        	 // not needed for a new registration
+        	studySubject.updateDataEntryStatus();
             studySubject.getScheduledEpoch().setEligibilityIndicator(studySubject.getScheduledEpoch().evaluateEligibilityIndicator());
         }
         super.postProcessPage(request, wrapper, errors, page);

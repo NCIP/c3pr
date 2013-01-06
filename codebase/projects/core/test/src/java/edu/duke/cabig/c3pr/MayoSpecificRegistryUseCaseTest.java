@@ -193,7 +193,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	interruptSession();
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Pre-Enrolled", new GregorianCalendar(2006, 01, 31).getTime(), null);
+    	studySubject.updateRegistryStatus("Pre-Enrolled", new GregorianCalendar(2006, 01, 31).getTime(), "some comment", null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -201,6 +201,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
     	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("some comment", studySubject.getStudySubjectRegistryStatus().getCommentText());
     	assertEquals(1, studySubject.getLatestConsents().size());
     	assertEquals("general1", studySubject.getLatestConsents().get(0).getConsent().getName());
     	assertEquals(new GregorianCalendar(2006, 02,20).getTime(), studySubject.getLatestConsents().get(0).getConsentDeliveryDate());
@@ -218,7 +219,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	interruptSession();
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Enrolled", new GregorianCalendar(2006, 03,20).getTime(), null);
+    	studySubject.updateRegistryStatus("Enrolled", new GregorianCalendar(2006, 03,20).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -244,7 +245,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	reasons.add(registryStatusReason1);
     	reasons.add(registryStatusReason2);
     	
-    	studySubject.updateRegistryStatus("Screen Failed", new GregorianCalendar(2006, 05,12).getTime(), reasons);
+    	studySubject.updateRegistryStatus("Screen Failed", new GregorianCalendar(2006, 05,12).getTime(), null, reasons);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -273,7 +274,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	interruptSession();
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Pre-Enrolled", new GregorianCalendar(2006, 01, 31).getTime(), null);
+    	studySubject.updateRegistryStatus("Pre-Enrolled", new GregorianCalendar(2006, 01, 31).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -298,7 +299,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	interruptSession();
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Enrolled", new GregorianCalendar(2006, 03,20).getTime(), null);
+    	studySubject.updateRegistryStatus("Enrolled", new GregorianCalendar(2006, 03,20).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -315,7 +316,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	//Accrued
     	interruptSession();
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Accrued", new GregorianCalendar(2006, 04,26).getTime(), null);
+    	studySubject.updateRegistryStatus("Accrued", new GregorianCalendar(2006, 04,26).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -340,7 +341,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	interruptSession();
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Active Intervention", new GregorianCalendar(2006, 05,10).getTime(), null);
+    	studySubject.updateRegistryStatus("Active Intervention", new GregorianCalendar(2006, 05,10).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -358,7 +359,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	//Observation
     	interruptSession();
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Observation", new GregorianCalendar(2007, 01,05).getTime(), null);
+    	studySubject.updateRegistryStatus("Observation", new GregorianCalendar(2007, 01,05).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -376,7 +377,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	//Long-Term Followup
     	interruptSession();
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Long-Term Followup", new GregorianCalendar(2009, 03,13).getTime(), null);
+    	studySubject.updateRegistryStatus("Long-Term Followup", new GregorianCalendar(2009, 03,13).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -401,7 +402,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	RegistryStatus registryStatus = registryStatusDao.getRegistryStatusByCode("Completed");
     	reasons.add(registryStatus.getPrimaryReason("DIED"));
     	
-    	studySubject.updateRegistryStatus("Completed", new GregorianCalendar(2010, 07,22).getTime(), reasons);
+    	studySubject.updateRegistryStatus("Completed", new GregorianCalendar(2010, 07,22).getTime(), null, reasons);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -434,7 +435,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	interruptSession();
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Pre-Enrolled", new GregorianCalendar(2006, 01, 31).getTime(), null);
+    	studySubject.updateRegistryStatus("Pre-Enrolled", new GregorianCalendar(2006, 01, 31).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -459,7 +460,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	interruptSession();
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Enrolled", new GregorianCalendar(2006, 03,20).getTime(), null);
+    	studySubject.updateRegistryStatus("Enrolled", new GregorianCalendar(2006, 03,20).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -476,7 +477,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	//Accrued
     	interruptSession();
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Accrued", new GregorianCalendar(2006, 04,26).getTime(), null);
+    	studySubject.updateRegistryStatus("Accrued", new GregorianCalendar(2006, 04,26).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -501,7 +502,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	interruptSession();
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Active Intervention", new GregorianCalendar(2006, 05,10).getTime(), null);
+    	studySubject.updateRegistryStatus("Active Intervention", new GregorianCalendar(2006, 05,10).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -519,7 +520,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	//Observation
     	interruptSession();
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Observation", new GregorianCalendar(2007, 01,05).getTime(), null);
+    	studySubject.updateRegistryStatus("Observation", new GregorianCalendar(2007, 01,05).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -537,7 +538,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	//Long-Term Followup
     	interruptSession();
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Long-Term Followup", new GregorianCalendar(2009, 03,13).getTime(), null);
+    	studySubject.updateRegistryStatus("Long-Term Followup", new GregorianCalendar(2009, 03,13).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -564,7 +565,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	reasons.add(registryStatusReason3);
     	reasons.add(registryStatusReason4);
     	
-    	studySubject.updateRegistryStatus("Withdrawn", new GregorianCalendar(2010, 07,22).getTime(), reasons);
+    	studySubject.updateRegistryStatus("Withdrawn", new GregorianCalendar(2010, 07,22).getTime(), null, reasons);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -597,7 +598,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	interruptSession();
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Pre-Enrolled", new GregorianCalendar(2006, 01, 31).getTime(), null);
+    	studySubject.updateRegistryStatus("Pre-Enrolled", new GregorianCalendar(2006, 01, 31).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -622,7 +623,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	interruptSession();
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Enrolled", new GregorianCalendar(2006, 03,20).getTime(), null);
+    	studySubject.updateRegistryStatus("Enrolled", new GregorianCalendar(2006, 03,20).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -639,7 +640,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	//Accrued
     	interruptSession();
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Accrued", new GregorianCalendar(2006, 04,26).getTime(), null);
+    	studySubject.updateRegistryStatus("Accrued", new GregorianCalendar(2006, 04,26).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();
@@ -663,7 +664,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	interruptSession();
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
-    	studySubject.updateRegistryStatus("Declined Consent", new GregorianCalendar(2006, 05,10).getTime(), null);
+    	studySubject.updateRegistryStatus("Declined Consent", new GregorianCalendar(2006, 05,10).getTime(), null, null);
     	studySubject = studySubjectDao.merge(studySubject);
     	
     	interruptSession();

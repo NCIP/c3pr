@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<study_organizations type="SCC" retired_indicator="false"
+		hosted_mode="1" />
+	<study_organizations version="0" type="SFS"
+	retired_indicator="false" hosted_mode="1" />
+	<study_organizations version="0" type="SST"
+		retired_indicator="false" hosted_mode="1" />
+</dataset>

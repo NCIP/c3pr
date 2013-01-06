@@ -8,19 +8,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
-
 /**
  * The Class UserBasedRecipient. 
  * This is used by the notification framework to send notifications to recipients who are users in 
- * the C3PR system. Hence this class has links to the staff and investigators
+ * the C3PR system. Hence this class has links to the personUser and investigators
  */
 @Entity
 @DiscriminatorValue(value = "ER")
 public class UserBasedRecipient extends Recipient {
 
-    /** The research staff. */
-    private ResearchStaff researchStaff;
+    /** The person user. */
+    private PersonUser personUser;
     
     /** The investigator. */
     private Investigator investigator;
@@ -50,25 +48,27 @@ public class UserBasedRecipient extends Recipient {
 		this.investigator = investigator;
 	}
 
+
 	/**
-	 * Gets the research staff.
-	 * 
-	 * @return the research staff
+	 * Gets the person user.
+	 *
+	 * @return the person user
 	 */
 	@ManyToOne
     @JoinColumn(name = "research_staff_id")
 //    @Cascade(value = { CascadeType.LOCK })
-	public ResearchStaff getResearchStaff() {
-		return researchStaff;
+	public PersonUser getPersonUser() {
+		return personUser;
 	}
 
+
 	/**
-	 * Sets the research staff.
-	 * 
-	 * @param researchStaff the new research staff
+	 * Sets the person user.
+	 *
+	 * @param personUser the new person user
 	 */
-	public void setResearchStaff(ResearchStaff researchStaff) {
-		this.researchStaff = researchStaff;
+	public void setPersonUser(PersonUser personUser) {
+		this.personUser = personUser;
 	}
 	
     /**
@@ -91,9 +91,9 @@ public class UserBasedRecipient extends Recipient {
     		return this.emailAddress;
     	}
 		List<ContactMechanism> cmList = null;		
-		if(researchStaff != null){
+		if(personUser != null){
 			//cmList = researchStaff.getContactMechanisms();
-			return researchStaff.getEmail();
+			return personUser.getEmail();
 		} else {
 			if(investigator != null){
 //				cmList = investigator.getContactMechanisms();
@@ -119,8 +119,8 @@ public class UserBasedRecipient extends Recipient {
     @Transient
 	public String getFullName(){		
 		String fullName = "";		
-		if(researchStaff != null){
-			fullName = researchStaff.getFirstName() +" "+ researchStaff.getLastName();
+		if(personUser != null){
+			fullName = personUser.getFirstName() +" "+ personUser.getLastName();
 		} else {
 			if(investigator != null){
 				fullName = investigator.getFirstName() +" "+ investigator.getLastName();

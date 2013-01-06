@@ -49,20 +49,20 @@ import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.Organization;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.common.StudySiteProtocolVersionRelationship;
+import edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.webservice.common.StudySubjectProtocolVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.PerformedStudySubjectMilestone;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySiteProtocolVersionRelationship;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectProtocolVersionRelationship;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.convertes.SubjectRegistryJAXBToDomainObjectConverterImpl;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverterImpl;
 
 public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 
@@ -189,7 +189,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 
 		healthcareSite = new LocalHealthcareSite();
 		healthcareSite.setCtepCode(TEST_ORG_ID, true);
-		expect(healthcareSiteDao.getByPrimaryIdentifier(TEST_ORG_ID))
+		expect(healthcareSiteDao.getByTypeAndCodeFromLocal(ORG_ID_TYPE_CTEP, TEST_ORG_ID, true))
 				.andReturn(healthcareSite).anyTimes();
 		replay(healthcareSiteDao);
 
@@ -539,11 +539,11 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createDocumentId());
 		
 		//setup studysite
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySite());
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.common.StudySite());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().setOrganization(new Organization());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().getOrganization().getOrganizationIdentifier().add(createOrgId());
 		
-		edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion target = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion();
+		StudySubjectConsentVersion target = new StudySubjectConsentVersion();
 		target.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE1));
 		target.setIdentifier(iso.II(TEST_CONSENTING_DOCID1));
 		target.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD1));
@@ -565,7 +565,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		target.getSubjectConsentAnswer().add(subjectAnswerTarget);
 		studySubjectProtocolVersion.getStudySubjectConsentVersion().add(target);
 		
-		target = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion();
+		target = new StudySubjectConsentVersion();
 		target.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE2));
 		target.setIdentifier(iso.II(TEST_CONSENTING_DOCID2));
 		target.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD2));
@@ -690,8 +690,8 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 				AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY,
 				AddressPartType.CNT))));
 		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE), iso.CD(RACE_ASIAN)));
-		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO),
-				iso.TEL(TEST_PHONE_ISO), iso.TEL(TEST_FAX_ISO)));
+		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO, null),
+				iso.TEL(TEST_PHONE_ISO, null), iso.TEL(TEST_FAX_ISO, null)));
 		return person;
 	}
 	

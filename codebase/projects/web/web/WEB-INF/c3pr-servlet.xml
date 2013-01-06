@@ -227,6 +227,7 @@
     <bean name="/study/viewStudy" id="viewStudyController"
           class="edu.duke.cabig.c3pr.web.study.ViewStudyController" autowire="byName">
          <property name="xmlUtility" ref="studyXmlUtility"/>
+         <property name="remoteXmlUtility" ref="remoteStudyXmlUtility"/>
     </bean>
 
 
@@ -414,48 +415,62 @@
     	<property name="successView" value="admin/investigator_groups_create"/> 
     	<property name="sessionForm" value="true"/>
    		<property name="page">
-        	<bean class="edu.duke.cabig.c3pr.web.admin.InvestigatorsGroupsTab" autowire="byType" />
+        	<bean class="edu.duke.cabig.c3pr.web.admin.InvestigatorsGroupsTab" autowire="byType" /> 
         </property>
     </bean>
     
-     <bean id="c3PRDefaultTabConfigurer" class="edu.duke.cabig.c3pr.web.admin.C3PRDefaultTabConfigurer"
+    <bean id="c3PRDefaultTabConfigurer" class="edu.duke.cabig.c3pr.web.admin.C3PRDefaultTabConfigurer"
                autowire="byName"/>
 
-    <bean name="/personAndOrganization/researchStaff/searchResearchStaff" id="searchResearchStaffController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
-        <property name="viewName" value="/admin/research_staff_search"/>
-    </bean>
-    <bean name="/personAndOrganization/researchStaff/createResearchStaff"
-          id="createResearchStaffController" lazy-init="true"
-          class="edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController"
+    
+    <!-- mapping for PERSON Or USER task -->
+        <bean name="/personAndOrganization/personOrUser/searchPersonOrUser" id="searchPersonOrUserController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.SearchPersonOrUserController"
           autowire="byName">
-        <property name="commandClass" value="edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper"/>
-        <property name="formView" value="admin/research_staff_details"/>
-        <property name="successView" value="admin/research_staff_confirmation"/>
+        <property name="commandClass"
+                  value="edu.duke.cabig.c3pr.web.admin.SearchPersonOrUserWrapper"/>
+        <property name="formView" value="/admin/person_user_search"/>
+        <property name="successView" value="/admin/person_user_search"/>
+    </bean>
+<!--     
+    <bean name="/personAndOrganization/personOrUser/searchPersonOrUser" id="searchPersonOrUserController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
+        <property name="viewName" value="/admin/person_user_search"/>
+    </bean> -->
+    
+    <bean name="/personAndOrganization/personOrUser/createPersonOrUser"
+          id="createPersonOrUserController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.admin.CreatePersonOrUserController"
+          autowire="byName">
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.admin.PersonOrUserWrapper"/>
+        <property name="formView" value="admin/person_user_details"/>
+        <property name="successView" value="admin/person_user_confirmation"/>
         <property name="sessionForm" value="true"/>
         <property name="validators">
             <list>
                 <ref bean="userDuplicateValidator"/>
                 <ref bean="assignedIdentifierDuplicateValidator"/>
+                <ref bean="createPersonUserValidator"/>
             </list>
         </property>
-        
-    </bean>
-	<bean name="/personAndOrganization/researchStaff/editResearchStaff"
-          id="editResearchStaffController" lazy-init="true"
-          class="edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController"
-          autowire="byName" parent="createResearchStaffController">
     </bean>
     
-
+	<bean name="/personAndOrganization/personOrUser/editPersonOrUser"
+          id="editPersonOrUserController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.admin.CreatePersonOrUserController"
+          autowire="byName" parent="createPersonOrUserController">
+    </bean>
+    
+    <bean name="/personAndOrganization/personOrUser/viewPersonOrUser" id="viewPersonOrUserController" autowire="byType"
+          class="edu.duke.cabig.c3pr.web.admin.ViewPersonOrUserController">
+    </bean>
+    <!-- mapping for PERSON Or USER task -->
+    
+    
 	<bean name="/admin/configure" id="configurationController" autowire="byName"
           class="edu.duke.cabig.c3pr.web.admin.ConfigurationController"/>
     <bean name="/personAndOrganization/investigator/viewInvestigator" id="viewInvestigatorController" autowire="byType"
           class="edu.duke.cabig.c3pr.web.admin.ViewInvestigatorController">
-    </bean>
-    
-    <bean name="/personAndOrganization/researchStaff/viewResearchStaff" id="viewResearchStaffController" autowire="byType"
-          class="edu.duke.cabig.c3pr.web.admin.ViewResearchStaffController">
     </bean>
 
     <bean name="/admin/importStudy"
@@ -659,29 +674,29 @@
                             </bean>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Research Staff"
-                                    p:linkName="searchResearchStaffController">
+                                    autowire="byType" p:displayName="Personnel"
+                                    p:linkName="searchPersonOrUserController">
                                 
                                 <property name="subTasks">
                                     <list>
                                             <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                     autowire="byType"
-                                                    p:displayName="Manage Research Staff"
-                                                    p:linkName="searchResearchStaffController">
+                                                    p:displayName="Manage Personnel"
+                                                    p:linkName="searchPersonOrUserController">
 													<property name="subTasks">
 								                        <list>
 															<bean
 								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
-								                                    autowire="byType" p:displayName="Edit Research Staff"
-								                                    p:linkName="editResearchStaffController">
+								                                    autowire="byType" p:displayName="Edit Personnel"
+								                                    p:linkName="editPersonOrUserController">
 															</bean>
 								                        </list>
 								                    </property>
 											</bean>
                                             <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                     autowire="byType"
-                                                    p:displayName="Create Research Staff"
-                                                    p:linkName="createResearchStaffController"/>
+                                                    p:displayName="Create Personnel"
+                                                    p:linkName="createPersonOrUserController"/>
                                     </list>
                                 </property>
 

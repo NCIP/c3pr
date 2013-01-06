@@ -156,5 +156,10 @@ public class OrganizationAssignedIdentifier extends Identifier implements
         if (!this.getValue().equals(other.getValue())) return false;
         return true;
     }
+    
+    @Override
+    public String toString() {
+    	 return " Assigning Organization:" + healthcareSite.getName() + " Identifier Type:" + getType() + " Identifier Value:" + getValue();
+    }
 
 }

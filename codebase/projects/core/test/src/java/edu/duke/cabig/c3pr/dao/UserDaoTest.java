@@ -3,8 +3,8 @@ package edu.duke.cabig.c3pr.dao;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import edu.duke.cabig.c3pr.domain.User;
+import edu.duke.cabig.c3pr.domain.C3PRUser;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 import gov.nih.nci.security.util.StringEncrypter;
@@ -17,17 +17,17 @@ import gov.nih.nci.security.util.StringEncrypter;
  */
 public class UserDaoTest extends ContextDaoTestCase<UserDao> {
     
-	ResearchStaffDao researchStaffDao;
+	PersonUserDao personUserDao;
 	
 	public UserDaoTest(){
-		researchStaffDao = (ResearchStaffDao) getApplicationContext().getBean("researchStaffDao");
+		personUserDao = (PersonUserDao) getApplicationContext().getBean("personUserDao");
 	}
 	
     /**
      * Test domain class.
      */
 	public void testDomainClass() {
-		assertEquals("Wrong Domain Class", User.class, getDao().domainClass());
+		assertEquals("Wrong Domain Class", C3PRUser.class, getDao().domainClass());
 	}
     
     
@@ -37,16 +37,16 @@ public class UserDaoTest extends ContextDaoTestCase<UserDao> {
      * @throws Exception the exception
      */
     public void testSave() throws Exception {
-        ResearchStaff researchStaff = researchStaffDao.getById(1000);
+        PersonUser researchStaff = personUserDao.getById(1000);
         Timestamp timestamp = new Timestamp(new Date().getTime());
         researchStaff.setTokenTime(timestamp);
         researchStaff.setToken(encryptString(researchStaff.getSalt() + researchStaff.getTokenTime().toString()
 				+ "random_string").replaceAll("\\W", "Q"));
-		getDao().save((User)researchStaff);
+		getDao().save((C3PRUser)researchStaff);
         
 		interruptSession();
 		
-		ResearchStaff savedResearchStaff = researchStaffDao.getById(1000);
+		PersonUser savedResearchStaff = personUserDao.getById(1000);
 		assertEquals(savedResearchStaff.getTokenTime(), timestamp);
 		assertNotNull(savedResearchStaff.getToken());
         	

@@ -30,7 +30,6 @@ function createReg(studyId,studySiteName, studySiteVersionId){
 </head>
 <body>
 <tags:controlPanel>
- <c:if test="${command.studySubject.dataEntryStatusString!='Incomplete' }">
 	<form id="manage" name="manage" action="../registration/manageRegistration" method="get" style="display:inline;">
 		<input type="hidden" name="registrationId" value="${command.studySubject.systemAssignedIdentifiers[0] }"/>
 		<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Register another subject" linkhref="javascript:doManage('create',paramString)"/>
@@ -41,7 +40,6 @@ function createReg(studyId,studySiteName, studySiteVersionId){
 			<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage registration" linkhref="javascript:doManage('manage',paramString)"/>
 		</c:if>
 	</form>
- </c:if>
  <tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 </tags:controlPanel>
 <form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="manageCompanion">
@@ -213,17 +211,16 @@ function createReg(studyId,studySiteName, studySiteVersionId){
 				<div class="row">
 					<div class="label"><b><fmt:message key="registration.startDate"/></b>:</div>
 					<div class="value">${childStudySubject.startDateStr}</div>
-				</div>
-				<c:forEach items="${childStudySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
-					<div class="row">
-						<div class="label"><b>Informed Consent ${status.index+1}</b>:</div>
-						<div class="value">${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})</div>
-					</div>
-				</c:forEach>
-					
+				</div>			
 				<div class="row">
-					<div class="label"><b><fmt:message key="registration.consentVersion"/></b>:</div>
-					<div class="value">${childStudySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent.name}</div>
+					<div class="label"><b>Consents </b>:</div>
+					<div class="value">
+						<c:set var="size" value="${fn:length(childStudySubject.studySubjectStudyVersion.studySubjectConsentVersions)}"></c:set>
+						<c:forEach items="${childStudySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+							${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})
+							<c:if test="${size - status.index > 1}"><br></c:if>
+						</c:forEach>
+					</div>
 				</div>
 				<div class="row">
 					<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>:</div>

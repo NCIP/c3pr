@@ -28,8 +28,11 @@ import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
+import edu.duke.cabig.c3pr.constants.NCIRecognizedProgramName;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.constants.StudyCategory;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.constants.StudySponsorType;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
@@ -1611,6 +1614,13 @@ public class StudyDaoTest extends DaoTestCase {
     	List<Study> studies=dao.searchByIdentifier(1000);
     	assertEquals("Wronf number of studies", 1, studies.size());
     }
+    
+    public void testSearchByCoordinatingCenterAssignedIdentifier(){
+    	String coordinatingCenterAssignedStudyIdentifier = "nci1";
+    	Study study = dao.searchByCoordinatingCenterAssignedIdentifier(coordinatingCenterAssignedStudyIdentifier);
+    	assertNotNull(study);
+    	assertEquals(study.getShortTitleText(), "short_title_text");
+    }
 
     public void testSaveOneOrganizationIdentifiersAndOneSystemAssignedIdentifier() throws Exception {
         Study loadedStudy = dao.getById(1000);
@@ -2428,7 +2438,7 @@ public class StudyDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ResearchStaff",  "firstName",
+						"edu.duke.cabig.c3pr.domain.PersonUser",  "firstName",
 						values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -2444,7 +2454,7 @@ public class StudyDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ResearchStaff",  "lastName",
+						"edu.duke.cabig.c3pr.domain.PersonUser",  "lastName",
 						values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -2460,7 +2470,7 @@ public class StudyDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ResearchStaff",  "assignedIdentifier",
+						"edu.duke.cabig.c3pr.domain.PersonUser",  "assignedIdentifier",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -2531,6 +2541,37 @@ public class StudyDaoTest extends DaoTestCase {
 		assertEquals("Wrong number of studies", 3,  studies.size());
 	}
 	
+	public void testAdvancedSearchForStudySiteaSttusDate() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("11/11/1999");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.SiteStatusHistory","startDate", values, ">");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Study> studies = dao.search(criteriaParameters);
+		assertEquals("Wrong number of studies", 0,  studies.size());
+	}
+	
+	public void testAdvancedSearchForStudySiteStatus() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("ACTIVE");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.SiteStatusHistory","siteStudyStatus.code", values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Study> studies = dao.search(criteriaParameters);
+		assertEquals("Wrong number of studies", 0,  studies.size());
+	}
+	
+	
 	public void testAdvancedSearchGivenFundingSponsor() throws Exception {
 		List<String> values = new ArrayList<String>();
        	values.add("1001");
@@ -2546,5 +2587,71 @@ public class StudyDaoTest extends DaoTestCase {
 		assertEquals("Wrong number of studies", 3,  studies.size());
 	}
 	
+	public void testSaveStudyWithSummary4Fields() throws Exception{
+		
+		Study study = new LocalStudy();
+		study.setType("Oncology");
+		study.setPhaseCode("abc");
+		study.setInvestigatorInitiated(true);
+		study.setCategory(StudyCategory.SECTION_2);
+		study.setNciRecognizedProgramName(NCIRecognizedProgramName.Cancer_Biology);
+		study.setSponsorType(StudySponsorType.INDUSTRIAL);
+		dao.save(study);
+		
+		Integer id = study.getId();
+		Study loadedStudy = dao.getById(id);
+		
+		assertTrue("investigator initiated value is wrong",loadedStudy.getInvestigatorInitiated());
+		assertEquals("wrong category returned",StudyCategory.SECTION_2,loadedStudy.getCategory());
+		assertEquals("wrong nci recognized program returned",NCIRecognizedProgramName.Cancer_Biology,loadedStudy.getNciRecognizedProgramName());
+		assertEquals("wrong sponsor type returned",StudySponsorType.INDUSTRIAL,loadedStudy.getSponsorType());
+		
+	}
+	
+	 public void testGetResultSetWithStudyCategory() throws Exception {
+			AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+					.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Study",  "category.code", "SECTION_2", "=");
+
+			List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+			criteriaParameters.add(advancedSearchCriteriaParameter1);
+			
+			List<Study> studies = dao.search(criteriaParameters);
+			assertEquals("Unexpected number of studies", 1,  studies.size());
+		}
+	 
+	 public void testGetResultSetWithStudySponsorType() throws Exception {
+			AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+					.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Study",  "sponsorType.code", "EXTERNALLY_PEER_REVIEWED", "=");
+
+			List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+			criteriaParameters.add(advancedSearchCriteriaParameter1);
+			
+			List<Study> studies = dao.search(criteriaParameters);
+			assertEquals("Unexpected number of studies", 1,  studies.size());
+		}
+	 
+	 public void testGetResultSetWithNCIRecognizedProgram() throws Exception {
+			AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+					.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Study",  "nciRecognizedProgramName.code", "Cancer_Prevention", "=");
+
+			List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+			criteriaParameters.add(advancedSearchCriteriaParameter1);
+			
+			List<Study> studies = dao.search(criteriaParameters);
+			assertEquals("Unexpected number of studies", 1,  studies.size());
+		}
+	 
+	 public void testGetResultSetWithInvestigatorInitiatedIndicator() throws Exception {
+			AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+					.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Study",  "investigatorInitiated", "true", "=");
+
+			List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+			criteriaParameters.add(advancedSearchCriteriaParameter1);
+			
+			List<Study> studies = dao.search(criteriaParameters);
+			assertEquals("Unexpected number of studies", 1,  studies.size());
+		}
 	
 }
+
+

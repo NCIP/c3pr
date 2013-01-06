@@ -49,7 +49,7 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
-						<xsd:element name="studySubjectStatus" type="sr:PerformedStudySubjectMilestone"/>
+						<xsd:element name="studySubjectStatus" type="common:PerformedStudySubjectMilestone"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -64,7 +64,7 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
-						<xsd:element name="studySubjectRegistryStatusHistory" type="sr:DSET_PerformedStudySubjectMilestone"/>
+						<xsd:element name="studySubjectRegistryStatusHistory" type="common:DSET_PerformedStudySubjectMilestone"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -109,7 +109,7 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
-						<xsd:element name="studySubjectConsentVersions" type="sr:DSET_StudySubjectConsentVersion"/>
+						<xsd:element name="studySubjectConsentVersions" type="common:DSET_StudySubjectConsentVersion"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -172,7 +172,7 @@
 			<xsd:element name="QueryStudySubjectRegistryStatusHistoryResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studySubjectRegistryStatusHistory" type="sr:DSET_PerformedStudySubjectMilestone"/>
+						<xsd:element name="studySubjectRegistryStatusHistory" type="common:DSET_PerformedStudySubjectMilestone"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -180,7 +180,7 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="studyIdentifier" type="common:DocumentIdentifier"/>
-						<xsd:element name="registryStatus" type="sr:PerformedStudySubjectMilestone"/>
+						<xsd:element name="registryStatus" type="common:PerformedStudySubjectMilestone"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -217,63 +217,13 @@
 			<xsd:element name="QueryConsentsByStudySubjectResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studySubjectConsents" type="sr:DSET_StudySubjectConsentVersion"/>
+						<xsd:element name="studySubjectConsents" type="common:DSET_StudySubjectConsentVersion"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
-			
-			<xsd:element name="SubjectRegistryFault" type="tns:SubjectRegistryFault"/>
-			<xsd:element name="InvalidStudySubjectDataExceptionFault" type="tns:InvalidStudySubjectDataExceptionFault"/>
-			<xsd:element name="InvalidStudyProtocolExceptionFault" type="tns:InvalidStudyProtocolExceptionFault"/>
-			<xsd:element name="NoSuchStudySubjectExceptionFault" type="tns:NoSuchStudySubjectExceptionFault"/>
-			<xsd:element name="NoSuchPatientExceptionFault" type="tns:NoSuchPatientExceptionFault"/>
-			<xsd:element name="DuplicateStudySubjectExceptionFault" type="tns:DuplicateStudySubjectExceptionFault"/>
-			<xsd:element name="InvalidSiteExceptionFault" type="tns:InvalidSiteExceptionFault"/>
-			<xsd:element name="InvalidQueryExceptionFault" type="tns:InvalidQueryExceptionFault"/>
-			
-			<xsd:complexType name="SubjectRegistryFault">
-				<xsd:sequence>
-					<xsd:element name="message" type="xsd:string" />
-				</xsd:sequence>
-			</xsd:complexType>
-			<xsd:complexType name="InvalidStudySubjectDataExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistryFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="InvalidStudyProtocolExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistryFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="NoSuchStudySubjectExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistryFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="NoSuchPatientExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistryFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="DuplicateStudySubjectExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistryFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="InvalidSiteExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistryFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="InvalidQueryExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectRegistryFault"/>
-				</xsd:complexContent>
-			</xsd:complexType>
 		</xsd:schema>
 	</wsdl:types>
-
+	
 	<wsdl:message name="InitiateStudySubjectRegistryRequestMessage">
 		<wsdl:part name="parameters" element="tns:InitiateStudySubjectRegistryRequest" />
 	</wsdl:message>
@@ -355,25 +305,25 @@
 
 	<!-- Fault Messages -->
 	<wsdl:message name="InvalidStudySubjectDataExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:InvalidStudySubjectDataExceptionFault"></wsdl:part>
+		<wsdl:part name="fault" element="common:InvalidStudySubjectDataExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="InvalidStudyProtocolExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:InvalidStudyProtocolExceptionFault"></wsdl:part>
+		<wsdl:part name="fault" element="common:InvalidStudyProtocolExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="NoSuchStudySubjectExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:NoSuchStudySubjectExceptionFault"></wsdl:part>
+		<wsdl:part name="fault" element="common:NoSuchStudySubjectExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="NoSuchPatientExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:NoSuchPatientExceptionFault"></wsdl:part>
+		<wsdl:part name="fault" element="common:NoSuchPatientExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="DuplicateStudySubjectExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:DuplicateStudySubjectExceptionFault"></wsdl:part>
+		<wsdl:part name="fault" element="common:DuplicateStudySubjectExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="InvalidSiteExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:InvalidSiteExceptionFault"></wsdl:part>
+		<wsdl:part name="fault" element="common:InvalidSiteExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="InvalidQueryExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:InvalidQueryExceptionFault"></wsdl:part>
+		<wsdl:part name="fault" element="common:InvalidQueryExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="SecurityExceptionFaultMessage">
 		<wsdl:part name="fault" element="common:SecurityExceptionFault"></wsdl:part>

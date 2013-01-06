@@ -4,6 +4,7 @@ package edu.duke.cabig.c3pr.webservice.subjectmanagement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import edu.duke.cabig.c3pr.webservice.common.BaseFault;
 
 
 /**
@@ -14,7 +15,7 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name="NoSuchSubjectExceptionFault">
  *   &lt;complexContent>
- *     &lt;extension base="{http://enterpriseservices.nci.nih.gov/SubjectManagementService}SubjectManagementFault">
+ *     &lt;extension base="{http://enterpriseservices.nci.nih.gov/Common}BaseFault">
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "NoSuchSubjectExceptionFault")
 public class NoSuchSubjectExceptionFault
-    extends SubjectManagementFault
+    extends BaseFault
 {
 
 

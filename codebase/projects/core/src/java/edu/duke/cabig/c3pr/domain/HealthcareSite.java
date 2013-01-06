@@ -41,8 +41,8 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     /** The healthcare site investigators. */
     private List<HealthcareSiteInvestigator> healthcareSiteInvestigators = new ArrayList<HealthcareSiteInvestigator>();
 
-    /** The research staffs. */
-    private List<ResearchStaff> researchStaffs = new ArrayList<ResearchStaff>();
+    /** The personUsers. */
+    private List<PersonUser> personUsers = new ArrayList<PersonUser>();
 
     /** The participants. */
     private List<Participant> participants = new ArrayList<Participant>();
@@ -121,42 +121,45 @@ public abstract class HealthcareSite extends Organization implements Comparable<
         this.healthcareSiteInvestigators = healthcareSiteInvestigators;
     }
 
+
     /**
-     * Gets the research staffs.
+     * Gets the person users.
      *
-     * @return the research staffs
+     * @return the person users
      */
     @ManyToMany(mappedBy = "healthcareSites" )
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    public List<ResearchStaff> getResearchStaffs() {
-        return researchStaffs;
+    public List<PersonUser> getPersonUsers() {
+        return personUsers;
     }
 
     /**
-     * Sets the research staffs.
+     * Sets the personUsers.
      *
-     * @param researchStaffs the new research staffs
+     * @param personUsers the new personUsers
      */
-    public void setResearchStaffs(List<ResearchStaff> researchStaffs) {
-        this.researchStaffs = researchStaffs;
+    public void setPersonUsers(List<PersonUser> personUsers) {
+        this.personUsers = personUsers;
     }
 
+ 
     /**
-     * Adds the research staff.
+     * Adds the person user.
      *
-     * @param rs the rs
+     * @param personUser the personUser
      */
-    public void addResearchStaff(ResearchStaff rs) {
-        researchStaffs.add(rs);
+    public void addPersonUser(PersonUser personUser) {
+        personUsers.add(personUser);
     }
 
+
     /**
-     * Removes the research staff.
+     * Removes the person user.
      *
-     * @param rs the rs
+     * @param personUser the personUser
      */
-    public void removeResearchStaff(ResearchStaff rs) {
-        researchStaffs.remove(rs);
+    public void removePersonUser(PersonUser personUser) {
+        personUsers.remove(personUser);
     }
 
     /**
@@ -246,6 +249,12 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     	}
     }
 
+    /**
+     * Sets the nci code.
+     *
+     * @param nciCode the nci code
+     * @param primaryIndicator the primary indicator
+     */
     public void setNCICode(String nciCode, boolean primaryIndicator) {
     	if(!StringUtils.isEmpty(nciCode)){
     		OrganizationAssignedIdentifier identifier = null;

@@ -49,7 +49,7 @@ public class EndpointDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testSaveEndPoint() throws Exception {
-        List<StudySite> sites = studySiteDao.getByCtepCode("code");
+        List<StudySite> sites = studySiteDao.getBySitePrimaryIdentifier("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
             assertEquals(site.getHealthcareSite().getPrimaryIdentifier(), "code");
@@ -92,7 +92,7 @@ public class EndpointDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testSaveTwoEndPointsWithDifferentAttemptedDates() throws Exception {
-        List<StudySite> sites = studySiteDao.getByCtepCode("code");
+        List<StudySite> sites = studySiteDao.getBySitePrimaryIdentifier("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
             assertEquals(site.getHealthcareSite().getPrimaryIdentifier(), "code");
@@ -136,7 +136,7 @@ public class EndpointDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testMergeStudySiteWithEndPoint() throws Exception {
-        List<StudySite> sites = studySiteDao.getByCtepCode("code");
+        List<StudySite> sites = studySiteDao.getBySitePrimaryIdentifier("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
             assertEquals(site.getHealthcareSite().getPrimaryIdentifier(), "code");
@@ -162,7 +162,7 @@ public class EndpointDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testMergeStudySiteWithEndPointAndErrors() throws Exception {
-        List<StudySite> sites = studySiteDao.getByCtepCode("code");
+        List<StudySite> sites = studySiteDao.getBySitePrimaryIdentifier("code");
         assertTrue(sites.size() == 2);
         for (StudySite site : sites) {
             assertEquals(site.getHealthcareSite().getPrimaryIdentifier(), "code");

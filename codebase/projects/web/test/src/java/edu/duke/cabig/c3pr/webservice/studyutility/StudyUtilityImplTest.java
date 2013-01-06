@@ -333,6 +333,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		replay(studyRepository);
 
 		Consent updatedConsent = service.updateStudyConsent(request).getConsent();
+		consent.getVersionNumberText().setUpdateMode(null);
 		assertTrue(BeanUtils.deepCompare(updatedConsent, consent));
 		assertEquals(1, study.getConsents().size());
 		assertTrue(BeanUtils.deepCompare(

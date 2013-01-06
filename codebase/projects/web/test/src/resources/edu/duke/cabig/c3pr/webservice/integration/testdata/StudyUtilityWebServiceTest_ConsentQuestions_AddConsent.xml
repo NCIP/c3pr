@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<consent_questions retired_indicator="false" text="Question 1 UPDATED"
+		code="Question 1 UPDATED" />
+	<consent_questions retired_indicator="false" text="Question 2 UPDATED"
+	code="Question 2 UPDATED" />
+	<consent_questions retired_indicator="false" text="Question 1"
+		code="Question 1" />
+	<consent_questions retired_indicator="false" text="Question 2"
+		code="Question 2" />
+</dataset>

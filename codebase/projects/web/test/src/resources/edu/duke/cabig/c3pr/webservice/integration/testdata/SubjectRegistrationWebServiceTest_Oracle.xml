@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <csm_user user_id="4" login_name="jdoe01" first_name="John" last_name="Doe" organization="" department="" title="" phone_number="" password="rj4g+3AjuuethtxFP2ZrIA==" email_id="denismox@ya.ru" update_date="2010-08-30" migrated_flag="0" premgrt_login_name=""/>
+  <csm_user_group user_group_id="4" user_id="4" group_id="-27"/>
+  <csm_user_group user_group_id="5" user_id="4" group_id="-28"/>
+  <csm_user_group user_group_id="6" user_id="4" group_id="-29"/>
+  <csm_user_group user_group_id="7" user_id="4" group_id="-30"/>
+  <csm_user_group user_group_id="8" user_id="4" group_id="-31"/>
+  <csm_user_group user_group_id="9" user_id="4" group_id="-32"/>
+  <csm_user_group user_group_id="10" user_id="4" group_id="-35"/>
+  <csm_user_group user_group_id="11" user_id="4" group_id="-36"/>
+  <csm_user_group user_group_id="12" user_id="4" group_id="2"/>
+  <csm_user_group user_group_id="13" user_id="4" group_id="-43"/>
+  <csm_user_group user_group_id="14" user_id="4" group_id="-44"/>
+  <csm_user_group user_group_id="15" user_id="4" group_id="-34"/>
+  <csm_user_group user_group_id="16" user_id="4" group_id="-37"/>
+  <csm_user_group user_group_id="17" user_id="4" group_id="-38"/>
+  <csm_user_group user_group_id="18" user_id="4" group_id="-39"/>
+  <csm_user_group user_group_id="19" user_id="4" group_id="-40"/>
+  <csm_user_group user_group_id="20" user_id="4" group_id="-41"/>
+  <csm_user_group user_group_id="21" user_id="4" group_id="-42"/>
+  <csm_user_group user_group_id="22" user_id="4" group_id="-23"/>
+  <csm_user_group user_group_id="23" user_id="4" group_id="-24"/>
+  <csm_user_group user_group_id="24" user_id="4" group_id="-25"/>
+  <csm_user_group user_group_id="25" user_id="4" group_id="-26"/>
+  <csm_user_group user_group_id="26" user_id="4" group_id="-33"/>
+  <csm_user_group_role_pg user_group_role_pg_id="1" user_id="4" role_id="166" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="2" user_id="4" role_id="167" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="3" user_id="4" role_id="168" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="4" user_id="4" role_id="169" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="5" user_id="4" role_id="170" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="6" user_id="4" role_id="171" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="7" user_id="4" role_id="172" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="8" user_id="4" role_id="173" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="9" user_id="4" role_id="174" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="10" user_id="4" role_id="175" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="11" user_id="4" role_id="176" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="12" user_id="4" role_id="177" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="13" user_id="4" role_id="178" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="14" user_id="4" role_id="179" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="15" user_id="4" role_id="180" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="16" user_id="4" role_id="181" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="17" user_id="4" role_id="182" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="18" user_id="4" role_id="187" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="19" user_id="4" role_id="188" protection_group_id="-1" update_date="2010-08-30"/>
+  
+  <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-1000" version="1" first_name="dummy" last_name="dummy" birth_date="2000-01-01" administrative_gender_code="Male" ethnic_group_code="Unknown" retired_indicator="false"/>
+  
+  <STUDIES id="-1000" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDIES id="1000" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  
+  <STUDY_VERSIONS  original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" id="1000" version="0" study_id="1000" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  
+  <ADDRESSES id="1000" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false" participant_id="1000"/>
+  <ADDRESSES id="1002" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false" participant_id="-1000"/>
+  <ADDRESSES id="1001" version="1" street_address="Mayo" city="Mayo" state_code="MN" postal_code="20191" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
+  <ADDRESSES id="1003" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false" />
+  <address_use_assocns />
+  
+  <ORGANIZATIONS id="-1000" version="1" name="dummy" description_text="dummy" dtype="Local" retired_indicator="false" address_id="-1000"/>
+  <ORGANIZATIONS id="1000" version="1" name="Mayo Clinic Rochester" description_text="Mayo Clinic Rochester" dtype="Local" retired_indicator="false" address_id="1001"/>
+  
+  <STUDY_ORGANIZATIONS id="1000" version="1" study_id="1000" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="1001" version="1" study_id="1000" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="1000" version="1" start_date="2010-02-02" stu_version_id="1000" sto_id="1001" retired_indicator="false"/>
+  
+  <STU_SITE_STATUS_HISTORY id="1100" version="1" sto_id="1001" site_study_status="ACTIVE"  start_date="2000-01-01" />
+  
+  <CONSENTS id="1000" version="0" name="General1" description_text="Desc1" version_id="1.0" stu_version_id="1000" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="1000" version="0" text="question1" code="Q11" con_id="1000" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="1001" version="0" text="question2" code="Q12" con_id="1000" retired_indicator="false"/>
+  
+  <CONSENTS id="1001" version="0" name="General2" description_text="Desc2" version_id="2.0" stu_version_id="1000" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="1002" version="0" text="question1" code="Q21" con_id="1001" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="1003" version="0" text="question2" code="Q22" con_id="1001" retired_indicator="false"/>
+  
+  <EPOCHS id="1000" version="1" name="screening" description_text="treatement desc" stu_version_id="1000" type="SCREENING" randomized_indicator="0" epoch_order="1"/>
+  
+  <ARMS id="1000" version="1" name="Arm A" description_text="Arm A desc" target_accrual_number="1000" eph_id="1000" />
+  
+  <INVESTIGATORS id="-1000" version="1" assigned_identifier="dummy" first_name="Rudolph" last_name="Clooney" dtype="Local" />
+  <INVESTIGATORS id="1000" version="1" assigned_identifier="INV_ID" first_name="Rudolph" last_name="Clooney" dtype="Local" />
+  
+  <HC_SITE_INVESTIGATORS id="1000" version="1" status_code="AC" status_date="2000-01-01" inv_id="1000" hcs_id="1000"/>
+  
+  <STUDY_INVESTIGATORS id="1000" version="1" hsi_id="1000" sto_id="1000" start_date="2000-01-01" end_date="2000-01-01" role_code="role1" status_code="AC"/>
+  
+  <DISEASE_CATEGORIES id="1000" version="1" name="Disease"/>
+  
+  <DISEASE_TERMS id="1000" version="1" term="Disease" ctep_term="Disease" category_id="1000" medra_code="10065860"/>
+  
+  <STUDY_DISEASES id="1000" version="1" stu_version_id="1000" disease_term_id="1000" lead_disease="1"/>
+  
+  <ELIGIBILITY_CRITERIA id="1000" version="1" question_number="1" eph_id="1000" question_text="Question" dtype="I"/>
+  
+  <STRATUM_GROUPS id="1000" version="1" current_position="1" stratum_group_number="8" epochs_id="1000" />
+  
+  <STRAT_CRITERIA id="1000" version="1" question_text="Strat Question" eph_id="1000" question_number="1"/>
+  
+  <STRAT_CRI_PER_ANS id="1000" version="1" permissible_answer="Strat Answer" str_cri_id="1000"/>
+  
+  <STRAT_CRI_ANS_CMB id="1000" version="1" sc_id="1000" scpa_id="1000"/>
+  
+  <ICD9_DISEASE_SITES id="1000" version="0" name="Disease Site" code="200" description_text="Disease Site" depth="LEVEL2" selectable="0"  />
+  
+  <DISEASE_HISTORY id="1000" version="1" icd9_disease_site_id="1000" retired_indicator = "false" study_disease_id="1000"/>
+  
+  <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" prt_id="1000" marital_status_code="Single" middle_name="Z" retired_indicator="false" add_id="1003"/>
+  <stu_sub_demographics id="-1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" prt_id="1000" marital_status_code="Single" middle_name="Z" retired_indicator="false" add_id="-1003"/>
+  
+  <race_code_assocn retired_indicator="false"  id="-1000" version="1"  sub_id="-1000" stu_sub_dmgphcs_id="-1000" race_code="White" />
+  <race_code_assocn retired_indicator="false"  id="1000" version="1"  sub_id="1000" race_code="White" />
+  <race_code_assocn retired_indicator="false"  id="1001" version="1"  sub_id="1000" race_code="Asian" />
+  <race_code_assocn retired_indicator="false"  id="1002" version="1"  stu_sub_dmgphcs_id="1000" race_code="White" />
+  <race_code_assocn retired_indicator="false"  id="1003" version="1"  stu_sub_dmgphcs_id="1000" race_code="Asian" />
+  
+  <STUDY_SUBJECTS reg_workflow_status="ON_STUDY" payment_method="private insurance" reg_data_entry_status="COMPLETE" id="1000" version="1" start_date="2000-01-01" stu_sub_dmgphcs_id="1000" sti_id="1000" grid_id="1000" disease_history_id="1000"/>
+  
+  <STUDY_SUBJECT_VERSIONS id="1000" version="1" spa_id="1000" study_site_ver_id="1000" retired_indicator="false"/>
+  
+  <SCHEDULED_EPOCHS id="1000" version="1" stratum_group_number="1" start_date="2010-01-01" off_epoch_date="2010-01-01" eligibility_indicator="1" study_subject_ver_id="1000" eph_id="1000" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="COMPLETE"/>
+  
+  <SUBJECT_STRAT_ANS id="1000" version="1" sceph_id="1000" str_cri_id="1000" STRAT_ANS_ID="1000"/>
+  
+  <SUBJECT_ELIGIBILITY_ANS id="1000" version="1" sceph_id="1000" elgct_id="1000" answer_text="Yes"/>
+  
+  <SCHEDULED_ARMS id="1000" version="1" start_date="2000-01-01" eligibility_indicator="1" arm_id="1000" SCEPH_ID="1000" />  
+  
+  <study_subject_consents id="1000" retired_indicator="false" version="0" informed_consent_signed_tstamp="2010-01-01" study_subject_ver_id="1000" consent_id="1000" consenting_method="WRITTEN" consent_presenter="John Doe" consent_delivery_date="2009-01-01" document_id="DOC_ID1" consent_declined_date="2010-02-02"/>
+  <sub_con_que_ans id="1000" agreement_indicator="1" con_que_id="1000" stu_sub_con_ver_id="1000"/>
+  <sub_con_que_ans id="1001" agreement_indicator="0" con_que_id="1001" stu_sub_con_ver_id="1000"/>
+  <study_subject_consents id="1001" retired_indicator="false" version="0" informed_consent_signed_tstamp="2007-01-01" study_subject_ver_id="1000" consent_id="1001" consenting_method="VERBAL" consent_presenter="Deep Singh" consent_delivery_date="2006-01-01" document_id="DOC_ID2" consent_declined_date="2007-02-02"/>
+  <sub_con_que_ans id="1002" agreement_indicator="1" con_que_id="1002" stu_sub_con_ver_id="1001"/>
+  <sub_con_que_ans id="1003" agreement_indicator="0" con_que_id="1003" stu_sub_con_ver_id="1001"/>
+  
+  <CONTACT_MECHANISMS id="-1000" version="1" prt_id="-1000" type="EMAIL" stu_sub_dmgphcs_id="-1000" value="test@mail.com" dtype="Local" inv_id="-1000"/>
+  <CONTACT_MECHANISMS id="1000" version="1" prt_id="1000" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="1001" version="1" prt_id="1000" type="Fax" value="000-111-2222" dtype="Local"/>
+  <CONTACT_MECHANISMS id="1002" version="1" prt_id="1000" type="PHONE" value="333-444-5555" dtype="Local"/>
+  <CONTACT_MECHANISMS id="1003" version="1" stu_sub_dmgphcs_id="1000" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="1004" version="1" stu_sub_dmgphcs_id="1000" type="Fax" value="000-111-2222" dtype="Local"/>
+  <CONTACT_MECHANISMS id="1005" version="1" stu_sub_dmgphcs_id="1000" type="PHONE" value="333-444-5555" dtype="Local"/>
+  <CONTACT_MECHANISMS id="1006" version="1" inv_id="1000" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <contact_use_assocns />
+  
+  <IDENTIFIERS id="-1000" version="1" value="dummy" type="local" dtype="SAI" stu_id="-1000" hcs_id="-1000" org_id="-1000" stu_sub_dmgphcs_id="-1000" prt_id="-1000" spa_id="1000" retired_indicator="false" primary_indicator="0"/>
+  <IDENTIFIERS id="1000" version="1" value="MN026" type="CTEP" dtype="OAI" hcs_id="-1000" org_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="1001" version="1" value="test_study_id" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" stu_id="1000" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="1002" version="1" value="test_subject_id" type="MRN" dtype="OAI" hcs_id="1000" prt_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="1003" version="1" value="test_subject_id" type="MRN" dtype="OAI" hcs_id="1000" stu_sub_dmgphcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="1004" version="1" value="002" type="COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER" dtype="OAI" hcs_id="1000" spa_id="1000" retired_indicator="false" primary_indicator="1"/>
+  
+  <Reasons id="1000" version="0" code="REASON1" description="REASON1" dtype="OFF_SCREENING" />
+  <Reasons id="1001" version="0" code="REASON2" description="REASON2" dtype="OFF_SCREENING" />
+  
+  <off_epoch_reasons id="1000" version="0" reason_id="1000" sceph_id="1000"/>
+  <off_epoch_reasons id="1001" version="0" reason_id="1001" sceph_id="1000"/>
+</dataset>

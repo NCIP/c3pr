@@ -83,8 +83,10 @@
         <convert converter="bean" match="edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier">
         	<param name="exclude" value="healthcareSite"/>
         </convert>
-        <convert converter="bean" match="edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper">
+        <convert converter="bean" match="edu.duke.cabig.c3pr.web.admin.PersonOrUserWrapper">
         	<param name="exclude" value="healthcareSiteRolesHolderList"/>
+        </convert>
+        <convert converter="bean" match="edu.duke.cabig.c3pr.web.study.StudySiteWrapper">
         </convert>
     </allow>
 

@@ -17,12 +17,12 @@ import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.Organization;
+import edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.common.Person;
+import edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.helpers.SubjectRegistryRelatedTestCase;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.PerformedStudySubjectMilestone;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion;
 
 public class SubjectRegistryJAXBToDomainObjectConverterImplTest extends SubjectRegistryRelatedTestCase {
 
@@ -71,14 +71,14 @@ public class SubjectRegistryJAXBToDomainObjectConverterImplTest extends SubjectR
 	public void testConvertDocumentIdentifier() {
 		DocumentIdentifier docId = createDocumentId();
 
-		Identifier oaId = converter.convertDocumentIdentifiers(Arrays.asList(new DocumentIdentifier[]{docId})).get(0);
+		Identifier oaId = converter.convert(Arrays.asList(new DocumentIdentifier[]{docId})).get(0);
 		assertOrgAssIdDoc((OrganizationAssignedIdentifier)oaId);
 
 		final DocumentIdentifier badBioId = createDocumentId();
 		badBioId.setIdentifier(null);
 		new AssertThrows(ConversionException.class) {
 			public void test() {
-				converter.convertDocumentIdentifiers(Arrays.asList(new DocumentIdentifier[]{badBioId}));
+				converter.convert(Arrays.asList(new DocumentIdentifier[]{badBioId}));
 			}
 		}.runTest();
 
@@ -86,7 +86,7 @@ public class SubjectRegistryJAXBToDomainObjectConverterImplTest extends SubjectR
 		badBioId2.setTypeCode(null);
 		new AssertThrows(ConversionException.class) {
 			public void test() {
-				converter.convertDocumentIdentifiers(Arrays.asList(new DocumentIdentifier[]{badBioId2}));
+				converter.convert(Arrays.asList(new DocumentIdentifier[]{badBioId2}));
 			}
 		}.runTest();
 
@@ -94,7 +94,7 @@ public class SubjectRegistryJAXBToDomainObjectConverterImplTest extends SubjectR
 		badBioId3.setAssigningOrganization(null);
 		new AssertThrows(ConversionException.class) {
 			public void test() {
-				converter.convertDocumentIdentifiers(Arrays.asList(new DocumentIdentifier[]{badBioId3}));
+				converter.convert(Arrays.asList(new DocumentIdentifier[]{badBioId3}));
 			}
 		}.runTest();
 

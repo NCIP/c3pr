@@ -63,34 +63,34 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 	
 	/**
 	 * Test find by nci id.
-	 */
+	 
 	public void testFindByNciId(){
 		RemoteInvestigator remoteInvestigator = getSampleRemoteInvestigatorWithNciId();
 		List<Object> objList = remoteInvestigatorResolver.find(remoteInvestigator);
 		
 		assertNotNull(objList);
 		assertTrue(objList.size() > 0);
-	}
+	}*/
 	
 	/**
 	 * Test find by org.
-	 */
+	 
 	public void testFindByOrganization(){
 		RemoteInvestigator remoteInvestigator = getSampleRemoteInvestigatorWithOrganization();
 		List<Object> objList = remoteInvestigatorResolver.find(remoteInvestigator);
 		
 		assertNotNull(objList);
 		assertTrue(objList.size() > 0);
-	}
+	}*/
 	
 	/**
 	 * Test get remote entity by unique id.
-	 */
+	 
 	public void testGetRemoteEntityByUniqueId(){
 		Object object = remoteInvestigatorResolver.getRemoteEntityByUniqueId("1801787");
 		assertNotNull(object);
 		assertTrue(object instanceof RemoteInvestigator);
-	}
+	}*/
 		
 	
 	public void testHCSIDaoGetBySubnames(){

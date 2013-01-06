@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.web.ajax;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,27 +16,24 @@ import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 
 public class SearchResearchStaffAjaxFacade {
     private static Log log = LogFactory.getLog(SearchResearchStaffAjaxFacade.class);
 
-    private ResearchStaffDao researchStaffDao;
+    private PersonUserDao personUserDao;
 
     private HealthcareSiteDao healthcareSiteDao;
 
-    public Object build(TableModel model, Collection rStaffResults) throws Exception {
+    public Object build(TableModel model, Collection<PersonUser> rStaffResults) throws Exception {
 
         Table table = model.getTableInstance();
         table.setAutoIncludeParameters(false);
         table.setTableId("assembler");
         table.setItems(rStaffResults);
         table.setAction(model.getContext().getContextPath() + "/pages/admin/editResearchStaff");
-        table.setTitle("Research Staff");
+        table.setTitle("Person or User");
         table.setShowPagination(false);
         table.setOnInvokeAction("buildTable('assembler')");
         table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
@@ -71,55 +67,75 @@ public class SearchResearchStaffAjaxFacade {
         columnNci.setProperty("externalId");
         columnNci.setCell((NciIdLinkDisplayCell.class).getName());
         model.addColumn(columnNci);
+        
+        Column columnEmail = model.getColumnInstance();
+        columnEmail.setTitle("Email");
+        columnEmail.setProperty("email");
+        model.addColumn(columnEmail);
 
         return model.assemble();
     }
 
-    public String getTable(Map<String, List> parameterMap, String[] params,
-                    HttpServletRequest request) {
-
-        LocalResearchStaff rStaff = new LocalResearchStaff();
-        if (!StringUtils.isBlank(params[0])) {
-            rStaff.setFirstName(params[0]);
-        }
-        if (!StringUtils.isBlank(params[1])) {
-            rStaff.setLastName(params[1]);
-        }
-        if (!StringUtils.isBlank(params[2])) {
-            rStaff.setAssignedIdentifier(params[2]);
-        }
-        if (!StringUtils.isBlank(params[3])) {
-            HealthcareSite healthcareSite = healthcareSiteDao.getById(Integer.parseInt(params[3]));
-            rStaff.addHealthcareSite(healthcareSite);
-        }
-
-        List<ResearchStaff> rStaffResults = researchStaffDao.searchByExample(rStaff, true);
-
-        Context context = null;
-        if (parameterMap == null) {
-            context = new HttpServletRequestContext(request);
-        }
-        else {
-            context = new HttpServletRequestContext(request, parameterMap);
-        }
+//    public String getTable(Map<String, List> parameterMap, String[] params,
+//                    HttpServletRequest request) {
+//
+//        LocalResearchStaff rStaff = new LocalResearchStaff();
+//        if (!StringUtils.isBlank(params[0])) {
+//            rStaff.setFirstName(params[0]);
+//        }
+//        if (!StringUtils.isBlank(params[1])) {
+//            rStaff.setLastName(params[1]);
+//        }
+//        if (!StringUtils.isBlank(params[2])) {
+//            rStaff.setAssignedIdentifier(params[2]);
+//        }
+//        if (!StringUtils.isBlank(params[3])) {
+//            HealthcareSite healthcareSite = healthcareSiteDao.getById(Integer.parseInt(params[3]));
+//            rStaff.addHealthcareSite(healthcareSite);
+//        }
+//
+//        List<ResearchStaff> rStaffResults = personUserDao.searchByExample(rStaff, true);
+//
+//        Context context = null;
+//        if (parameterMap == null) {
+//            context = new HttpServletRequestContext(request);
+//        }
+//        else {
+//            context = new HttpServletRequestContext(request, parameterMap);
+//        }
+//
+//        TableModel model = new TableModelImpl(context);
+//        try {
+//            return build(model, rStaffResults).toString();
+//        }
+//        catch (Exception e) {
+//            log.error("Exception caught in SearchresearchStaffAjaxFacade", e);
+//        }
+//
+//        return "";
+//    }
+    
+    public String getPersonOrUserTable(Map parameterMap, HttpServletRequest request) {
+        Context context = new HttpServletRequestContext(request);
 
         TableModel model = new TableModelImpl(context);
+        //Collection<PersonOrUserWrapper> personOrUserWrapperList = (Collection<PersonOrUserWrapper>) parameterMap.get("personOrUserResults");
+        Collection<PersonUser> personOrUserWrapperList = (Collection<PersonUser>) parameterMap.get("personOrUserResults");
         try {
-            return build(model, rStaffResults).toString();
+            return build(model, personOrUserWrapperList).toString();
         }
         catch (Exception e) {
-            log.error("Exception caught in SearchresearchStaffAjaxFacade", e);
+            log.debug(e.getMessage());
         }
-
         return "";
     }
 
-    public ResearchStaffDao getResearchStaffDao() {
-        return researchStaffDao;
+    public PersonUserDao getPersonUserDao() {
+        return personUserDao;
     }
 
-    public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-        this.researchStaffDao = researchStaffDao;
+    public void setPersonUserDao(PersonUserDao personUserDao) {
+        this.personUserDao = personUserDao;
     }
 
     public HealthcareSiteDao getHealthcareSiteDao() {

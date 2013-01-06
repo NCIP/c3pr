@@ -43,10 +43,10 @@ public class StudyPersonnelTest extends AbstractTestCase{
 		int prime = 31;
 		StudyPersonnel studyPersonnel1 = new StudyPersonnel();
 		assertEquals("Wrong hash code",prime*prime*prime,studyPersonnel1.hashCode());
-		ResearchStaff localResearchStaff = new LocalResearchStaff();
+		PersonUser localResearchStaff = new LocalPersonUser();
 		String roleCode = "Site Coordinator";
 		
-		studyPersonnel1.setResearchStaff(localResearchStaff);
+		studyPersonnel1.setPersonUser(localResearchStaff);
 		studyPersonnel1.setRoleCode(roleCode);
 		
 		assertEquals("Wrong hash code",(((prime+localResearchStaff.hashCode())*prime)+roleCode.hashCode())*prime,studyPersonnel1.hashCode());
@@ -86,9 +86,9 @@ public class StudyPersonnelTest extends AbstractTestCase{
 	public void testEquals3() throws Exception{
 		StudyPersonnel studyPersonnel1 = new StudyPersonnel();
 		StudyPersonnel studyPersonnel2 = new StudyPersonnel();
-		ResearchStaff localResearchStaff = new LocalResearchStaff();
-		studyPersonnel1.setResearchStaff(localResearchStaff);
-		studyPersonnel2.setResearchStaff(localResearchStaff);
+		PersonUser localResearchStaff = new LocalPersonUser();
+		studyPersonnel1.setPersonUser(localResearchStaff);
+		studyPersonnel2.setPersonUser(localResearchStaff);
 		
 		assertTrue("The two study personnel should be equal",studyPersonnel1.equals(studyPersonnel2));
 	}

@@ -171,17 +171,10 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 		Date currentDate = new Date();
 		Date versionDate = studyVersion.getVersionDate();
 		Date oldestAllowableIRBApprovalDate;
+		
+		// removed the check that IRB approval date cannot be older than 1 yr old in relation to cpr-2193
 
-		GregorianCalendar calendar = new GregorianCalendar();
-		calendar.setTime(currentDate);
-		calendar.add(calendar.YEAR, -1);
-		Date oneYearOldDate = calendar.getTime();
-
-		if (versionDate.before(oneYearOldDate)) {
-			oldestAllowableIRBApprovalDate = oneYearOldDate;
-		} else {
-			oldestAllowableIRBApprovalDate = versionDate;
-		}
+		oldestAllowableIRBApprovalDate = versionDate;
 		
         allowedOldDate = CommonUtils.getDateString(oldestAllowableIRBApprovalDate);
         todayDate = CommonUtils.getDateString(currentDate);

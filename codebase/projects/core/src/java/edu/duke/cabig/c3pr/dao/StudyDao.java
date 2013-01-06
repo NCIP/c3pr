@@ -142,6 +142,24 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
                             + " and I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
                             new Object[] { id.getSystemName(), id.getValue(), id.getType()});
     }
+    
+    /**
+     * Search by coordinating center assigned identifier. Assumes that the CCAI assigned to a study is unique across all 
+     * studies. MEaning no two different sites will assign the same id to different studies. This is a CSM assumption for protection group Ids.
+     *
+     * @param id the id
+     * @return the list
+     */
+    @SuppressWarnings("unchecked")
+    public Study searchByCoordinatingCenterAssignedIdentifier(String coordinatingCenterAssignedStudyIdentifier) {
+        List<Study> studyList =  (List<Study>) getHibernateTemplate()
+                        .find("select S from Study S, Identifier I where I.value=? and I.typeInternal = 'COORDINATING_CENTER_IDENTIFIER' and I=any elements(S.identifiers)",
+                            new Object[] {coordinatingCenterAssignedStudyIdentifier});
+        if(studyList.size() > 0){
+        	return studyList.get(0);
+        }
+        return null;
+    }
 
     /**
      * Search by organization identifier.
@@ -247,7 +265,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
             	getHibernateTemplate().initialize(studyInvestigator.getHealthcareSiteInvestigator().getInvestigator().getContactMechanisms());
             }
             for(StudyPersonnel studyPersonnel:studyOrganization.getStudyPersonnelInternal()){
-            	getHibernateTemplate().initialize(studyPersonnel.getResearchStaff().getContactMechanisms());
+            	getHibernateTemplate().initialize(studyPersonnel.getPersonUser().getContactMechanisms());
             }
             getHibernateTemplate().initialize(studyOrganization.getEndpoints());
             healthcareSiteDao.initialize(studyOrganization.getHealthcareSite());
@@ -432,6 +450,8 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 						
 						//TODO: Check to see if it exists as localStudy by using the searchByOrganizationAssignedIdentifier()
 						save(remoteStudyTemp);
+					} else {
+						log.debug("Not saving the study as a study with the external Id :"+remoteStudyTemp.getExternalId()+" already exists in the system.");
 					}
 					getHibernateTemplate().flush();
 				} else {

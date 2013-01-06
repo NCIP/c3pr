@@ -8,8 +8,8 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
-import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.RemotePersonUser;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 
 /**
  * The Class OrganizationNciIdLinkDisplayCell.
@@ -39,10 +39,10 @@ public class NciIdLinkDisplayCell extends AbstractCell {
             } else {
             	cellValue = "Not specified";
             }
-    	} else if(model.getCurrentRowBean() instanceof ResearchStaff ){
-    		ResearchStaff rStaff = (ResearchStaff)model.getCurrentRowBean();
-    		//getting the external Id (NCI Identifier) if ResearchStaff if remote.
-    		if(rStaff instanceof RemoteResearchStaff){
+    	} else if(model.getCurrentRowBean() instanceof PersonUser ){
+    		PersonUser rStaff = (PersonUser)model.getCurrentRowBean();
+    		//getting the external Id (NCI Identifier) if PersonUser if remote.
+    		if(rStaff instanceof RemotePersonUser){
             	cellValue = column.getValueAsString();
             } else {
             	cellValue = "Not specified";

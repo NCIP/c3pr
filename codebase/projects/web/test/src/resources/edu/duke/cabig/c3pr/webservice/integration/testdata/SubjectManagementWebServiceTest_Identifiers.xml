@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-	<identifiers type="MRN" dtype="OAI" />		
+    <identifiers type="COOPERATIVE_GROUP_IDENTIFIER" dtype="OAI" primary_indicator="0"/>
+    <identifiers type="MRN" dtype="OAI" primary_indicator="1"/>
 </dataset>

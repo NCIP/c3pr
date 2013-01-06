@@ -13,7 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
+import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.ReasonDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -45,6 +47,19 @@ public class RegistrationAdvancedSearchController extends AdvancedSearchControll
         refdata.put("offReservingEpochReasons", reasonDao.getOffReservingReasons());
         refdata.put("offTreatmentEpochReasons", reasonDao.getOffTreatmentReasons());
         refdata.put("offFollowupEpochReasons", reasonDao.getOffFollowupReasons());
+        
+        Map<String,Object> studyStatusMap = new HashMap<String,Object>();
+        for(CoordinatingCenterStudyStatus studyStatus : CoordinatingCenterStudyStatus.values()){
+        	studyStatusMap.put(studyStatus.getName(), studyStatus.getCode());
+        }
+        refdata.put("statusRefData",studyStatusMap);
+        
+        Map<String,Object> scheduledEpochStatusMap = new HashMap<String,Object>();
+        for(ScheduledEpochWorkFlowStatus scheduledEpochStatus : ScheduledEpochWorkFlowStatus.values()){
+        	scheduledEpochStatusMap.put(scheduledEpochStatus.getName(), scheduledEpochStatus.getCode());
+        }
+        
+        refdata.put("scheduledEpochStatusRefData",scheduledEpochStatusMap);
 
         
         return refdata;

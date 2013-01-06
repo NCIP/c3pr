@@ -175,9 +175,11 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
     				errors.reject("duplicateRegistration","Subject already registered on this study");
     	        }
 		}
-        registrationControllerUtils.buildCommandObject(command.getStudySubject());
-        registrationControllerUtils.addConsents(command.getStudySubject());
-        studySiteDao.initialize(command.getStudySubject().getStudySite());
+		studySubjectDao.initialize(studySubject);
+		if(!errors.hasErrors()){
+			registrationControllerUtils.buildCommandObject(command.getStudySubject());
+			registrationControllerUtils.addConsents(command.getStudySubject());
+		}
     }
 
     @Override

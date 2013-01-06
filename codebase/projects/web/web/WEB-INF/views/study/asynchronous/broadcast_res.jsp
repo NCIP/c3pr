@@ -21,7 +21,7 @@ new Element.hide('broadcastResponseCheckWait');
 			</font><br></strong>
 		</div>
 		<div align="center" style="padding-top: 20px">
-		<tags:button type="button" color="red" icon="x" value="Close" onclick="contentWin.close();" />
+		<tags:button type="button" color="blue" value="Ok" onclick="contentWin.close();" />
 		</div>
 	</c:when>
 	<c:when test="${!empty codedError}">

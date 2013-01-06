@@ -50,45 +50,60 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
          * 
          * @param objectId
          */
-        public void messageSendSuccessful(String objectId) {
-            gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
-                            "C3PR Admin", "CCTS Callback", new Date(), "CCTS Callback"));
-            log.debug("Recording successful send for objectId" + objectId);
-            InteroperableAbstractMutableDeletableDomainObject domainObject = (InteroperableAbstractMutableDeletableDomainObject) getDomainObject(objectId);
-            domainObject.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND);
-            domainObject.setCctsErrorString(null);
-            try {
-            	dao.save(domainObject);
-			} catch (RuntimeException e) {
-				log.error(e);
+		public void messageSendSuccessful(String objectId) {
+			gov.nih.nci.cabig.ctms.audit.DataAuditInfo
+					.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
+							"C3PR Admin", "CCTS Callback", new Date(),
+							"CCTS Callback"));
+			log.debug("Recording successful send for objectId" + objectId);
+			InteroperableAbstractMutableDeletableDomainObject domainObject = (InteroperableAbstractMutableDeletableDomainObject) getDomainObject(objectId);
+			if (domainObject != null) {
+				domainObject
+						.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND);
+				domainObject.setCctsErrorString(null);
+				try {
+					dao.save(domainObject);
+				} catch (RuntimeException e) {
+					log.error(e);
+				}
 			}
-        }
+		}
 
-        public void messageSendFailed(String objectId) {
-            gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
-                            "C3PR Admin", "CCTS Callback", new Date(), "CCTS Callback"));
-            log.debug("Recording send failed for objectId" + objectId);
-            InteroperableAbstractMutableDeletableDomainObject domainObject = (InteroperableAbstractMutableDeletableDomainObject) getDomainObject(objectId);
-            domainObject.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
-            try {
-            	dao.save(domainObject);
-			} catch (RuntimeException e) {
-				log.error(e);
+		public void messageSendFailed(String objectId) {
+			gov.nih.nci.cabig.ctms.audit.DataAuditInfo
+					.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
+							"C3PR Admin", "CCTS Callback", new Date(),
+							"CCTS Callback"));
+			log.debug("Recording send failed for objectId" + objectId);
+			InteroperableAbstractMutableDeletableDomainObject domainObject = (InteroperableAbstractMutableDeletableDomainObject) getDomainObject(objectId);
+			if (domainObject != null) {
+				domainObject
+						.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
+				try {
+					dao.save(domainObject);
+				} catch (RuntimeException e) {
+					log.error(e);
+				}
 			}
-        }
+		}
         
-        public void messageAcknowledgmentFailed(String objectId) {
-            gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
-                            "C3PR Admin", "CCTS Callback", new Date(), "CCTS Callback"));
-            log.debug("Recording acknowledgment failed for objectId" + objectId);
-            InteroperableAbstractMutableDeletableDomainObject domainObject = (InteroperableAbstractMutableDeletableDomainObject) getDomainObject(objectId);
-            domainObject.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_ACK_FAILED);
-            try {
-            	dao.save(domainObject);
-			} catch (RuntimeException e) {
-				log.error(e);
+		public void messageAcknowledgmentFailed(String objectId) {
+			gov.nih.nci.cabig.ctms.audit.DataAuditInfo
+					.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
+							"C3PR Admin", "CCTS Callback", new Date(),
+							"CCTS Callback"));
+			log.debug("Recording acknowledgment failed for objectId" + objectId);
+			InteroperableAbstractMutableDeletableDomainObject domainObject = (InteroperableAbstractMutableDeletableDomainObject) getDomainObject(objectId);
+			if (domainObject != null) {
+				domainObject
+						.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_ACK_FAILED);
+				try {
+					dao.save(domainObject);
+				} catch (RuntimeException e) {
+					log.error(e);
+				}
 			}
-        }
+		}
 
         /**
          * Confirm that message was sent to CCTS Hub and confirmation was received
@@ -101,11 +116,14 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
                             "C3PR Admin", "CCTS Callback", new Date(), "CCTS Callback"));
             log.debug("Recording send confirmed for objectId" + objectId);
             InteroperableAbstractMutableDeletableDomainObject domainObject = (InteroperableAbstractMutableDeletableDomainObject) getDomainObject(objectId);
-            domainObject.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
-            try {
-				dao.merge(domainObject);
-			} catch (RuntimeException e) {
-				log.error(e);
+			if (domainObject != null) {
+				domainObject
+						.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
+				try {
+					dao.merge(domainObject);
+				} catch (RuntimeException e) {
+					log.error(e);
+				}
 			}
         }
 
@@ -114,12 +132,14 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
                             "C3PR Admin", "CCTS Callback", new Date(), "CCTS Callback"));
             log.debug("Recording error for objectId" + objectId);
             InteroperableAbstractMutableDeletableDomainObject domainObject = (InteroperableAbstractMutableDeletableDomainObject) getDomainObject(objectId);
-            domainObject.setCctsErrorString(buildErrorString(errors));
-            try {
-            	dao.save(domainObject);
-			} catch (RuntimeException e) {
-				log.error(e);
-			}            
+			if (domainObject != null) {
+				domainObject.setCctsErrorString(buildErrorString(errors));
+				try {
+					dao.save(domainObject);
+				} catch (RuntimeException e) {
+					log.error(e);
+				}
+			}
         }
         
         public String buildErrorString(ResponseErrors errors){

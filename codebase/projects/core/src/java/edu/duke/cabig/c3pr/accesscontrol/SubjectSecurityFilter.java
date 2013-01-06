@@ -54,7 +54,7 @@ public class SubjectSecurityFilter implements DomainObjectSecurityFilterer{
 	
 	private boolean hasSiteAndStudyLevelAccess(Participant participant){
 		//load all the roles the user has with the specified privilege
-		Set<C3PRUserGroupType> userRoles = SecurityUtils.getUserRoles(UserPrivilegeType.SUBJECT_READ);
+		Set<C3PRUserGroupType> userRoles = SecurityUtils.getRolesForLoggedInUser(UserPrivilegeType.SUBJECT_READ);
 		Iterator<C3PRUserGroupType> iter = userRoles.iterator();
 
 		//build a list of organizations which have assigned identifiers to the participant.
@@ -73,7 +73,7 @@ public class SubjectSecurityFilter implements DomainObjectSecurityFilterer{
 				return true;
 			} else {
 				if(SecurityUtils.hasAllSiteAccess(role) || hasSiteLevelAccessPermission(SecurityUtils
-						.buildUserAccessibleOrganizationIdsList(role), participantOrganizations)){
+						.buildAccessibleOrganizationIdsListForLoggedInUser(role), participantOrganizations)){
 					return true;
 				}
 			}

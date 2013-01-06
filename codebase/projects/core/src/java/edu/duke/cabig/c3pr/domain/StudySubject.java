@@ -33,7 +33,6 @@ import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.EpochType;
@@ -75,7 +74,7 @@ import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SUBJECTS_ID_SEQ") })
 @Where(clause = "reg_workflow_status  != 'INVALID'")
 public class StudySubject extends
-		InteroperableAbstractMutableDeletableDomainObject implements Customizable,IdentifiableObject{
+		InteroperableAbstractMutableDeletableDomainObject implements Customizable, IdentifiableObject, CCTSBroadcastEnabledDomainObject {
 
 	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
@@ -1769,7 +1768,7 @@ public class StudySubject extends
 		if(!this.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
 			return false ;
 		}
-		for(CompanionStudyAssociation companionStudyAssociation : this.getStudySite().getStudy().getCompanionStudyAssociations()){
+		for(CompanionStudyAssociation companionStudyAssociation : this.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudyVersion().getCompanionStudyAssociations()){
 			if (companionStudyAssociation.getMandatoryIndicator()) {
 				boolean hasCorrespondingStudySubject = false;
 				for (StudySubject childStudySubject : this.getChildStudySubjects()) {
@@ -1885,10 +1884,10 @@ public class StudySubject extends
 	 * @return true, if is assigned and active personnel
 	 */
 	@Transient
-	public boolean isAssignedAndActivePersonnel(ResearchStaff researchStaff){
+	public boolean isAssignedAndActivePersonnel(PersonUser researchStaff){
 		//Checking if staff belongs to the site of registration
 		for(StudyPersonnel studyPersonnel : getStudySite().getActiveStudyPersonnel()){
-			if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+			if(studyPersonnel.getPersonUser().equals(researchStaff)){
 				return true;
 			}
 		}
@@ -1910,7 +1909,7 @@ public class StudySubject extends
 			}
 			if(coordinatingCenterStudySite != null){
 				for(StudyPersonnel studyPersonnel : coordinatingCenterStudySite.getActiveStudyPersonnel()){
-					if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+					if(studyPersonnel.getPersonUser().equals(researchStaff)){
 						return true;
 					}
 				}
@@ -1920,7 +1919,7 @@ public class StudySubject extends
 			StudyOrganization studyOrganizationCoordinatingCenter = getStudySite().getStudy().getStudyCoordinatingCenter();
 			if(studyOrganizationCoordinatingCenter != null){
 				for(StudyPersonnel studyPersonnel : studyOrganizationCoordinatingCenter.getActiveStudyPersonnel()){
-					if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+					if(studyPersonnel.getPersonUser().equals(researchStaff)){
 						return true;
 					}
 				}
@@ -1975,7 +1974,7 @@ public class StudySubject extends
 		return false;
 	}
 	
-	public void allowEligibilityWaiver(List<EligibilityCriteria> eligibilityCriteriaList, ResearchStaff waivedBy){
+	public void allowEligibilityWaiver(List<EligibilityCriteria> eligibilityCriteriaList, PersonUser waivedBy){
 		if(!canAllowEligibilityWaiver()){
 			throw new C3PRBaseRuntimeException("Cannot allow waiver. Either there are no invalid eligibility answers or the scheduled epoch is not in pending state.");
 		}
@@ -2248,6 +2247,9 @@ public class StudySubject extends
 			
 			// obtain the study version object from study based on study version name
 			StudyVersion reConsentingStudyVersion = this.getStudySite().getStudy().getStudyVersion(studyVersionName);
+			
+			StudySubjectStudyVersion studySubjectStudyVersion = new StudySubjectStudyVersion();
+			studySubjectStudyVersion.setStudySiteStudyVersion(this.getStudySite().getStudySiteStudyVersionGivenStudyVersionName(studyVersionName));
 		
 			for(StudySubjectConsentVersion studySubjectConsentVersionHolder :studySubjectConsentVersionsHolder){
 				
@@ -2284,13 +2286,13 @@ public class StudySubject extends
 				newStudySubjectConsentVersion.setInformedConsentSignedDate(studySubjectConsentVersionHolder.getInformedConsentSignedDate());
 				
 				// Create new study subject study version and add study subject consent versions to it.
-				StudySubjectStudyVersion studySubjectStudyVersion = new StudySubjectStudyVersion();
-				studySubjectStudyVersion.setStudySiteStudyVersion(this.getStudySite().getStudySiteStudyVersionGivenStudyVersionName(studyVersionName));
+				
 				studySubjectStudyVersion.addStudySubjectConsentVersion(newStudySubjectConsentVersion);
-				this.addStudySubjectStudyVersion(studySubjectStudyVersion);
 			}
+			this.addStudySubjectStudyVersion(studySubjectStudyVersion);
 			// validate mandatory indicator
 			validateMandatoryInformedConsents(reConsentingStudyVersion);
+			
 		} else{
 		
 			// throw exception when study subject cannot consent on the given study version.
@@ -2396,7 +2398,7 @@ public class StudySubject extends
 	}
 	
 	@Transient
-	public void updateRegistryStatus(String code, Date effectiveDate, List<RegistryStatusReason> reasons){
+	public void updateRegistryStatus(String code, Date effectiveDate, String comment, List<RegistryStatusReason> reasons){
 		PermissibleStudySubjectRegistryStatus status = null;
 		for(PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus : getStudySite().getStudy().getPermissibleStudySubjectRegistryStatuses()){
 			if(permissibleStudySubjectRegistryStatus.getRegistryStatus().getCode().equals(code)){
@@ -2428,9 +2430,9 @@ public class StudySubject extends
 						("C3PR.EXCEPTION.REGISTRY.INVALID_STATUS_REASON.CODE"),
 						new String[] {code});
 			}
-			studySubjectRegistryStatusHistory.add(new StudySubjectRegistryStatus(effectiveDate, status, reasons));
+			studySubjectRegistryStatusHistory.add(new StudySubjectRegistryStatus(effectiveDate, status, comment, reasons));
 		}else{
-			studySubjectRegistryStatusHistory.add(new StudySubjectRegistryStatus(effectiveDate, status));
+			studySubjectRegistryStatusHistory.add(new StudySubjectRegistryStatus(effectiveDate, status, comment));
 		}
 	}
 	

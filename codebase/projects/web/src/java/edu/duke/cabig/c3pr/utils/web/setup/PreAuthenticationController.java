@@ -9,19 +9,18 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordManagerService;
 import edu.duke.cabig.c3pr.setup.SetupStatus;
-import edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController;
-import edu.duke.cabig.c3pr.web.admin.HealthcareSiteRolesHolder;
-import edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper;
+import edu.duke.cabig.c3pr.web.admin.CreatePersonOrUserController;
+import edu.duke.cabig.c3pr.web.admin.PersonOrUserWrapper;
 
 /**
  * @author Kruttik Aggarwal
  */
-public class PreAuthenticationController extends CreateResearchStaffController {
+public class PreAuthenticationController extends CreatePersonOrUserController {
 
     private Logger log = Logger.getLogger(PreAuthenticationController.class);
     
@@ -31,8 +30,8 @@ public class PreAuthenticationController extends CreateResearchStaffController {
     
 	@Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-		ResearchStaffWrapper wrapper = (ResearchStaffWrapper)command;
-    	ResearchStaff researchStaff = wrapper.getResearchStaff();
+		PersonOrUserWrapper wrapper = (PersonOrUserWrapper)command;
+    	PersonUser personUser = wrapper.getPersonUser();
     	String userName = wrapper.getUserName();
 
     	String password = request.getParameter("password");
@@ -40,18 +39,18 @@ public class PreAuthenticationController extends CreateResearchStaffController {
 		
 		if(!WebUtils.hasSubmitParameter(request, "errorPassword")){
 			ModelAndView mv = super.onSubmit(request, response, command, errors);
-			researchStaffDao.flush();
+			personUserDao.flush();
 			if(errors.hasErrors()){
 				return showForm(request, response, errors);
 	        }
-			researchStaff = ((ResearchStaffWrapper)mv.getModel().get("command")).getResearchStaff();
+			personUser = ((PersonOrUserWrapper)mv.getModel().get("command")).getPersonUser();
 		}else{
 			// just set the password
 		}
 		userName = userName.toLowerCase();
         try {
         	confirmedPassword(password, confirmedPassword);
-            passwordManagerService.setPassword(userName, confirmedPassword, researchStaff.getToken());
+            passwordManagerService.setPassword(userName, confirmedPassword, personUser.getToken());
             setupStatus.recheck();
         } catch (C3PRBaseRuntimeException e) {
             errors.reject("password",e.getMessage());

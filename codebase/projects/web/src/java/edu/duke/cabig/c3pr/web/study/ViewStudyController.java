@@ -12,10 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.domain.LocalStudy;
+import edu.duke.cabig.c3pr.domain.RemoteStudy;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudyOrganization;
-import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyIdentifiersTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyInvestigatorsTab;
@@ -36,9 +35,19 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 public class ViewStudyController extends StudyController<StudyWrapper> {
 
     private XmlMarshaller xmlUtility;
+    private XmlMarshaller remoteXmlUtility;
     private final String DO_NOT_SAVE = "_doNotSave" ;
 
-    public ViewStudyController() {
+
+	public XmlMarshaller getRemoteXmlUtility() {
+		return remoteXmlUtility;
+	}
+
+	public void setRemoteXmlUtility(XmlMarshaller remoteXmlUtility) {
+		this.remoteXmlUtility = remoteXmlUtility;
+	}
+
+	public ViewStudyController() {
         super("View Study Details");
         setBindOnNewForm(true);
     }
@@ -109,7 +118,11 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
             response.setContentType("application/xml");
             String fileName = "study-" + study.getId() + ".xml";
             response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-            xmlUtility.toXML(study, response.getWriter());
+            if(study instanceof LocalStudy){
+            	xmlUtility.toXML(study, response.getWriter());
+            }else if(study instanceof RemoteStudy){
+            	remoteXmlUtility.toXML(study, response.getWriter());
+            }
             response.getWriter().close();
 
             return null;

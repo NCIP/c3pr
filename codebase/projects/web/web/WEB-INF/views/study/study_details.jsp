@@ -239,6 +239,21 @@
             	<tags:hoverHint keyProp="study.precisText"/>
             </div>
         </div>
+        <div class="row">
+	        <div class="label">
+	        	<fmt:message key="study.sponsorType"/>	
+	        </div>
+		    <div class="value">
+            	<form:select path="study.sponsorType">
+            		<option value="">Please Select </option>
+	            	<c:forEach items="${studySponsorRefData}" var="studySponsorType" varStatus="studySponsorTypeIndex">
+	            		<form:option value="${studySponsorType.key}">${studySponsorType.value}</form:option>
+	            	</c:forEach>
+            	</form:select>
+            	<tags:hoverHint keyProp="study.sponsorType"/>
+	         </div>
+    	</div>
+    	
     </div>
     <div class="rightpanel">
         <div class="row">
@@ -314,6 +329,50 @@
             	<tags:hoverHint keyProp="study.versionNameNumber"/>
             </div>
     	</div>
+    	
+    	<div class="row">
+	        <div class="label">
+	        	<fmt:message key="study.category"/>	
+	        </div>
+		    <div class="value">
+            	<form:select path="study.category">
+            		<option value="">Please Select </option>
+	            	<c:forEach items="${studyCategoryRefData}" var="studyCategory" varStatus="studyCatgegoryIndex">
+	            		<form:option value="${studyCategory.key}">${studyCategory.value}</form:option>
+	            	</c:forEach>
+            	</form:select>
+            	<tags:hoverHint keyProp="study.category"/>
+	         </div>
+    	</div>
+    	
+    	<div class="row">
+	        <div class="label">
+	        	<fmt:message key="study.nciRecognizedProgramName"/>	
+	        </div>
+		    <div class="value">
+            	<form:select path="study.nciRecognizedProgramName">
+            		<option value="">Please Select </option>
+	            	<c:forEach items="${nciRecognizedProgramNames}" var="nciRecognizedProgramName" varStatus="nciRecognizedProgramNameIndex">
+	            		<form:option value="${nciRecognizedProgramName.key}">${nciRecognizedProgramName.value}</form:option>
+	            	</c:forEach>
+            	</form:select>
+            	<tags:hoverHint keyProp="study.nciRecognizedProgramName"/>
+	         </div>
+    	</div>
+    	
+    	<div class="row">
+	        <div class="label">
+	        	<fmt:message key="study.investigatorInitiated"/>
+	        </div>
+	       <div class="value">
+            	<form:select path="study.investigatorInitiated">
+            		<option value="">Please Select</option>
+            		<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+            	</form:select>
+            	<tags:hoverHint keyProp="study.investigatorInitiated"/>
+            </div>
+    	</div>
+    	
 	</div>
 </chrome:division>
 
@@ -379,7 +438,7 @@
 								</c:when>
 						<c:otherwise>
 							<form:select path="study.studyCoordinatingCenters[0].healthcareSite" onchange="updateCoCenterInputOnSelect();" cssClass="required validate-notEmpty" cssStyle="width: 235px;">
-								<tags:userOrgOptions preSelectedSiteId="${command.study.studyCoordinatingCenters[0].healthcareSite.id}"/>
+								<tags:userOrgOptions preSelectedSiteId="${command.study.studyCoordinatingCenters[0].healthcareSite.id}" privilege="STUDY_DEFINITION_DETAILS_UPDATE"/>
 							</form:select>
 							<input type="hidden" id="coCenter-hidden1" name="study.organizationAssignedIdentifiers[0].healthcareSite"
 																value="${command.study.organizationAssignedIdentifiers[0].healthcareSite.id}" />

@@ -12,6 +12,18 @@
     </description>
     
     <function>
+		<name>substring</name>
+		<function-class>edu.duke.cabig.c3pr.utils.web.C3PRWebUtils</function-class>
+		<function-signature>java.lang.String substring(java.lang.String, integer, integer)</function-signature>
+	</function>
+
+    <function>
+		<name>indexOf</name>
+		<function-class>edu.duke.cabig.c3pr.utils.web.C3PRWebUtils</function-class>
+		<function-signature>integer indexOf(java.lang.String, char)</function-signature>
+	</function>
+    
+    <function>
         <name>contains</name>
         <function-class>edu.duke.cabig.c3pr.utils.web.C3PRWebUtils</function-class>
         <function-signature>boolean contains(java.util.List,java.lang.Object)</function-signature>
@@ -24,15 +36,39 @@
     </function>
     
     <function>
+        <name>getSiteScopedRoles</name>
+        <function-class>edu.duke.cabig.c3pr.utils.SecurityUtils</function-class>
+        <function-signature>java.util.List getSiteScopedRoles()</function-signature>
+    </function>
+    
+    <function>
+        <name>getStudyScopedRoles</name>
+        <function-class>edu.duke.cabig.c3pr.utils.SecurityUtils</function-class>
+        <function-signature>java.util.List getStudyScopedRoles()</function-signature>
+    </function>
+        
+    <function>
         <name>hasAllSiteAccess</name>
         <function-class>edu.duke.cabig.c3pr.utils.SecurityUtils</function-class>
         <function-signature>boolean hasAllSiteAccess(java.lang.String)</function-signature>
     </function>
     
     <function>
+        <name>hasAllStudyAccess</name>
+        <function-class>edu.duke.cabig.c3pr.utils.SecurityUtils</function-class>
+        <function-signature>boolean hasAllStudyAccess(java.lang.String)</function-signature>
+    </function>
+    
+    <function>
         <name>getLoggedInResearchStaff</name>
         <function-class>edu.duke.cabig.c3pr.utils.SecurityUtils</function-class>
-        <function-signature>ResearchStaff getLoggedInResearchStaff()</function-signature>
+        <function-signature>PersonUser getLoggedInResearchStaff()</function-signature>
+    </function>
+
+    <function>
+        <name>getLoggedInUsersOrganizations</name>
+        <function-class>edu.duke.cabig.c3pr.utils.SecurityUtils</function-class>
+        <function-signature>java.util.List getLoggedInUsersOrganizations(java.lang.String, javax.servlet.ServletContext)</function-signature>
     </function>
     
     <tag>

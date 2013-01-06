@@ -258,9 +258,9 @@
             </div>
         </div>
         <div class="row">
-            <div class="label"><fmt:message key="participant.medicalRecordNumber"/>:</div>
+            <div class="label"><fmt:message key="c3pr.common.primaryIdentifier"/>:</div>
             <div class="value">
-            	<tags:inPlaceEdit value="${command.participant.MRN.value}" path="studySubject.studySubjectDemographics.MRN.value" id="medicalRecordNumber" validations="validate-notEmpty" disable="${!canEditRegistrationRecord}"/>
+            	<tags:inPlaceEdit value="${command.participant.primaryIdentifierValue}" path="studySubject.studySubjectDemographics.primaryIdentifierValue" id="primaryIdentifier" validations="validate-notEmpty" disable="${!canEditRegistrationRecord}"/>
             </div>
         </div>
 	</div>
@@ -299,7 +299,7 @@
     subjectArray.push(editor_firstName);
     subjectArray.push(editor_lastName);
     subjectArray.push(editor_administrativeGenderCode);
-    subjectArray.push(editor_medicalRecordNumber);
+    subjectArray.push(editor_primaryIdentifier);
     subjectArray.push(editor_birthDate);
     subjectArray.push(editor_ethnicGroupCode);
    // subjectArray.push(editor_raceCodes);
@@ -309,7 +309,7 @@
     <div class="leftpanel">
         <div class="row">
             <div class="label"><fmt:message key="study.shortTitle"/>:</div>
-            <div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
+            <div class="value">${command.studySubject.studySiteVersion.studyVersion.shortTitleText}</div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="c3pr.common.status"/>:</div>
@@ -446,7 +446,7 @@
         </div>
         <div class="row">
             <div class="label"><fmt:message key="registration.epochStatus"/>:</div>
-            <div class="value">${command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code}</div>
+            <div class="value">${command.studySubject.scheduledEpoch.scEpochWorkflowStatus.displayName}</div>
         </div>
     </div>
     
@@ -530,7 +530,7 @@
 						<c:when test="${!empty command.studySubject.diseaseHistory.primaryDiseaseStr}">
 							<div class="value">
 								<c:set var="commanSepOptValDisease" value="["></c:set>
-	            				<c:forEach items="${command.studySubject.studySite.study.studyDiseases}" var="disease" varStatus="temp">
+	            				<c:forEach items="${command.studySubject.studySiteVersion.studyVersion.studyDiseases}" var="disease" varStatus="temp">
 	                				<c:set var="commanSepOptValDisease" value="${commanSepOptValDisease}[${disease.id},'${disease.diseaseTerm.term}']"></c:set>
 	                				<c:if test="${!temp.last}">
 	                    				<c:set var="commanSepOptValDisease" value="${commanSepOptValDisease},"></c:set>
@@ -793,7 +793,7 @@
 			<th width="25%" scope="col" align="left"><b><fmt:message key="c3pr.common.primaryIdentifier"/></b></th>
         </tr>
             <tr>
-                <td class="alt"><a href="javascript:manageParentRegistration();">${command.studySubject.parentStudySubject.studySite.study.shortTitleText}&nbsp;(${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}) </a></td>
+                <td class="alt"><a href="javascript:manageParentRegistration();">${command.studySubject.parentStudySubject.studySiteVersion.studyVersion.shortTitleText}&nbsp;(${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}) </a></td>
 				<td class="alt">${command.studySubject.parentStudySubject.studySite.study.primaryIdentifier}</td>
    	        </tr>	           
     </table>
@@ -845,7 +845,7 @@
 	</chrome:division>
 </div>
 <c:if test="${canBroadcast}">
-    <chrome:division title="caBIG¨ Clinical Trials Suite Applications">
+    <chrome:division title="caBIG<sup>&reg</sup> Clinical Trials Suite Applications">
     	<ul>
 	    	<c:if test="${!empty caaersBaseUrl}">
 		    <li><a href="javascript:accessApp('${caaersBaseUrl }','${caaers_window }')"><b>Adverse Event Reporting System</b></a></li>
@@ -879,12 +879,12 @@
 				<td align="left">${command.participant.fullName}</td>
 			</tr>
 			<tr>
-				<td align="right"><b><fmt:message key="participant.MRN"/>:</b></td>
-				<td align="left">${command.participant.MRN.value }</td>
+				<td align="right"><b><fmt:message key="c3pr.common.primaryIdentifier"/>:</b></td>
+				<td align="left">${command.participant.primaryIdentifierValue}</td>
 			</tr>
 		</table> 
 		
-	<h3><b>${command.studySubject.studySite.study.shortTitleText} (${command.studySubject.studySite.study.primaryIdentifier})</b></h3>
+	<h3><b>${command.studySubject.studySiteVersion.studyVersion.shortTitleText} (${command.studySubject.studySite.study.primaryIdentifier})</b></h3>
 		<hr></hr>
 		<table>
 			<tr>
@@ -893,7 +893,7 @@
 			</tr>
 			<tr>
 				<td align="right"><b><fmt:message key="study.shortTitle"/>:</b></td>
-				<td align="left">${command.studySubject.studySite.study.shortTitleText }</td>
+				<td align="left">${command.studySubject.studySiteVersion.studyVersion.shortTitleText }</td>
 			</tr>
 			<tr>
 				<td align="right"><b><fmt:message key="registration.registrationStatus"/>:</b></td>
@@ -940,7 +940,7 @@
 		
 		<c:forEach items="${command.studySubject.childStudySubjects}" var="childStudySubject" varStatus="status">
 			<c:if test="${newRegistration || (!newRegistration && !previous_epoch_enrollment_indicator )}">
-				<h3><b>${childStudySubject.studySite.study.shortTitleText} (${childStudySubject.studySite.study.primaryIdentifier})</b></h3>
+				<h3><b>${childStudySubject.studySiteVersion.studyVersion.shortTitleText} (${childStudySubject.studySite.study.primaryIdentifier})</b></h3>
 				<hr></hr>
 				<table>
 					<tr>
@@ -949,7 +949,7 @@
 					</tr>
 					<tr>
 						<td align="right"><b><fmt:message key="study.shortTitle"/>:</b></td>
-						<td align="left">${childStudySubject.studySite.study.shortTitleText }</td>
+						<td align="left">${childStudySubject.studySiteVersion.studyVersion.shortTitleText }</td>
 					</tr>
 					<tr>
 						<td align="right"><b><fmt:message key="registration.registrationStatus"/>:</b></td>

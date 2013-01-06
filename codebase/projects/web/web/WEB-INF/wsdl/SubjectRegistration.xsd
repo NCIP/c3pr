@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://enterpriseservices.nci.nih.gov/SubjectRegistration"
 	xmlns:ISO="uri:iso.org:21090" xmlns:tns="http://enterpriseservices.nci.nih.gov/SubjectRegistration"
+	xmlns:common="http://enterpriseservices.nci.nih.gov/Common"
 	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1"
 	xmlns:sch="http://www.ascc.net/xml/schematron" elementFormDefault="qualified">
 	
@@ -17,438 +18,17 @@
 	</annotation>
 
 	<import schemaLocation="ISO_datatypes_Narrative.xsd" namespace="uri:iso.org:21090" />
+	<import schemaLocation="Common.xsd" namespace="http://enterpriseservices.nci.nih.gov/Common" />
 
-	<complexType name="BiologicEntity" abstract="true">
-		<annotation>
-			<documentation>Any individual living (or previously living) being.
-
-				For example, animal, human being.
-            </documentation>
-		</annotation>
-		<sequence>
-			<element name="administrativeGenderCode" type="ISO:CD">
-				<annotation>
-					<documentation>A coded value specifying the physical or societal
-						properties by which male is distinguished from female.
-
-						NOTE: For
-						humans, identification of sex is usually based upon
-						self-report and
-						may come from a form, questionnaire, interview,
-						etc.
-					</documentation>
-				</annotation>
-			</element>
-			<element name="birthDate" type="ISO:TS.DateTime">
-				<annotation>
-					<documentation>The date (and time) on which the biologic entity
-						is
-						born.
-                    </documentation>
-				</annotation>
-			</element>
-			<element name="deathDate" type="ISO:TS.DateTime">
-				<annotation>
-					<documentation>The date (and time) on which the biologic entity
-						died.
-                    </documentation>
-				</annotation>
-			</element>
-			<element name="biologicEntityIdentifier" minOccurs="0" type="tns:BiologicEntityIdentifier"
-				maxOccurs="unbounded" />
-		</sequence>
-	</complexType>
-
-	<complexType name="Person">
-		<annotation>
-			<documentation>A human being.</documentation>
-		</annotation>
-		<complexContent>
-			<extension base="tns:BiologicEntity">
-				<sequence>
-					<element name="deathIndicator" type="ISO:BL">
-						<annotation>
-							<documentation>Specifies whether the person is dead.
-							</documentation>
-						</annotation>
-					</element>
-
-					<element name="ethnicGroupCode" type="ISO:DSET_CD">
-						<annotation>
-							<documentation>A coded value specifying the self-declared ethnic
-								origination, independent of racial origination.
-
-								For example, for
-								the NCI, these ethnic groups are based on OMB
-								approved
-								categories.
-                            </documentation>
-						</annotation>
-					</element>
-					<element name="initials" type="ISO:EN.PN">
-						<annotation>
-							<documentation>The first letters of the person's first name, middle name, and last name. 
-								
-								NOTE: If the person does not have a middle initial, the initials will only be two characters.</documentation>
-						</annotation>
-					</element>
-					<element name="maritalStatusCode" type="ISO:CD">
-						<annotation>
-							<documentation>A coded value specifying the domestic partnership
-								status of a person.
-
-								For example, Married, Widowed, Single,
-								Separated, etc.
-                            </documentation>
-						</annotation>
-					</element>
-					<element name="name" type="ISO:DSET_EN.PN">
-						<annotation>
-							<documentation>A non-unique textual identifier for the person.
-
-								For example, proper name, nickname, legal name, etc.
-							</documentation>
-						</annotation>
-					</element>
-
-					<element name="postalAddress" type="ISO:AD">
-						<annotation>
-							<documentation>A contact point used to send physical forms of
-								communication to the person.
-                            </documentation>
-						</annotation>
-					</element>
-
-					<element name="raceCode" type="ISO:DSET_CD">
-						<annotation>
-							<documentation>A coded value specifying a self-declared racial
-								origination, independent of ethnic origination.
-
-								For example, for
-								the National Cancer Institute, this code is based
-								on Office of
-								Management &amp;amp; Budget (OMB) approved
-								categories.
-							</documentation>
-						</annotation>
-					</element>
-					<element name="telecomAddress" type="ISO:BAG_TEL">
-						<annotation>
-							<documentation>A sequence of digits or characters used to
-								identify a particular telephone, fax, or email of the person.
-
-								For example, the set of digits that serves as the address for a
-								telephone device. Included in the phone number are country,
-								city, and area codes needed to uniquely address the telephone. A
-								URL or e-mail would be similarly described.
-                            </documentation>
-						</annotation>
-					</element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	
-	<complexType name="Subject">
-		<annotation>
-			<documentation>An entity of interest.
-				For example, a human being who might be of interest because they are
-				on a study.
-            </documentation>
-		</annotation>
-		<sequence>
-			<element name="entity" type="tns:BiologicEntity" minOccurs="1" maxOccurs="1" />
-			<element name="subjectIdentifier" minOccurs="1" maxOccurs="unbounded"/>
-			<element name="enrollmentMilestones" type="tns:PerformedAdministrativeActivity" minOccurs="0"/>
-		</sequence>
-	</complexType>
-	<complexType name="SubjectIdentifier">
-		<sequence>
-			<element name="identifier" type="ISO:II">
-				<annotation>
-					<documentation>The unique symbol that establishes identity of the
-						biologic entity.
-						
-						For example, medical record number.
-						
-						NOTE: This is
-						different from the StudySubject.identifier.
-					</documentation>
-				</annotation>
-			</element>
-			<element name="primaryIndicator" type="ISO:BL">
-				<annotation>
-					<documentation>Specifies whether this is the main or principal identifier.</documentation>
-				</annotation>
-			</element>
-			<element name="typeCode" type="ISO:CD">
-				<annotation>
-					<documentation>A coded value specifying the kind of biologic entity
-						identifier.
-						
-						For example, hospital record number, medical record
-						number.
-					</documentation>
-				</annotation>
-			</element>
-			<element name="assigningOrganization" type="tns:Organization" />
-		</sequence>
-	</complexType>
-	<complexType name="BiologicEntityIdentifier">
-		<annotation>
-			<documentation>The unique identification of a biologic entity in a
-				specified context.
-				NOTE: This class is a resolution of the
-				requirement for noting the type
-				of an identifier which is not handled
-				by the purely technical HL7 II
-				data type. It is the result of
-				applying a pattern provided by HL7
-				data type expert, Grahame Grieve.
-			</documentation>
-		</annotation>
-		<sequence>
-			<element name="identifier" type="ISO:II">
-				<annotation>
-					<documentation>The unique symbol that establishes identity of the
-						biologic entity.
-
-						For example, medical record number.
-
-						NOTE: This is
-						different from the StudySubject.identifier.
-					</documentation>
-				</annotation>
-			</element>
-			<element name="primaryIndicator" type="ISO:BL">
-				<annotation>
-					<documentation>Specifies whether this is the main or principal identifier.</documentation>
-				</annotation>
-			</element>
-			<element name="typeCode" type="ISO:CD">
-				<annotation>
-					<documentation>A coded value specifying the kind of biologic entity
-						identifier.
-
-						For example, hospital record number, medical record
-						number.
-					</documentation>
-				</annotation>
-			</element>
-			<element name="assigningOrganization" type="tns:Organization" />
-		</sequence>
-	</complexType>
-
-	<complexType name="Organization">
-		<annotation>
-			<documentation>A formalized group of persons or other organizations
-				collected together for a common purpose (such as administrative,
-				legal, political) and the infrastructure to carry out that purpose.
-			</documentation>
-		</annotation>
-		<sequence>
-			<element name="name" type="ISO:ST">
-				<annotation>
-					<documentation>A unique identifier for the organization.</documentation>
-				</annotation>
-			</element>
-			<element name="organizationIdentifier" type="tns:OrganizationIdentifier"
-				minOccurs="1" maxOccurs="unbounded" />
-		</sequence>
-	</complexType>
-
-	<complexType name="OrganizationIdentifier">
-		<annotation>
-			<documentation>Identifier of an organization.</documentation>
-		</annotation>
-		<sequence>
-			<element name="identifier" type="ISO:II">
-				<annotation>
-					<documentation>The unique symbol that establishes identity of the
-						organization.</documentation>
-				</annotation>
-			</element>
-			<element name="primaryIndicator" type="ISO:BL" />
-			<element name="typeCode" type="ISO:CD">
-				<annotation>
-					<documentation>A coded value specifying the kind of organization
-						identifier.</documentation>
-				</annotation>
-			</element>
-			<element name="assigningOrganization" type="tns:Organization" minOccurs="0" maxOccurs="1"/>
-		</sequence>
-	</complexType>
-
-	<complexType name="Document">
-		<annotation>
-			<documentation>A collection (physical or logical) of data with the following characteristics: 
-				1) Stewardship, 2) Potential for authentication, 3) Wholeness, 4) Human readability, 5) Persistence, 6) Global vs local context (the person that signs it is the author of all sections unless otherwise noted).
-				
-				For example, regulatory processes require the submission of documents from the Applicant to the Regulatory Authority. These documents are varied in focus and are often defined by the field of study or by the regulatory application requirements of the region or Regulatory Authority (e.g., Integrated Summary of Safety, Pharmacokinetics Written Summary). 
-				
-				For example, Adverse Event Report, Expedited Adverse Event Report, Institutional Review Board (IRB) Report, X-Ray Report, Lab Summary Report, Autopsy Report, etc.</documentation>
-		</annotation>
-		<sequence>
-			<element name="typeCode" type="ISO:CD">
-				<annotation>
-					<documentation>A coded value specifying the kind of document.
-						
-						For example, amendment, background material, guide, etc.
-						
-						For example, in RPS, this is the code that specifies how the file is to be used within the submission process (e.g. Protocol, Summary Introduction). Also known as context of use.
-						
-						For example, a RegulatoryRecord - A document that meets a record requirement of a regulatory authority and must be retained in accordance with that agency's records retention requirements.  Example: Data Clarification Form (DCF)</documentation>
-				</annotation>
-			</element>
-		</sequence>
-	</complexType>
-
-	<complexType name="DocumentVersion">
-		<sequence>
-			<element name="officialTitle" type="ISO:ST" minOccurs="0"/>
-			<element name="versionDate" type="ISO:TS.DateTime" minOccurs="0"/>
-			<element name="versionNumberText" type="ISO:ST" minOccurs="0"/>
-			<element name="document" type="tns:Document"/>
-		</sequence>
-	</complexType>
-	
-	<complexType name="Consent">
-		<complexContent>
-			<extension base="tns:DocumentVersion">
-				<sequence>
-					<element name="mandatoryIndicator" type="ISO:BL" minOccurs="0"/>
-					<element name="studyProtocolDocumentVersion" type="tns:StudyProtocolDocumentVersion"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	
-	<complexType name="ConsentQuestion">
-		<sequence>
-			<element name="questionNumber" type="ISO:INT.Positive"/>
-			<element name="text" type="ISO:ST"/>
-		</sequence>
-	</complexType>
-	
-	<complexType name="SubjectConsentQuestionAnswer">
-		<sequence>
-			<element name="agreementIndicator" type="ISO:BL"/>
-			<element name="consentQuestion" type="tns:ConsentQuestion" />
-		</sequence>
-	</complexType>
-	
-	<complexType name="Activity">
-		<sequence>
-			<element name="reasonCode" type="ISO:DSET_CD"/>
-		</sequence>
-	</complexType>
-	
-	<complexType name="PerformedActivity">
-		<complexContent>
-			<extension base="tns:Activity">
-				<sequence>
-					<element name="drug" type="tns:Drug" minOccurs="0"/>
-					<element name="definedActivity" type="tns:DefinedActivity" minOccurs="0"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	
-	<complexType name="Drug">
-		<annotation>
-			<documentation>An article other than food intended for use in the diagnosis, cure, mitigation, treatment, or prevention of disease; or intended to affect the structure or any function of the body. 
-				
-				For example, aspirin.</documentation>
-		</annotation>
-		<sequence>
-			<element name="kitNumber" type="ISO:II"/>
-		</sequence>
-	</complexType>
-	
-	<complexType name="PerformedAdministrativeActivity">
-		<complexContent>
-			<extension base="tns:PerformedActivity"/>
-		</complexContent>
-	</complexType>
-	
-	<complexType name="PerformedStudySubjectMilestone">
-		<complexContent>
-			<extension base="tns:PerformedAdministrativeActivity">
-				<sequence>
-					<element name="informedConsentDate" type="ISO:TS.DateTime" minOccurs="0"/>
-					<element name="offStudyDate" type="ISO:TS.DateTime" minOccurs="0"/>
-					<element name="registrationDate" type="ISO:TS.DateTime" minOccurs="0"/>
-					<element name="documentVersion" type="tns:DocumentVersion" minOccurs="0" maxOccurs="1"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	
-	<complexType name="StudySubjectConsentVersion">
-		<complexContent>
-			<extension base="tns:PerformedStudySubjectMilestone">
-				<sequence>
-					<element name="consentDeliveryDate" type="ISO:TS.DateTime"/>
-					<element name="consentingMethod" type="ISO:CD"/>
-					<element name="consentPresenter" type="ISO:ST"/>
-					<element name="subjectConsentAnswer" type="tns:SubjectConsentQuestionAnswer" minOccurs="0" maxOccurs="unbounded"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	
-	<complexType name="StudyProtocolDocumentVersion">
-		<complexContent>
-			<extension base="tns:DocumentVersion">
-				<sequence>
-					<element name="publicTitle" type="ISO:ST"/>
-					<element name="publicDescription" type="ISO:ST" minOccurs="0"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	
-	<complexType name="StudyProtocolVersion">
-		<sequence>
-			<element name="studyProtocolDocument" type="tns:StudyProtocolDocumentVersion"/>
-			<element name="organizationAssignedIdentifier" type="tns:OrganizationIdentifier" minOccurs="1" maxOccurs="unbounded"/>
-		</sequence>
-	</complexType>
-	
-	<complexType name="StudySite">
-		<sequence>
-			<element name="organization" type="tns:Organization"/>
-		</sequence>
-	</complexType>
-	
-	<complexType name="StudySiteProtocolVersionRelationship">
-		<sequence>
-			<element name="dateRange" type="ISO:IVL_TS.DateTime" minOccurs="0"/>
-			<element name="studySite" type="tns:StudySite"/>
-			<element name="studyProtocolVersion" type="tns:StudyProtocolVersion"></element>
-		</sequence>
-	</complexType>
-	
-	<complexType name="DefinedActivity">
-		<complexContent>
-			<extension base="tns:Activity">
-				<sequence>
-					<element name="description" type="ISO:ST" minOccurs="0"/>
-					<element name="nameCode" type="ISO:CD" minOccurs="0"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	
 	<complexType name="DefinedSubjectActivityGroup">
 		<complexContent>
-			<extension base="tns:DefinedActivity"/>
+			<extension base="common:DefinedActivity"/>
 		</complexContent>
 	</complexType>
 	
 	<complexType name="DefinedObservation">
 		<complexContent>
-			<extension base="tns:DefinedActivity"/>
+			<extension base="common:DefinedActivity"/>
 		</complexContent>
 	</complexType>
 	
@@ -462,13 +42,13 @@
 		</complexContent>
 	</complexType>
 	
-	<complexType name="DefinedIncusionCriterion">
+	<complexType name="DefinedInclusionCriterion">
 		<complexContent>
 			<extension base="tns:DefinedEligibilityCriterion"/>
 		</complexContent>
 	</complexType>
 	
-	<complexType name="DefinedExcusionCriterion">
+	<complexType name="DefinedExclusionCriterion">
 		<complexContent>
 			<extension base="tns:DefinedEligibilityCriterion"/>
 		</complexContent>
@@ -477,7 +57,7 @@
 	<complexType name="DefinedObservationResult">
 		<sequence>
 			<element name="result" type="ISO:ANY"/>
-			<element name="typeCode" type="ISO:CD"/>
+			<element name="typeCode" type="ISO:CD" minOccurs="0"/>
 			<element name="definedObservation" type="tns:DefinedObservation" minOccurs="0"/>
 		</sequence>
 	</complexType>
@@ -493,7 +73,7 @@
 			<element name="result" type="ISO:ANY" minOccurs="0"/>
 			<element name="targetAnatomicSiteCode" type="ISO:CD" minOccurs="0"/>
 			<element name="targetAnatomicSiteLateralityCode" type="ISO:CD" minOccurs="0"/>
-			<element name="typeCode" type="ISO:CD"/>
+			<element name="typeCode" type="ISO:CD" minOccurs="0"/>
 			<element name="startificationCriterion" type="tns:DefinedStratificationCriterion" minOccurs="0"/>
 			<element name="startificationCriterionPermissibleResult" type="tns:DefinedStratificationCriterionPermissibleResult" minOccurs="0"/>
 			<element name="eligibilityCriterion" type="tns:DefinedEligibilityCriterion" minOccurs="0"/>
@@ -524,17 +104,19 @@
 			<element name="stratumGroupNumber" type="ISO:INT.Positive" minOccurs="0"/>
 			<element name="subjectEligibilityAnswer" type="tns:PerformedObservationResult" maxOccurs="unbounded" minOccurs="0"/>
 			<element name="subjectStartificationAnswer" type="tns:PerformedObservationResult" maxOccurs="unbounded" minOccurs="0"/>
-			<element name="scheduledArm" type="tns:PerformedActivity" minOccurs="0"/>
-			<element name="offEpochReason" type="tns:DefinedObservationResult" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="scheduledArm" type="common:PerformedActivity" minOccurs="0"/>
+			<element name="offEpochReason" type="ISO:DSET_CD" minOccurs="0"/>
 		</sequence>
 	</complexType>
 	
 	<complexType name="StudySubjectProtocolVersionRelationship">
-		<sequence>
-			<element name="studySiteProtocolVersion" type="tns:StudySiteProtocolVersionRelationship"/>
-			<element name="studySubjectConsentVersion" type="tns:StudySubjectConsentVersion" minOccurs="0" maxOccurs="unbounded"/>
-			<element name="scheduledEpoch" type="tns:ScheduledEpoch" maxOccurs="unbounded" minOccurs="1"/>
-		</sequence>
+		<complexContent>
+			<extension base="common:StudySubjectProtocolVersionRelationship">
+				<sequence>
+					<element name="scheduledEpoch" type="tns:ScheduledEpoch" maxOccurs="unbounded" minOccurs="1"/>
+				</sequence>
+			</extension>
+		</complexContent>
 	</complexType>
 	
 	<complexType name="StudyCondition">
@@ -557,7 +139,7 @@
 	<complexType name="ResearchStaff">
 		<sequence>
 			<sequence>
-				<element name="person" type="tns:Person" minOccurs="0"/>
+				<element name="person" type="common:Person" minOccurs="0"/>
 				<element name="identifier" type="ISO:II"/>
 			</sequence>
 		</sequence>
@@ -566,7 +148,7 @@
 	<complexType name="HealthcareProvider">
 		<sequence>
 			<sequence>
-				<element name="person" type="tns:Person" minOccurs="0"/>
+				<element name="person" type="common:Person" minOccurs="0"/>
 				<element name="identifier" type="ISO:II"/>
 			</sequence>
 		</sequence>
@@ -587,30 +169,8 @@
 				NOTE: StudySubjects within a study are all of the same type.  An entity registered in a study is not part of another entity registered in the same study.</documentation>
 		</annotation>
 		<complexContent>
-			<extension base="tns:Subject">
+			<extension base="common:StudySubjectBase">
 				<sequence>
-					<element name="paymentMethodCode" type="ISO:CD" minOccurs="0">
-						<annotation>
-							<documentation>A coded value specifying the primary payer/insurance carrier information at the time of treatment on a study. 
-								
-								For example, Private Insurance, Medicare, Medicare And Private Insurance, Medicaid, etc. </documentation>
-						</annotation>
-					</element>
-					<element name="statusCode" type="ISO:CD">
-						<annotation>
-							<documentation>A coded value specifying the state of the study subject.
-								
-								For example, new, active, inactive, nullified, normal, completed, suspended, draft, retired, terminated, pending approval, held, cancelled, aborted) of a study subject.
-								
-								For example, the status change of a study protocol to 'suspended', requiring that subject accrual be halted until the study protocol is restored to fully active status. This refers to codes to represent the status of a study protocol in relation to the ability to enroll participants/subjects. </documentation>
-						</annotation>
-					</element>
-					<element name="statusDate" type="ISO:TS.DateTime" minOccurs="0">
-						<annotation>
-							<documentation>The date (and time) on which the status is assigned to the study subject.</documentation>
-						</annotation>
-					</element>
-					<element name="studySubjectProtocolVersion" type="tns:StudySubjectProtocolVersionRelationship"/>
 					<element name="treatingPhysician" type="tns:StudyInvestigator" minOccurs="0"/>
 					<element name="diseaseHistory" type="tns:PerformedDiagnosis" minOccurs="0"/>
 					<element name="childStudySubject" type="tns:StudySubject" minOccurs="0" maxOccurs="unbounded"/>
@@ -685,106 +245,6 @@
 		</complexContent>
 	</complexType>
 	<complexType abstract="true" name="COLL_PerformedObservationResult">
-		<complexContent>
-			<extension base="ISO:ANY" />
-		</complexContent>
-	</complexType>
-	
-	<complexType name="DSET_StudySubjectConsentVersion">
-		<annotation>
-			<appinfo>
-				<sch:pattern name="null or not empty">
-					<sch:rule abstract="true" id="DSET_StudySubjectConsentVersion-0">
-						<sch:assert test="(@nullFlavor or item) and not(@nullFlavor and item)" />
-					</sch:rule>
-				</sch:pattern>
-				<sch:pattern name="no null members">
-					<sch:rule abstract="true" id="DSET_StudySubjectConsentVersion-1">
-						<sch:assert test="@nullFlavor or not(item\@nullFlavor)" />
-					</sch:rule>
-				</sch:pattern>
-			</appinfo>
-		</annotation>
-		<complexContent>
-			<extension base="tns:COLL_StudySubjectConsentVersion">
-				<sequence>
-					<element name="item" type="tns:StudySubjectConsentVersion" minOccurs="0"
-						maxOccurs="unbounded" />
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	<complexType abstract="true" name="COLL_StudySubjectConsentVersion">
-		<complexContent>
-			<extension base="ISO:ANY" />
-		</complexContent>
-	</complexType>
-	
-	<complexType name="DSET_Person">
-		<annotation>
-			<appinfo>
-				<sch:pattern name="null or not empty">
-					<sch:rule abstract="true" id="DSET_Person-0">
-						<sch:assert test="(@nullFlavor or item) and not(@nullFlavor and item)" />
-					</sch:rule>
-				</sch:pattern>
-				<sch:pattern name="no null members">
-					<sch:rule abstract="true" id="DSET_Person-1">
-						<sch:assert test="@nullFlavor or not(item\@nullFlavor)" />
-					</sch:rule>
-				</sch:pattern>
-			</appinfo>
-		</annotation>
-		<complexContent>
-			<extension base="tns:COLL_Person">
-				<sequence>
-					<element name="item" type="tns:Person" minOccurs="0"
-						maxOccurs="unbounded" />
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	<complexType abstract="true" name="COLL_Person">
-		<complexContent>
-			<extension base="ISO:ANY" />
-		</complexContent>
-	</complexType>
-	
-	<complexType name="AdvanceSearchCriterionParameter">
-		<sequence>
-			<element name="objectName" type="ISO:ST"/>
-			<element name="attributeName" type="ISO:ST"/>
-			<element name="values" type="ISO:DSET_ST"/>
-			<element name="predicate" type="ISO:CD"/>
-			<element name="objectContextName" type="ISO:ST"/>
-		</sequence>
-	</complexType>
-	
-	<complexType name="DSET_AdvanceSearchCriterionParameter">
-		<annotation>
-			<appinfo>
-				<sch:pattern name="null or not empty">
-					<sch:rule abstract="true" id="DSET_AdvanceSearchCriterionParameter-0">
-						<sch:assert test="(@nullFlavor or item) and not(@nullFlavor and item)" />
-					</sch:rule>
-				</sch:pattern>
-				<sch:pattern name="no null members">
-					<sch:rule abstract="true" id="DSET_AdvanceSearchCriterionParameter-1">
-						<sch:assert test="@nullFlavor or not(item\@nullFlavor)" />
-					</sch:rule>
-				</sch:pattern>
-			</appinfo>
-		</annotation>
-		<complexContent>
-			<extension base="tns:COLL_AdvanceSearchCriterionParameter">
-				<sequence>
-					<element name="item" type="tns:Person" minOccurs="0"
-						maxOccurs="unbounded" />
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	<complexType abstract="true" name="COLL_AdvanceSearchCriterionParameter">
 		<complexContent>
 			<extension base="ISO:ANY" />
 		</complexContent>

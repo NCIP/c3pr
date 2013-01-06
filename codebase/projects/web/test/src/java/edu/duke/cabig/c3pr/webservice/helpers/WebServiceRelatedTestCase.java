@@ -49,6 +49,7 @@ import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.Consent;
 import edu.duke.cabig.c3pr.webservice.common.Document;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
@@ -57,10 +58,12 @@ import edu.duke.cabig.c3pr.webservice.common.DocumentVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.common.Organization;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
+import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.common.RegistryStatus;
 import edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImplTest;
 import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
@@ -69,9 +72,6 @@ import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityImplTest;
-import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
-import edu.duke.cabig.c3pr.webservice.common.Person;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImplTest;
 
 /**
@@ -200,6 +200,10 @@ public class WebServiceRelatedTestCase extends TestCase  {
 		healthcareSite.setCtepCode(TEST_ORG_ID, true);
 		expect(healthcareSiteDao.getByPrimaryIdentifier(TEST_ORG_ID))
 				.andReturn(healthcareSite).anyTimes();
+		expect(healthcareSiteDao.getByTypeAndCodeFromLocal(ORG_ID_TYPE_CTEP,TEST_ORG_ID))
+			.andReturn(healthcareSite).anyTimes();		
+		expect(healthcareSiteDao.getByTypeAndCodeFromLocal(ORG_ID_TYPE_CTEP,TEST_ORG_ID,true))
+			.andReturn(healthcareSite).anyTimes();		
 		replay(healthcareSiteDao);
 
 		registryStatus = new edu.duke.cabig.c3pr.domain.RegistryStatus();
@@ -293,8 +297,8 @@ public class WebServiceRelatedTestCase extends TestCase  {
 				AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY,
 				AddressPartType.CNT))));
 		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE), iso.CD(RACE_ASIAN)));
-		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO),
-				iso.TEL(TEST_PHONE_ISO), iso.TEL(TEST_FAX_ISO)));
+		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO, null),
+				iso.TEL(TEST_PHONE_ISO, null), iso.TEL(TEST_FAX_ISO, null)));
 		return person;
 	}
 

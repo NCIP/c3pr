@@ -199,7 +199,7 @@
 		<sequence>
 			<element name="entity" type="tns:BiologicEntity" minOccurs="0"/>
 			<element name="stateCode" type="ISO:ST" minOccurs="0"/>
-			<element name="subjectIdentifier" minOccurs="1" maxOccurs="unbounded" type="tns:SubjectIdentifier"/>
+			<element name="subjectIdentifier" minOccurs="0" maxOccurs="unbounded" type="tns:SubjectIdentifier"/>
 		</sequence>
 	</complexType>
 	<complexType name="SubjectIdentifier">
@@ -397,7 +397,7 @@
 		</annotation>
 		<sequence>
 			<element name="organizationIdentifier" type="tns:OrganizationIdentifier"
-				minOccurs="1" maxOccurs="unbounded" />
+				minOccurs="0" maxOccurs="unbounded" />
 		</sequence>
 	</complexType>
 
@@ -421,6 +421,137 @@
 				</annotation>
 			</element>
 		</sequence>
+	</complexType>
+
+	<complexType name="Activity">
+		<sequence>
+			<element name="comment" type="ISO:ST" minOccurs="0"/>
+			<element name="reasonCode" type="ISO:DSET_CD" minOccurs="0"/>
+			<element name="identifier" type="ISO:II" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="DefinedActivity">
+		<complexContent>
+			<extension base="tns:Activity">
+				<sequence>
+					<element name="description" type="ISO:ST" minOccurs="0"/>
+					<element name="nameCode" type="ISO:CD" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="Drug">
+		<annotation>
+			<documentation>An article other than food intended for use in the diagnosis, cure, mitigation, treatment, or prevention of disease; or intended to affect the structure or any function of the body. 
+				
+				For example, aspirin.</documentation>
+		</annotation>
+		<sequence>
+			<element name="kitNumber" type="ISO:II"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="PerformedActivity">
+		<complexContent>
+			<extension base="tns:Activity">
+				<sequence>
+					<element name="statusCode" type="ISO:CD" minOccurs="0"/>
+					<element name="statusDate" type="ISO:TS.DateTime" minOccurs="0"/>
+					<element name="missedIndicator" type="ISO:BL" minOccurs="0"/>
+					<element name="drug" type="tns:Drug" minOccurs="0"/>
+					<element name="definedActivity" type="tns:DefinedActivity" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="PerformedAdministrativeActivity">
+		<complexContent>
+			<extension base="tns:PerformedActivity"/>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="PerformedStudySubjectMilestone">
+		<complexContent>
+			<extension base="tns:PerformedAdministrativeActivity">
+				<sequence>
+					<element name="informedConsentDate" type="ISO:TS.DateTime" minOccurs="0"/>
+					<element name="offStudyDate" type="ISO:TS.DateTime" minOccurs="0"/>
+					<element name="registrationDate" type="ISO:TS.DateTime" minOccurs="0"/>
+					<element name="consent" type="tns:DocumentVersion" minOccurs="0"/>
+					<element name="consentQuestion" type="tns:DocumentVersion" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="StudySubjectConsentVersion">
+		<complexContent>
+			<extension base="tns:PerformedStudySubjectMilestone">
+				<sequence>
+					<element name="consentDeliveryDate" type="ISO:TS.DateTime"/>
+					<element name="consentingMethod" type="ISO:CD"/>
+					<element name="consentPresenter" type="ISO:ST" minOccurs="0"/>
+					<element name="subjectConsentAnswer" type="tns:PerformedStudySubjectMilestone" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="consentDeclinedDate" type="ISO:TS.DateTime"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="StudySite">
+		<sequence>
+			<element name="organization" type="tns:Organization"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="StudySiteProtocolVersionRelationship">
+		<sequence>
+			<element name="studySite" type="tns:StudySite"/>
+			<element name="studyProtocolVersion" type="tns:StudyProtocolVersion"></element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="StudySubjectProtocolVersionRelationship">
+		<sequence>
+			<element name="studySiteProtocolVersion" type="tns:StudySiteProtocolVersionRelationship" minOccurs="0"/>
+			<element name="studySubjectConsentVersion" type="tns:StudySubjectConsentVersion" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="StudySubjectBase">
+		<annotation>
+			<documentation>A physical entity which is the primary unit of operational and/or administrative interest in a study. 
+				
+				For example, a person who is registered in a study as a recipient of an investigational product or as a control.  May also include individuals who are being screened for studies, or individuals participating in observational or other studies.  Other examples may include a pacemaker, a fuse that can be used in medical devices, a cow, a farm, a pen of pigs, a tissue sample from a tissue bank, etc.
+				
+				NOTE: StudySubjects within a study are all of the same type.  An entity registered in a study is not part of another entity registered in the same study.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:Subject">
+				<sequence>
+					<element name="paymentMethodCode" type="ISO:CD" minOccurs="0">
+						<annotation>
+							<documentation>A coded value specifying the primary payer/insurance carrier information at the time of treatment on a study. 
+								
+								For example, Private Insurance, Medicare, Medicare And Private Insurance, Medicaid, etc. </documentation>
+						</annotation>
+					</element>
+					<element name="statusCode" type="ISO:CD" minOccurs="0">
+						<annotation>
+							<documentation>A coded value specifying the state of the study subject.
+								
+								For example, new, active, inactive, nullified, normal, completed, suspended, draft, retired, terminated, pending approval, held, cancelled, aborted) of a study subject.
+								
+								For example, the status change of a study protocol to 'suspended', requiring that subject accrual be halted until the study protocol is restored to fully active status. This refers to codes to represent the status of a study protocol in relation to the ability to enroll participants/subjects. </documentation>
+						</annotation>
+					</element>
+					<element name="studySubjectProtocolVersion" type="tns:StudySubjectProtocolVersionRelationship" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
 	</complexType>
 
 	<!-- Advanced Search -->
@@ -497,11 +628,119 @@
 		</complexContent>
 	</complexType>
 
+	<complexType name="DSET_StudySubjectConsentVersion">
+		<annotation>
+			<appinfo>
+				<sch:pattern name="null or not empty">
+					<sch:rule abstract="true" id="DSET_StudySubjectConsentVersion-0">
+						<sch:assert test="(@nullFlavor or item) and not(@nullFlavor and item)" />
+					</sch:rule>
+				</sch:pattern>
+				<sch:pattern name="no null members">
+					<sch:rule abstract="true" id="DSET_StudySubjectConsentVersion-1">
+						<sch:assert test="@nullFlavor or not(item\@nullFlavor)" />
+					</sch:rule>
+				</sch:pattern>
+			</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="tns:COLL_StudySubjectConsentVersion">
+				<sequence>
+					<element name="item" type="tns:StudySubjectConsentVersion" minOccurs="0"
+						maxOccurs="unbounded" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType abstract="true" name="COLL_StudySubjectConsentVersion">
+		<complexContent>
+			<extension base="ISO:ANY" />
+		</complexContent>
+	</complexType>
+	
+	<complexType name="DSET_PerformedStudySubjectMilestone">
+		<annotation>
+			<appinfo>
+				<sch:pattern name="null or not empty">
+					<sch:rule abstract="true" id="DSET_PerformedStudySubjectMilestone-0">
+						<sch:assert test="(@nullFlavor or item) and not(@nullFlavor and item)" />
+					</sch:rule>
+				</sch:pattern>
+				<sch:pattern name="no null members">
+					<sch:rule abstract="true" id="DSET_PerformedStudySubjectMilestone-1">
+						<sch:assert test="@nullFlavor or not(item\@nullFlavor)" />
+					</sch:rule>
+				</sch:pattern>
+			</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="tns:COLL_PerformedStudySubjectMilestone">
+				<sequence>
+					<element name="item" type="tns:PerformedStudySubjectMilestone" minOccurs="0"
+						maxOccurs="unbounded" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType abstract="true" name="COLL_PerformedStudySubjectMilestone">
+		<complexContent>
+			<extension base="ISO:ANY" />
+		</complexContent>
+	</complexType>
+
 	<!-- Common faults. -->
-	<element name="SecurityExceptionFault" type="tns:SecurityExceptionFault"></element>
-	<complexType name="SecurityExceptionFault">
+	<element name="SecurityExceptionFault" type="tns:SecurityExceptionFault"/>
+	<element name="InvalidStudySubjectDataExceptionFault" type="tns:InvalidStudySubjectDataExceptionFault"/>
+	<element name="InvalidStudyProtocolExceptionFault" type="tns:InvalidStudyProtocolExceptionFault"/>
+	<element name="NoSuchStudySubjectExceptionFault" type="tns:NoSuchStudySubjectExceptionFault"/>
+	<element name="NoSuchPatientExceptionFault" type="tns:NoSuchPatientExceptionFault"/>
+	<element name="DuplicateStudySubjectExceptionFault" type="tns:DuplicateStudySubjectExceptionFault"/>
+	<element name="InvalidSiteExceptionFault" type="tns:InvalidSiteExceptionFault"/>
+	<element name="InvalidQueryExceptionFault" type="tns:InvalidQueryExceptionFault"/>
+	
+	<complexType name="BaseFault">
 		<sequence>
 			<element name="message" type="string" />
 		</sequence>
+	</complexType>
+	<complexType name="SecurityExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="InvalidStudySubjectDataExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="InvalidStudyProtocolExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="NoSuchStudySubjectExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="NoSuchPatientExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="DuplicateStudySubjectExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="InvalidSiteExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="InvalidQueryExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
 	</complexType>
 </schema>

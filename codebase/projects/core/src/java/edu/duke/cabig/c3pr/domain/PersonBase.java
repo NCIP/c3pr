@@ -3,8 +3,6 @@
  */
 package edu.duke.cabig.c3pr.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +13,7 @@ import javax.persistence.Transient;
 import com.semanticbits.coppa.domain.annotations.RemoteProperty;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
+import edu.duke.cabig.c3pr.constants.ContactMechanismUse;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
@@ -40,35 +39,29 @@ public abstract class PersonBase extends
 
     @Transient
 	public String getEmail(){
-		for(ContactMechanism contactMechanism: getContactMechanisms()){
-			if(contactMechanism.getType()==ContactMechanismType.EMAIL){
-				return contactMechanism.getValue();
-			}
-		}
-		return null;
+		return getEmailContactMechanism()!=null?getEmailContactMechanism().getValue():null;
 	}
 	
 	@Transient
 	public String getPhone(){
-		for(ContactMechanism contactMechanism: getContactMechanisms()){
-			if(contactMechanism.getType()==ContactMechanismType.PHONE){
-				return contactMechanism.getValue();
-			}
-		}
-		return null;
+		return getPhoneContactMechanism()!=null?getPhoneContactMechanism().getValue():null;
 	}
 	
 	@Transient
 	public String getFax(){
-		for(ContactMechanism contactMechanism: getContactMechanisms()){
-			if(contactMechanism.getType()==ContactMechanismType.Fax){
-				return contactMechanism.getValue();
-			}
-		}
-		return null;
+		return getFaxContactMechanism()!=null?getFaxContactMechanism().getValue():null;
+	}
+	
+	@Transient
+	public String getOther(){
+		return getOtherContactMechanism()!=null?getOtherContactMechanism().getValue():null;
 	}
 	
 	private void setContactMechanism(String value, ContactMechanismType contactMechanismType, boolean local){
+		setContactMechanism(value, contactMechanismType, null, local);
+	}
+	
+	private void setContactMechanism(String value, ContactMechanismType contactMechanismType, List<ContactMechanismUse> uses, boolean local){
 		ContactMechanism contactMechanism= getContactMechanism(contactMechanismType);
 		if(StringUtils.getBlankIfNull(value).equals("")){
 			if(contactMechanism !=null){
@@ -95,25 +88,33 @@ public abstract class PersonBase extends
 				contactMechanism = new RemoteContactMechanism();
 			}
 			contactMechanism.setType(contactMechanismType);
-			contactMechanism.setValue(value);
-			contactMechanisms.add(contactMechanism);
 		} else {
 			contactMechanisms.remove(contactMechanism);
-			contactMechanism.setValue(value);
-			contactMechanisms.add(contactMechanism);
+		}
+		contactMechanism.setValue(value);
+		contactMechanisms.add(contactMechanism);
+		if(uses != null){
+			contactMechanism.getContactMechanismUseAssociation().clear();
+			for(ContactMechanismUse use : uses){
+				contactMechanism.getContactMechanismUseAssociation().add(new ContactMechanismUseAssociation(use));
+			}
 		}
 	}
 	
 	public void setEmail(String email){
-		setContactMechanism(email, ContactMechanismType.EMAIL, true);
+		setEmail(email, null);
 	}
 	
 	public void setPhone(String phone){
-		setContactMechanism(phone, ContactMechanismType.PHONE, true);
+		setPhone(phone, null);
 	}
 	
 	public void setFax(String fax){
-		setContactMechanism(fax, ContactMechanismType.Fax, true);
+		setFax(fax, null);
+	}
+	
+	public void setOther(String other){
+		setOther(other, null);
 	}
 	
 	public void setRemoteEmail(String email){
@@ -254,4 +255,63 @@ public abstract class PersonBase extends
         return true;
     }
 
+    public void setEmail(String email, List<ContactMechanismUse> uses){
+		setContactMechanism(email, ContactMechanismType.EMAIL, uses, true);
+	}
+	
+	public void setPhone(String phone, List<ContactMechanismUse> uses){
+		setContactMechanism(phone, ContactMechanismType.PHONE, uses, true);
+	}
+	
+	public void setFax(String fax, List<ContactMechanismUse> uses){
+		setContactMechanism(fax, ContactMechanismType.Fax, uses, true);
+	}
+	
+	public void setOther(String other, List<ContactMechanismUse> uses){
+		setContactMechanism(other, ContactMechanismType.OTHER, uses, true);
+	}
+    
+	@Transient
+	public ContactMechanism getEmailContactMechanism(){
+		for(ContactMechanism contactMechanism: getContactMechanisms()){
+			if(contactMechanism.getType()==ContactMechanismType.EMAIL){
+				return contactMechanism;
+			}
+		}
+		return null;
+	}
+	
+	@Transient
+	public ContactMechanism getPhoneContactMechanism(){
+		for(ContactMechanism contactMechanism: getContactMechanisms()){
+			if(contactMechanism.getType()==ContactMechanismType.PHONE){
+				return contactMechanism;
+			}
+		}
+		return null;
+	}
+	
+	@Transient
+	public ContactMechanism getFaxContactMechanism(){
+		for(ContactMechanism contactMechanism: getContactMechanisms()){
+			if(contactMechanism.getType()==ContactMechanismType.Fax){
+				return contactMechanism;
+			}
+		}
+		return null;
+	}
+	
+	@Transient
+	public ContactMechanism getOtherContactMechanism(){
+		for(ContactMechanism contactMechanism: getContactMechanisms()){
+			if(contactMechanism.getType()==ContactMechanismType.OTHER){
+				return contactMechanism;
+			}
+		}
+		return null;
+	}
+	
+	public void addContactMechanism(ContactMechanism contactMechanism){
+		getContactMechanisms().add(contactMechanism);
+	}
 }

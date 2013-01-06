@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 import org.springframework.web.util.WebUtils;
 
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
@@ -33,10 +33,10 @@ public class StudyPersonnelTab extends StudyTab {
     
     private StudyPersonnelDao studyPersonnelDao;
 
-    private ResearchStaffDao researchStaffDao;
+    private PersonUserDao personUserDao;
 
-    public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-        this.researchStaffDao = researchStaffDao;
+    public void setPersonUserDao(PersonUserDao personUserDao) {
+        this.personUserDao = personUserDao;
     }
 
     public void setPersonnelService(PersonnelService personnelService) {
@@ -104,7 +104,7 @@ public class StudyPersonnelTab extends StudyTab {
     	if(action.equals("addStudyPersonnel")){
     		String[] rsIds = wrapper.getStudyPersonnelIds();
             if (rsIds.length > 0) {
-                ResearchStaff researchStaff = null;
+                PersonUser personUser = null;
                 String roleName = null;
                 log.debug("Study PersonnelIds Size : "+ rsIds.length);
                 for (String rsId : rsIds) {
@@ -120,17 +120,17 @@ public class StudyPersonnelTab extends StudyTab {
                     	continue;
                     }
                     StudyPersonnel sPersonnel = new StudyPersonnel();
-                    researchStaff = researchStaffDao.getById(researchStaffId);
-                    researchStaff.getContactMechanisms().size();
-                    if (researchStaff != null) {
-                        sPersonnel.setResearchStaff(researchStaff);
+                    personUser = personUserDao.getById(researchStaffId);
+                    personUser.getContactMechanisms().size();
+                    if (personUser != null) {
+                        sPersonnel.setPersonUser(personUser);
                         sPersonnel.setStatusCode("Active");
                         sPersonnel.setStudyOrganization(selectedStudyOrganization);
                         //set the role for the studyPersonnel provided it doesn't already exist
                         StudyPersonnelRole studyPersonnelRole = new StudyPersonnelRole(roleName);
                         boolean addRole = true;
-                        if(researchStaff.getStudyPersonnels().size() > 0){
-                        	for(StudyPersonnel sp : researchStaff.getStudyPersonnels()){
+                        if(personUser.getStudyPersonnels().size() > 0){
+                        	for(StudyPersonnel sp : personUser.getStudyPersonnels()){
                             	sp.getStudyPersonnelRoles().size();
                             	if(sp.getStudyPersonnelRoles().contains(studyPersonnelRole)){
                             		addRole = false;
@@ -143,13 +143,13 @@ public class StudyPersonnelTab extends StudyTab {
                         //saving the studyPersonnel irrespective of whether role is set or not. Reconsider!
                         selectedStudyOrganization.getStudyPersonnel().add(sPersonnel);
                     } else {
-                        log.error("StudyPersonnelTab - postProcessOnValidation(): researchStaffDao.getById() returned null");
+                        log.error("StudyPersonnelTab - postProcessOnValidation(): personUserDao.getById() returned null");
                     }
                 }
             }
     	}else if (action.equals("removeStudyPersonnel")) {
     		for(StudyPersonnel studyPersonnel : selectedStudyOrganization.getStudyPersonnel()){
-    			if(studyPersonnel.getResearchStaff().getAssignedIdentifier().equals(request.getParameter("_selectedPersonnelAssignedId"))){
+    			if(studyPersonnel.getPersonUser().getId().toString().equals(request.getParameter("_selectedPersonnelAssignedId"))){
     				selectedStudyOrganization.getStudyPersonnel().remove(studyPersonnel);
     				studyPersonnelDao.saveOrUpdateStudyPersonnel(studyPersonnel, true);
     				break;
@@ -168,7 +168,7 @@ public class StudyPersonnelTab extends StudyTab {
 
     private boolean exists(int id , List<StudyPersonnel> studyPersonnelList, String role){
     	for(StudyPersonnel studyPersonnel : studyPersonnelList){
-    		if(studyPersonnel.getResearchStaff().getId().equals(id) && studyPersonnel.getStudyPersonnelRoles().contains(new StudyPersonnelRole(role)))
+    		if(studyPersonnel.getPersonUser().getId().equals(id) && studyPersonnel.getStudyPersonnelRoles().contains(new StudyPersonnelRole(role)))
     			return true;
     	}
     	return false;

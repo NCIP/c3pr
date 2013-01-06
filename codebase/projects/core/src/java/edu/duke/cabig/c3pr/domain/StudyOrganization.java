@@ -149,7 +149,7 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
         List<StudyInvestigator> list = getStudyInvestigators();
         List<StudyInvestigator> retList = new ArrayList<StudyInvestigator>();
         for (StudyInvestigator s : list) {
-            if (s.getStatusCode().equals(InvestigatorStatusCodeEnum.AC)) retList.add(s);
+            if (s.getStatusCode() == null || s.getStatusCode().equals(InvestigatorStatusCodeEnum.AC)) retList.add(s);
         }
         return retList;
     }

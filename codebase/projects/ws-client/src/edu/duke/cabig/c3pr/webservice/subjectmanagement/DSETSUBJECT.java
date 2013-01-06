@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
 
 
 /**
@@ -19,7 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;extension base="{http://enterpriseservices.nci.nih.gov}COLL_SUBJECT">
  *       &lt;sequence>
- *         &lt;element name="item" type="{http://enterpriseservices.nci.nih.gov}Subject" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="item" type="{http://enterpriseservices.nci.nih.gov/Common}Subject" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>

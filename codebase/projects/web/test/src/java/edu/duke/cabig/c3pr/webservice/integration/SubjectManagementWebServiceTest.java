@@ -9,6 +9,7 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -29,25 +30,27 @@ import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.Organization;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.Person;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETST;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
+import edu.duke.cabig.c3pr.webservice.iso21090.PostalAddressUse;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
+import edu.duke.cabig.c3pr.webservice.iso21090.TelecommunicationAddressUse;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvancedQuerySubjectRequest;
-import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidStateTransitionExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidSubjectDataExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.NoSuchSubjectExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SecurityExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectAlreadyExistsExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementService;
@@ -64,11 +67,11 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectStateReques
  * @version 1.0
  */
 public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase {
-
-	private static final int TIMEOUT = 1000 * 60 * 3;
+	
 	private static final String WS_ENDPOINT_SERVLET_PATH = "/services/services/SubjectManagement";
 	
 	private final String SUBJECT_ID = RandomStringUtils.randomAlphanumeric(16);
+	private final String SUBJECT_ID_SECONDARY = RandomStringUtils.randomAlphanumeric(16);
 
 	private static final QName SERVICE_NAME = new QName(
 			"http://enterpriseservices.nci.nih.gov/SubjectManagementService",
@@ -76,11 +79,19 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 	private static final String DBUNIT_DATASET_PREFIX = "/edu/duke/cabig/c3pr/webservice/integration/testdata/SubjectManagementWebServiceTest_";
 
-	private static final String SQL_IDENTIFIERS = "SELECT type, dtype FROM identifiers WHERE value='${SUBJECT_ID}' ORDER BY id";
+	private static final String SQL_IDENTIFIERS = "SELECT type, dtype, primary_indicator FROM identifiers WHERE prt_id=(SELECT prt_id FROM identifiers WHERE value='${SUBJECT_ID}') and dtype<>'SAI' ORDER BY id";
 	private static final String SQL_ADDRESSES = "SELECT * FROM addresses WHERE addresses.participant_id IN (SELECT participants.Id FROM participants,identifiers WHERE participants.id=identifiers.prt_id and identifiers.value='${SUBJECT_ID}') ";
 	private static final String SQL_CONTACT_MECHANISMS = "SELECT * FROM contact_mechanisms WHERE contact_mechanisms.prt_id IN (SELECT participants.Id FROM participants,identifiers WHERE participants.id=identifiers.prt_id and identifiers.value='${SUBJECT_ID}') order by id";
 	private static final String SQL_PARTICIPANTS = "SELECT * FROM participants p WHERE EXISTS (SELECT Id from identifiers i where i.prt_id=p.id and i.value='${SUBJECT_ID}')";
 	private static final String SQL_RACE_CODE_ASS = "SELECT * FROM race_code_assocn WHERE race_code_assocn.sub_id IN (SELECT participants.Id FROM participants,identifiers WHERE participants.id=identifiers.prt_id and identifiers.value='${SUBJECT_ID}') order by id";
+	private static final String SQL_CONTACT_USE_ASS = "SELECT * FROM contact_use_assocns WHERE contact_use_assocns.cntct_id IN "+ 
+														"(SELECT contact_mechanisms.Id FROM participants,contact_mechanisms WHERE contact_mechanisms.prt_id IN "+ 
+														"(SELECT participants.Id FROM participants,identifiers WHERE participants.id=identifiers.prt_id and identifiers.value='${SUBJECT_ID}') "+
+														") order by id";
+	private static final String SQL_ADDRESS_USE_ASS = "SELECT * FROM address_use_assocns WHERE address_use_assocns.add_id IN "+
+													"(SELECT addresses.Id FROM participants,addresses WHERE addresses.participant_id IN "+
+													"(SELECT participants.Id FROM participants,identifiers WHERE participants.id=identifiers.prt_id and identifiers.value='${SUBJECT_ID}') "+
+													") order by id";
 
 	private URL endpointURL;
 	private URL wsdlLocation;
@@ -99,7 +110,7 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 	protected void setUp() throws Exception {
 		if (noEmbeddedTomcat) {
 			endpointURL = new URL(
-					"https://localhost:8443/c3pr/services/services/SubjectManagement");
+					"https://localhost:8443/c3pr"+WS_ENDPOINT_SERVLET_PATH);
 			initDataSourceFile();
 		} else {
 			super.setUp();
@@ -112,11 +123,6 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 		logger.info("endpointURL: " + endpointURL);
 		logger.info("wsdlLocation: " + wsdlLocation);
-
-		// just to make sure we don't lock ourselves out on I/O to service
-		// calls.
-		System.setProperty("sun.net.client.defaultConnectTimeout", "" + TIMEOUT);
-		System.setProperty("sun.net.client.defaultReadTimeout", "" + TIMEOUT);
 	}
 
 	@Override
@@ -226,7 +232,7 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 		// find two subjects
 		Subject secondSubj = createSubject(false);
-		secondSubj.getEntity().getBiologicEntityIdentifier().get(0)
+		secondSubj.getEntity().getBiologicEntityIdentifier().get(1)
 				.getIdentifier().setExtension("X" + SUBJECT_ID + "X");
 		CreateSubjectRequest createReq = new CreateSubjectRequest();
 		createReq.setSubject(secondSubj);
@@ -266,8 +272,14 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		request.setSubject(subject);
 		List<Subject> list = service.querySubject(request).getSubjects()
 				.getItem();
+		assertEquals(2, list.size());
+		
+		subject.getEntity().getBiologicEntityIdentifier().clear();
+		subject.getEntity().getBiologicEntityIdentifier().add(createBioEntityId());
+		list = service.querySubject(request).getSubjects()
+		.getItem();
 		assertEquals(1, list.size());
-		assertTrue(BeanUtils.deepCompare(subject, list.get(0)));
+		assertTrue(BeanUtils.deepCompare(createSubject(false), list.get(0)));
 
 		// subject does not exist.
 		subject.getEntity().getBiologicEntityIdentifier().get(0)
@@ -302,7 +314,7 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		// unexistent subject
 		subject = createSubject(true);
 		request.setSubject(subject);
-		subject.getEntity().getBiologicEntityIdentifier().get(0)
+		subject.getEntity().getBiologicEntityIdentifier().get(1)
 				.getIdentifier().setExtension(SUBJECT_ID + " unexistent");
 		try {
 			service.updateSubject(request);
@@ -354,6 +366,24 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 			logger.info("Duplicate subject creation passed.");
 		}
 
+		//missing primary identifier
+		subject.getEntity().getBiologicEntityIdentifier().clear();
+		subject.getEntity().getBiologicEntityIdentifier().add(createSecondaryBioEntityId());
+		try {
+			service.createSubject(request);
+			fail();
+		} catch (InvalidSubjectDataExceptionFaultMessage e) {
+			logger.info("missing primary identifier passed.");
+		}
+		
+		// duplicate secondary identifier
+		subject = createSubject(false);
+		subject.getEntity().getBiologicEntityIdentifier().get(1).getIdentifier().setExtension(RandomStringUtils.randomAlphanumeric(16));
+		request.setSubject(subject);
+		createdSubject = service.createSubject(request).getSubject();
+		assertNotNull(createdSubject);
+		assertTrue(BeanUtils.deepCompare(subject, createdSubject));
+		
 		// bad subject data
 		subject.getEntity().getBirthDate().setValue(BAD_ISO_DATE);
 		try {
@@ -397,6 +427,10 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 				SQL_PARTICIPANTS);
 		verifyData("RaceCodeAssocn", fileNameAppendix, "race_code_assocn",
 				SQL_RACE_CODE_ASS);
+		verifyData("AddressUseAssocn", fileNameAppendix, "address_use_assocns",
+				SQL_ADDRESS_USE_ASS);
+		verifyData("ContactUseAssocn", fileNameAppendix, "contact_use_assocns",
+				SQL_CONTACT_USE_ASS);
 
 	}
 
@@ -473,6 +507,8 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 	private static final String TEST_PHONE_2 = "666-666-6666";
 	private static final String TEST_PHONE_ISO = "tel:" + TEST_PHONE;
 	private static final String TEST_PHONE_ISO_2 = "tel:" + TEST_PHONE_2;
+	private static final String TEST_OTHER_2 = "some_value";
+	private static final String TEST_OTHER_ISO_2 = "user-defined:" + TEST_OTHER_2;
 	private static final String TEST_EMAIL_ADDR = "johndoe@semanticbits.com";
 	private static final String TEST_EMAIL_ADDR_2 = "johndoe2@semanticbits.com";
 	private static final String TEST_EMAIL_ADDR_ISO = "mailto:"
@@ -511,6 +547,7 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 	private static final String STATE_ACTIVE = "ACTIVE";
 	private static final String STATE_INACTIVE = "INACTIVE";
 	private static final String ORG_ID_TYPE_MRN = "MRN";
+	private static final String ORG_ID_TYPE_COOP = "COOPERATIVE_GROUP_IDENTIFIER";
 	private static final String ORG_ID_TYPE_CTEP = "CTEP";
 	private static final String TEST_ORG_ID = "MN026";
 
@@ -539,6 +576,7 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 	 */
 	protected Person createPerson(boolean a) {
 		Person person = new Person();
+		person.getBiologicEntityIdentifier().add(createSecondaryBioEntityId());
 		person.getBiologicEntityIdentifier().add(createBioEntityId());
 		person.setAdministrativeGenderCode(!a ? iso.CD(GENDER_MALE) : iso.CD(
 				GENDER_FEMALE));
@@ -559,12 +597,12 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 				TEST_FIRST_NAME_2, EntityNamePartType.GIV), iso.ENXP(
 				TEST_MID_NAME_2, EntityNamePartType.GIV), iso.ENXP(
 				TEST_LAST_NAME_2, EntityNamePartType.FAM))));
-		person.setPostalAddress(!a ? iso.DSETAD(iso.AD(iso.ADXP(
+		person.setPostalAddress(!a ? iso.DSETAD(iso.AD(Arrays.asList(PostalAddressUse.H, PostalAddressUse.HV),iso.ADXP(
 				TEST_STREET_ADDRESS, AddressPartType.SAL), iso.ADXP(
 				TEST_CITY_NAME, AddressPartType.CTY), iso.ADXP(TEST_STATE_CODE,
 				AddressPartType.STA), iso.ADXP(TEST_ZIP_CODE,
 				AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY,
-				AddressPartType.CNT))) : iso.DSETAD(iso.AD(iso.ADXP(
+				AddressPartType.CNT))) : iso.DSETAD(iso.AD(Arrays.asList(PostalAddressUse.ABC, PostalAddressUse.DIR),iso.ADXP(
 				TEST_STREET_ADDRESS_2, AddressPartType.SAL), iso.ADXP(
 				TEST_CITY_NAME_2, AddressPartType.CTY), iso.ADXP(
 				TEST_STATE_CODE_2, AddressPartType.STA), iso.ADXP(
@@ -572,10 +610,13 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 				AddressPartType.CNT))));
 		person.setRaceCode(!a ? iso.DSETCD(iso.CD(RACE_WHITE), iso.CD(
 				RACE_ASIAN)) : iso.DSETCD((iso.CD(RACE_BLACK))));
-		person.setTelecomAddress(!a ? iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO),
-				iso.TEL(TEST_PHONE_ISO), iso.TEL(TEST_FAX_ISO)) : iso.BAGTEL(
-				iso.TEL(TEST_EMAIL_ADDR_ISO_2), iso.TEL(TEST_PHONE_ISO_2),
-				iso.TEL(TEST_FAX_ISO_2)));
+		person.setTelecomAddress(!a ? iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO, Arrays.asList(TelecommunicationAddressUse.H, TelecommunicationAddressUse.HV)),
+				iso.TEL(TEST_PHONE_ISO, Arrays.asList(TelecommunicationAddressUse.H, TelecommunicationAddressUse.HV)), 
+				iso.TEL(TEST_FAX_ISO, Arrays.asList(TelecommunicationAddressUse.H, TelecommunicationAddressUse.HV))) : iso.BAGTEL(
+				iso.TEL(TEST_EMAIL_ADDR_ISO_2, Arrays.asList(TelecommunicationAddressUse.HP, TelecommunicationAddressUse.AS)), 
+				iso.TEL(TEST_PHONE_ISO_2, Arrays.asList(TelecommunicationAddressUse.HP, TelecommunicationAddressUse.AS)),
+				iso.TEL(TEST_FAX_ISO_2, Arrays.asList(TelecommunicationAddressUse.HP, TelecommunicationAddressUse.AS)),
+				iso.TEL(TEST_OTHER_ISO_2, Arrays.asList(TelecommunicationAddressUse.HP, TelecommunicationAddressUse.AS))));
 		return person;
 	}
 
@@ -597,6 +638,27 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		bioId.setTypeCode(iso.CD(ORG_ID_TYPE_MRN));
 		bioId.setEffectiveDateRange(iso.IVLTSDateTime(NullFlavor.NI));
 		bioId.setPrimaryIndicator(iso.BL(true));
+		return bioId;
+	}
+	
+	/**
+	 * @return
+	 */
+	protected BiologicEntityIdentifier createSecondaryBioEntityId() {
+		OrganizationIdentifier orgId = new OrganizationIdentifier();
+		orgId.setIdentifier(iso.II(TEST_ORG_ID));
+		orgId.setPrimaryIndicator(iso.BL(true));
+		orgId.setTypeCode(iso.CD(ORG_ID_TYPE_CTEP));
+
+		Organization org = new Organization();
+		org.getOrganizationIdentifier().add(orgId);
+
+		BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
+		bioId.setAssigningOrganization(org);
+		bioId.setIdentifier(iso.II(SUBJECT_ID_SECONDARY));
+		bioId.setTypeCode(iso.CD(ORG_ID_TYPE_COOP));
+		bioId.setEffectiveDateRange(iso.IVLTSDateTime(NullFlavor.NI));
+		bioId.setPrimaryIndicator(iso.BL(false));
 		return bioId;
 	}
 

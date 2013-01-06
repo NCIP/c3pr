@@ -154,14 +154,14 @@
     <ARMS id="1006" version="1" name="Arm 1006" description_text="Arm 1006 desc" target_accrual_number="1006" eph_id="1003"  retired_indicator = "false" />
     <ARMS id="1007" version="1" name="Arm 1007" description_text="Arm 1007 desc" target_accrual_number="1007" eph_id="1003"  retired_indicator = "false" />
         
-    <RESEARCH_STAFF id="1000" version="1" dtype="Local" assigned_identifier="x1" first_name="Research Bill" last_name="Staff2" login_id="1000" retired_indicator = "false" />
-    <RESEARCH_STAFF id="1001" version="1" dtype="Local" assigned_identifier="x2" first_name="Research George" last_name="Staff2" login_id="1001" retired_indicator = "false" />
-    <RESEARCH_STAFF id="1002" version="1" dtype="Local" assigned_identifier="x3" first_name="Research Benjamin" last_name="Staff3" login_id="1002" retired_indicator = "false" />    
-    <RESEARCH_STAFF id="1003" version="1" dtype="Local" assigned_identifier="x4" first_name="Research JFK" last_name="Staff4" login_id="1003" retired_indicator = "false" />
-    <RESEARCH_STAFF id="1004" version="1" dtype="Local" assigned_identifier="x5" first_name="Research Tom" last_name="Staff4" login_id="1004" retired_indicator = "false" />
-    <RESEARCH_STAFF id="1005" version="1" dtype="Local" assigned_identifier="x6" first_name="Research Jim" last_name="Staff4" login_id="1005" retired_indicator = "false" />
-    <RESEARCH_STAFF id="1006" version="1" dtype="Local" assigned_identifier="x7" first_name="Research John" last_name="Staff4" login_id="1006" retired_indicator = "false" />
-    <RESEARCH_STAFF id="1007" version="1" dtype="Local" assigned_identifier="x8" first_name="Research Jessica" last_name="Staff4" login_id="1007" retired_indicator = "false" />
+    <PERSONS_USERS id="1000" version="1" dtype="Local" assigned_identifier="x1" first_name="Research Bill" last_name="Staff2" login_id="1000" retired_indicator = "false" />
+    <PERSONS_USERS id="1001" version="1" dtype="Local" assigned_identifier="x2" first_name="Research George" last_name="Staff2" login_id="1001" retired_indicator = "false" />
+    <PERSONS_USERS id="1002" version="1" dtype="Local" assigned_identifier="x3" first_name="Research Benjamin" last_name="Staff3" login_id="1002" retired_indicator = "false" />    
+    <PERSONS_USERS id="1003" version="1" dtype="Local" assigned_identifier="x4" first_name="Research JFK" last_name="Staff4" login_id="1003" retired_indicator = "false" />
+    <PERSONS_USERS id="1004" version="1" dtype="Local" assigned_identifier="x5" first_name="Research Tom" last_name="Staff4" login_id="1004" retired_indicator = "false" />
+    <PERSONS_USERS id="1005" version="1" dtype="Local" assigned_identifier="x6" first_name="Research Jim" last_name="Staff4" login_id="1005" retired_indicator = "false" />
+    <PERSONS_USERS id="1006" version="1" dtype="Local" assigned_identifier="x7" first_name="Research John" last_name="Staff4" login_id="1006" retired_indicator = "false" />
+    <PERSONS_USERS id="1007" version="1" dtype="Local" assigned_identifier="x8" first_name="Research Jessica" last_name="Staff4" login_id="1007" retired_indicator = "false" />
     
     <rs_hc_site_assocn rs_id="1000" hcs_id="1000" />
     <rs_hc_site_assocn rs_id="1001" hcs_id="1000" />

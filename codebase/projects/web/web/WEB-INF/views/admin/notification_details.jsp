@@ -497,8 +497,8 @@
 										name="healthcareSite.plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].emailAddress" 
 										value="${command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress}" />
 									<input type="hidden" id="userEmail[${nStatus.index}][${emailStatus.index}]-hiddenResearchStaff" 
-										name="healthcareSite.plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].researchStaff" 
-										value="${command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].researchStaff.id}"/>
+										name="healthcareSite.plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].personUser" 
+										value="${command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].personUser.id}"/>
 									<input id="userEmail[${nStatus.index}][${emailStatus.index}]-input" size="40" type="text"  
 										value="${command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].fullName} (${command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress})" class="autocomplete validate-notEmpty" />
 									<tags:indicator id="userEmail[${nStatus.index}][${emailStatus.index}]-indicator" />
@@ -703,8 +703,8 @@
 							name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress" 
 							value="${command.healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" />
 					<input type="hidden" id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-hiddenResearchStaff" 
-										name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].researchStaff" 
-										value="${command.healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].researchStaff.id}"/>
+										name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].personUser" 
+										value="${command.healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].personUser.id}"/>
 					<input id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-input" size="40" type="text" 
 							value="${command.healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" class="autocomplete validate-notEmpty" />
 					<tags:indicator id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-indicator" />

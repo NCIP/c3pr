@@ -45,9 +45,9 @@
         <pattern>/pages/personAndOrganization/investigator/createInvestigator</pattern>
 		<pattern>/pages/personAndOrganization/investigator/editInvestigator</pattern>
         <pattern>/pages/personAndOrganization/investigator/searchInvestigator</pattern> 
-        <pattern>/pages/personAndOrganization/researchStaff/createResearchStaff</pattern>
-		<pattern>/pages/personAndOrganization/researchStaff/editResearchStaff</pattern>
-        <pattern>/pages/personAndOrganization/researchStaff/searchResearchStaff</pattern> 
+        <pattern>/pages/personAndOrganization/personOrUser/createPersonOrUser</pattern>
+		<pattern>/pages/personAndOrganization/personOrUser/editPersonOrUser</pattern>
+        <pattern>/pages/personAndOrganization/personOrUser/searchPersonOrUser</pattern>
         <pattern>/pages/personAndOrganization/investigator/createInvestigatorGroups</pattern>
         <pattern>/pages/registration/offEpoch</pattern>
         <pattern>/pages/registration/reConsent</pattern>

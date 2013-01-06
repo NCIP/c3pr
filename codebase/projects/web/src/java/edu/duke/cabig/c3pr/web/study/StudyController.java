@@ -19,15 +19,18 @@ import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
+import edu.duke.cabig.c3pr.constants.NCIRecognizedProgramName;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
+import edu.duke.cabig.c3pr.constants.StudyCategory;
 import edu.duke.cabig.c3pr.constants.StudyPart;
+import edu.duke.cabig.c3pr.constants.StudySponsorType;
 import edu.duke.cabig.c3pr.dao.CompanionStudyAssociationDao;
 import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyVersionDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -66,7 +69,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
 
     protected HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 
-    protected ResearchStaffDao researchStaffDao;
+    protected PersonUserDao personUserDao;
 
     private DiseaseTermDao diseaseTermDao;
 
@@ -144,7 +147,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(false));
         binder.registerCustomEditor(healthcareSiteDao.domainClass(), new CustomDaoEditor( healthcareSiteDao));
         binder.registerCustomEditor(healthcareSiteInvestigatorDao.domainClass(), new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));
-        binder.registerCustomEditor(researchStaffDao.domainClass(), new NullIdDaoBasedEditor( researchStaffDao));
+        binder.registerCustomEditor(personUserDao.domainClass(), new NullIdDaoBasedEditor( personUserDao));
         binder.registerCustomEditor(studyDao.domainClass(), new CustomDaoEditor( studyDao));
 
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
@@ -160,6 +163,10 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
         binder.registerCustomEditor(SiteStudyStatus.class, new EnumByNameEditor( SiteStudyStatus.class));
         binder.registerCustomEditor(EpochType.class, new EnumByNameEditor(EpochType.class));
         binder.registerCustomEditor(ConsentingMethod.class, new EnumByNameEditor(ConsentingMethod.class));
+        binder.registerCustomEditor(StudySponsorType.class, new EnumByNameEditor( StudySponsorType.class));
+        binder.registerCustomEditor(StudyCategory.class, new EnumByNameEditor( StudyCategory.class));
+        binder.registerCustomEditor(NCIRecognizedProgramName.class, new EnumByNameEditor( NCIRecognizedProgramName.class));
+        
     }
 
     protected boolean isSummaryEnabled() {
@@ -233,12 +240,12 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
         this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
     }
 
-    public ResearchStaffDao getResearchStaffDao() {
-        return researchStaffDao;
+    public PersonUserDao getPersonUserDao() {
+        return personUserDao;
     }
 
-    public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-        this.researchStaffDao = researchStaffDao;
+    public void setPersonUserDao(PersonUserDao personUserDao) {
+        this.personUserDao = personUserDao;
     }
 
     public DiseaseTermDao getDiseaseTermDao() {

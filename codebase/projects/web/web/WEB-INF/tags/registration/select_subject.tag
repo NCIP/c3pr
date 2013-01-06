@@ -387,7 +387,7 @@
 					</c:when>
 					<c:otherwise>
 						<select name="participant.organizationAssignedIdentifiers[0].healthcareSite" class="required validate-notEmpty" style="width: 260px;">
-							<tags:userOrgOptions preSelectedSiteId="${command.participant.organizationAssignedIdentifiers[0].healthcareSite.id}"/>
+							<tags:userOrgOptions preSelectedSiteId="${command.participant.organizationAssignedIdentifiers[0].healthcareSite.id}" privilege="UI_SUBJECT_UPDATE"/>
 						</select>
 					</c:otherwise>
 				</c:choose>
@@ -395,6 +395,7 @@
 			</div>
 		</div>
 		<div class="row">
+			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></div>
 			<div class="value">
 				<input type="text" id="organizationAssignedIdentifiers[0].value" name="participant.organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="required validate-notEmpty" />
 				<tags:hoverHint keyProp="subject.MRN.value"/>

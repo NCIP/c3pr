@@ -3,6 +3,10 @@ package edu.duke.cabig.c3pr.constants;
 import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.register;
 import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
 
@@ -70,8 +74,12 @@ public enum C3PRUserGroupType implements CodedEnum<String> {
         return name();
     }
     
+    public SuiteRole getUnifiedSuiteRole() {
+		return C3PRUserGroupType.getUnifiedSuiteRole(this);
+	}
+	
+    
 	public static SuiteRole getUnifiedSuiteRole(C3PRUserGroupType groupType) {
-		
 		switch(groupType){
 			case SYSTEM_ADMINISTRATOR: return SuiteRole.SYSTEM_ADMINISTRATOR;
 			case BUSINESS_ADMINISTRATOR: return SuiteRole.BUSINESS_ADMINISTRATOR;
@@ -98,7 +106,67 @@ public enum C3PRUserGroupType implements CodedEnum<String> {
 			case LAB_DATA_USER: return SuiteRole.LAB_DATA_USER;
 			default: return null; 
 		}
+	}
+	
+	public static List<C3PRUserGroupType> getStudyScopedRoles(){
+		List<C3PRUserGroupType> studyScopedRoles = new ArrayList<C3PRUserGroupType>();
+
+		studyScopedRoles.add(C3PRUserGroupType.REGISTRAR);
+		studyScopedRoles.add(C3PRUserGroupType.DATA_ANALYST);
+		studyScopedRoles.add(C3PRUserGroupType.DATA_READER);
 		
+		studyScopedRoles.add(C3PRUserGroupType.AE_STUDY_DATA_REVIEWER);
+		studyScopedRoles.add(C3PRUserGroupType.AE_EXPEDITED_REPORT_REVIEWER);
+		studyScopedRoles.add(C3PRUserGroupType.AE_REPORTER);
+		
+		studyScopedRoles.add(C3PRUserGroupType.LAB_DATA_USER);
+		studyScopedRoles.add(C3PRUserGroupType.LAB_IMPACT_CALENDAR_NOTIFIER);
+		
+		studyScopedRoles.add(C3PRUserGroupType.STUDY_CALENDAR_TEMPLATE_BUILDER);
+		studyScopedRoles.add(C3PRUserGroupType.STUDY_SUBJECT_CALENDAR_MANAGER);
+		
+		return studyScopedRoles;
+	}
+	
+	public String getRoleDescription() {
+		switch(this){
+			case SYSTEM_ADMINISTRATOR: return SuiteRole.SYSTEM_ADMINISTRATOR.getDescription();
+			case BUSINESS_ADMINISTRATOR: return SuiteRole.BUSINESS_ADMINISTRATOR.getDescription();
+			case PERSON_AND_ORGANIZATION_INFORMATION_MANAGER: return SuiteRole.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER.getDescription();
+			case DATA_IMPORTER: return SuiteRole.DATA_IMPORTER.getDescription();
+			case USER_ADMINISTRATOR: return SuiteRole.USER_ADMINISTRATOR.getDescription();
+			case STUDY_QA_MANAGER: return SuiteRole.STUDY_QA_MANAGER.getDescription();
+			case STUDY_CREATOR: return SuiteRole.STUDY_CREATOR.getDescription();
+			case SUPPLEMENTAL_STUDY_INFORMATION_MANAGER: return SuiteRole.SUPPLEMENTAL_STUDY_INFORMATION_MANAGER.getDescription();
+			case STUDY_TEAM_ADMINISTRATOR: return SuiteRole.STUDY_TEAM_ADMINISTRATOR.getDescription();
+			case STUDY_SITE_PARTICIPATION_ADMINISTRATOR: return SuiteRole.STUDY_SITE_PARTICIPATION_ADMINISTRATOR.getDescription();
+			case REGISTRATION_QA_MANAGER: return SuiteRole.REGISTRATION_QA_MANAGER.getDescription();
+			case SUBJECT_MANAGER: return SuiteRole.SUBJECT_MANAGER.getDescription();
+			case REGISTRAR: return SuiteRole.REGISTRAR.getDescription();
+			case DATA_READER: return SuiteRole.DATA_READER.getDescription();
+			case DATA_ANALYST: return SuiteRole.DATA_ANALYST.getDescription();
+			case AE_RULE_AND_REPORT_MANAGER: return SuiteRole.AE_RULE_AND_REPORT_MANAGER.getDescription();
+			case STUDY_CALENDAR_TEMPLATE_BUILDER: return SuiteRole.STUDY_CALENDAR_TEMPLATE_BUILDER.getDescription();
+			case STUDY_SUBJECT_CALENDAR_MANAGER: return SuiteRole.STUDY_SUBJECT_CALENDAR_MANAGER.getDescription();
+			case AE_REPORTER: return SuiteRole.AE_REPORTER.getDescription();
+			case AE_EXPEDITED_REPORT_REVIEWER: return SuiteRole.AE_EXPEDITED_REPORT_REVIEWER.getDescription();
+			case AE_STUDY_DATA_REVIEWER: return SuiteRole.AE_STUDY_DATA_REVIEWER.getDescription();
+			case LAB_IMPACT_CALENDAR_NOTIFIER: return SuiteRole.LAB_IMPACT_CALENDAR_NOTIFIER.getDescription();
+			case LAB_DATA_USER: return SuiteRole.LAB_DATA_USER.getDescription();
+			default: return ""; 
+		}
+	}
+	
+	public boolean getIsScoped(){
+		return this.getUnifiedSuiteRole().isScoped();
+	}
+	
+	public boolean getIsSiteScoped(){
+		return this.getUnifiedSuiteRole().isSiteScoped();
+	}
+	
+	public boolean getIsStudyScoped(){
+		return this.getUnifiedSuiteRole().isStudyScoped();
 	}
 
 }

@@ -42,7 +42,7 @@ public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainOb
 	private String consentPresenter;
 	private Date informedConsentSignedTimestamp;
 	private String documentId;
-	
+	private Date consentDeclinedDate;
 	
 	public String getDocumentId() {
 		return documentId;
@@ -162,6 +162,14 @@ public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainOb
 	@Transient
 	public String getConsentDeliveryDateStr() {
 		return consentDeliveryDate!=null?CommonUtils.getDateString(consentDeliveryDate):null;
+	}
+
+	public Date getConsentDeclinedDate() {
+		return consentDeclinedDate;
+	}
+
+	public void setConsentDeclinedDate(Date consentDeclinedDate) {
+		this.consentDeclinedDate = consentDeclinedDate;
 	}
 
 }

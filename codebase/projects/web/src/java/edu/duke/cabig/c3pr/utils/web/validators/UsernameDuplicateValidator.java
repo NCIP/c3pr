@@ -5,12 +5,8 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
-import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper;
+import edu.duke.cabig.c3pr.web.admin.PersonOrUserWrapper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Oct 19, 2007 Time: 10:46:54 AM To change this
@@ -23,13 +19,12 @@ public class UsernameDuplicateValidator implements Validator {
 	private Logger log = Logger.getLogger(UsernameDuplicateValidator.class);
 	
     public boolean supports(Class aClass) {
-        //return aClass.isAssignableFrom(ResearchStaff.class);
-    	return ResearchStaffWrapper.class.isAssignableFrom(aClass);
+    	return PersonOrUserWrapper.class.isAssignableFrom(aClass);
     }
 
     public void validate(Object object, Errors errors) {
-//        ResearchStaffWrapper wrapper = (ResearchStaffWrapper) object;
-//        ResearchStaff user = wrapper.getResearchStaff();
+//        PersonUserWrapper wrapper = (PersonUserWrapper) object;
+//        PersonUser user = wrapper.getPersonUser();
 //        
 //        if(StringUtils.getBlankIfNull(user.getLoginId()).equals("")){
 //        	errors.reject("submision.errors");
@@ -37,7 +32,7 @@ public class UsernameDuplicateValidator implements Validator {
 //        // do it for old and new users. The search should be against remote research staff too
 //        //for now the search is against the db only as searching remote causes stale object exception on ORacle. see CPR-578
 //        
-//        	if(user instanceof RemoteResearchStaff){ } else {
+//        	if(user instanceof RemotePersonUser){ } else {
 //            	try {
 //            		//using login id. Since the user name check should only happen in create flow and not in module flow
 //            		//the login id check will work.

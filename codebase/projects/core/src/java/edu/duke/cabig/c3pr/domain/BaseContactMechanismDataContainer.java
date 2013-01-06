@@ -28,7 +28,6 @@ public class BaseContactMechanismDataContainer extends AbstractMutableDeletableD
     
     private String dtype;
     
-    private String externalId; 
     
     public String getDtype() {
 		return dtype;
@@ -90,12 +89,5 @@ public class BaseContactMechanismDataContainer extends AbstractMutableDeletableD
     public void setValue(String value) {
         this.value = value;
     }
-    
-    public void setExternalId(String externalId) {
-		this.externalId = externalId;
-	}
-	public String getExternalId() {
-		return externalId;
-	}
 
 }

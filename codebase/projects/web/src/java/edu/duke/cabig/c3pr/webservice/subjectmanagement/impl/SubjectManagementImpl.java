@@ -25,11 +25,12 @@ import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.web.participant.ParticipantWrapper;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvancedQuerySubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvancedQuerySubjectResponse;
-import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectResponse;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.DSETSUBJECT;
@@ -42,7 +43,6 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.NoSuchSubjectExceptionFa
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectResponse;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SecurityExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectAlreadyExistsExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectAlreadyExistsExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
@@ -126,9 +126,8 @@ public class SubjectManagementImpl implements SubjectManagement {
 			Subject subject = request.getSubject();
 			Participant participant = converter.convert(subject, true,false);
 
-			Identifier identifier = participant.getIdentifiers().get(0);
 			List<Participant> existingList = participantRepository
-					.searchByIdentifier(identifier);
+					.searchByIdentifier(participant.getPrimaryIdentifier());
 			if (CollectionUtils.isNotEmpty(existingList)) {
 				SubjectAlreadyExistsExceptionFault fault = new SubjectAlreadyExistsExceptionFault();
 				fault.setMessage(SUBJECT_ALREADY_EXISTS);
@@ -244,9 +243,8 @@ public class SubjectManagementImpl implements SubjectManagement {
 		try {
 			Subject subject = request.getSubject();
 			Participant participant = converter.convert(subject, true,false);
-			Identifier identifier = participant.getIdentifiers().get(0);
 			List<Participant> existingList = participantRepository
-					.searchByIdentifier(identifier);
+			.searchByIdentifier(participant.getPrimaryIdentifier());
 			if (CollectionUtils.isEmpty(existingList)) {
 				handleUnexistentSubject();
 			}

@@ -21,7 +21,7 @@ import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -393,8 +393,8 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
     			}
     		}
     	
-			ResearchStaff researchStaff = SecurityUtils.getLoggedInResearchStaff();
-	    	StudySubject studySubject = studySubjectRepository.allowEligibilityWaiver(command.getStudySubject().getUniqueIdentifier(), eligibilityCriteria, researchStaff.getAssignedIdentifier());
+			PersonUser personUser = SecurityUtils.getLoggedInResearchStaff();
+	    	StudySubject studySubject = studySubjectRepository.allowEligibilityWaiver(command.getStudySubject().getUniqueIdentifier(), eligibilityCriteria, personUser.getAssignedIdentifier());
 	    	command.setStudySubject(studySubject);
 	    	request.setAttribute("displayAllowWaiverSuccessMessage", "true");
     	}

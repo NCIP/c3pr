@@ -5,5 +5,7 @@
 	<contact_mechanisms type="PHONE" value="666-666-6666"
 		prt_id="50" retired_indicator="false" dtype="Local" />
 	<contact_mechanisms type="Fax" value="666-666-6666"
+	prt_id="50" retired_indicator="false" dtype="Local" />
+	<contact_mechanisms type="OTHER" value="some_value"
 		prt_id="50" retired_indicator="false" dtype="Local" />
 </dataset>

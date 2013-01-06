@@ -16,7 +16,7 @@ import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
@@ -110,12 +110,12 @@ public class StudyTargetAccrualNotificationEmail {
         List<StudyOrganization> studyOrgList = study.getStudyOrganizations();
         List<String> returnList = new ArrayList<String>();
         List<C3PRUserGroupType> groupList = null;
-        List<ResearchStaff> rStaffList = null;
+        List<PersonUser> rStaffList = null;
         for (StudyOrganization so : studyOrgList) {
             if (so instanceof StudyCoordinatingCenter) {
-                rStaffList = so.getHealthcareSite().getResearchStaffs();
+                rStaffList = so.getHealthcareSite().getPersonUsers();
 
-                for (ResearchStaff rs : rStaffList) {
+                for (PersonUser rs : rStaffList) {
                     try {
                         groupList = personnelServiceImpl.getGroups(rs);
                     }
@@ -145,7 +145,7 @@ public class StudyTargetAccrualNotificationEmail {
         return returnList;
     }
 
-    public List<String> getEmailAddressesFromResearchStaff(ResearchStaff rs) {
+    public List<String> getEmailAddressesFromResearchStaff(PersonUser rs) {
 
         List<String> returnList = new ArrayList<String>();
 //        for (ContactMechanism cm : rs.getContactMechanisms()) {

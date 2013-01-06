@@ -102,6 +102,7 @@ public class CompanionStudyTab extends StudyTab {
 				StudyInvestigator siteInvestigator = scc.getStudyInvestigators().get(0);
 				siteInvestigator.setHealthcareSiteInvestigator(studyInvestigator.getHealthcareSiteInvestigator());
 				siteInvestigator.setRoleCode(studyInvestigator.getRoleCode());
+				siteInvestigator.setStatusCode(studyInvestigator.getStatusCode());
 				scc.addStudyInvestigator(siteInvestigator);
 			}
 			cSiteIndex++;
@@ -124,7 +125,7 @@ public class CompanionStudyTab extends StudyTab {
 			
 			for (StudyPersonnel studyPersonnel : studySite.getStudyPersonnel()) {
 				StudyPersonnel sPersonnel = new StudyPersonnel();
-				sPersonnel.setResearchStaff(studyPersonnel.getResearchStaff());
+				sPersonnel.setPersonUser(studyPersonnel.getPersonUser());
 				sPersonnel.setRoleCode(studyPersonnel.getRoleCode());
 				sPersonnel.setStartDate(studyPersonnel.getStartDate());
 				sPersonnel.setStatusCode(studyPersonnel.getStatusCode());
