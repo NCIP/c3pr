@@ -1,3 +1,9 @@
+<%--
+Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+--%>
 <%@ page import="java.util.Enumeration" %>
 <%@ page import="edu.duke.cabig.c3pr.web.admin.ConfigurationCommand" %>
 <%-- This is the standard decorator for all C3PR pages --%>

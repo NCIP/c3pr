@@ -1,3 +1,9 @@
+<%--
+Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+--%>
 <%@taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator"%>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
