@@ -33,14 +33,16 @@ This file is the is the settings file used by IVY.  It is a good starting point 
 			</filesystem>           
 			<url name="remote-enterprise-ivy-repo">
 				<!-- Enterprise repository -->
-				<artifact pattern="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
-				<ivy pattern="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/[organisation]/[module]/[revision]/ivy.xml" />
+				<artifact pattern="http://repo.semanticbits.com/ivy-repo/bda/ivy-repo/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+				<ivy pattern="http://repo.semanticbits.com/ivy-repo/bda/ivy-repo/[organisation]/[module]/[revision]/ivy.xml" />
 			</url>  
-			<url name="ncicb-ivy-repo">
-				<!-- duplicate entry for Enterprise repository to not break existing caches -->
-				<artifact pattern="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
-				<ivy pattern="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo/[organisation]/[module]/[revision]/ivy.xml" />
-			</url>  
+			 <!-- Nexus NCI -->
+	        <ibiblio name="maven2-NCI-3rdparty" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/thirdparty"
+	                 	changingPattern="SNAPSHOT"/>
+	        <ibiblio name="maven2-NCI-m2central" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/central"
+	                 	changingPattern="SNAPSHOT"/>
+	        <ibiblio name="maven2-NCI-jboss" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/jboss" 
+	        			changingPattern="SNAPSHOT"/>
 			<!-- this is where you can publish to, either your own code or for testing new thirdparty files -->
 		</chain>
 	</resolvers>

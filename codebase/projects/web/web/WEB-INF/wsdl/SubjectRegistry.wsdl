@@ -152,6 +152,8 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="searchParameter" type="common:DSET_AdvanceSearchCriterionParameter"/>
+						<xsd:element name="pageNo" type="ISO:INT.Positive" minOccurs="0" maxOccurs="1"/>
+						<xsd:element name="sortOrder" type="common:DSET_SortParameter" minOccurs="0" maxOccurs="1"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>

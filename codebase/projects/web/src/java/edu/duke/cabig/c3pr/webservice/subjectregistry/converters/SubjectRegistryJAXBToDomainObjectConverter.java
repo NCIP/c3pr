@@ -114,6 +114,4 @@ public interface SubjectRegistryJAXBToDomainObjectConverter extends JAXBToDomain
 	 * @param source the source
 	 */
 	void convertToSubjectDemographics(StudySubjectDemographics destination, Subject source);
-	
-	DSETStudySubject optionallyLoadStudySubjectData(DSETStudySubject studySubjects, List<edu.duke.cabig.c3pr.domain.StudySubject> domainStudySubjects);
 }

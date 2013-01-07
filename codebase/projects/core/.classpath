@@ -132,7 +132,6 @@
 	<classpathentry kind="lib" path="build/lib/jxl-2.4.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/core-commons-testing-77.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/antfiles"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/esb-client"/>
 	<classpathentry kind="lib" path="build/classes"/>
 	<classpathentry kind="lib" path="build/testlib/easymock-2.2.jar"/>
 	<classpathentry kind="lib" path="build/testlib/easymockclassextension-2.2.1.jar"/>
@@ -157,7 +156,7 @@
 	<classpathentry kind="lib" path="build/testlib/asm-2.2.3.jar"/>
 	<classpathentry kind="lib" path="build/testlib/asm-commons-2.2.3.jar"/>
 	<classpathentry kind="lib" path="build/testlib/asm-tree-2.2.3.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION"/>
+	<classpathentry kind="var" path="ANT_HOME"/>
 	<classpathentry kind="lib" path="build/lib/clm-4.2.beta.jar"/>
 	<classpathentry kind="lib" path="build/lib/csmapi-4.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/ctms-commons-base-1.0.5.RELEASE.jar"/>
@@ -171,13 +170,15 @@
 	<classpathentry kind="lib" path="build/lib/dbunit-2.2.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/ctms-commons-suite-authorization-0.4.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="build/lib/commons-lang-2.4.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/QueryBuilder"/>
 	<classpathentry kind="lib" path="build/lib/remoteentitymanager-1.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/slf4j-nop-1.4.3.jar"/>
-	<classpathentry kind="lib" path="build/lib/RegistrationService-client-2.9.2-local-20100921172758.jar"/>
-	<classpathentry kind="lib" path="build/lib/RegistrationService-common-2.9.2-local-20100921172758.jar"/>
-	<classpathentry kind="lib" path="build/lib/RegistrationService-service-2.9.2-local-20100921172758.jar"/>
-	<classpathentry kind="lib" path="build/lib/RegistrationService-stubs-2.9.2-local-20100921172758.jar"/>
-	<classpathentry kind="lib" path="build/lib/RegistrationService-tests-2.9.2-local-20100921172758.jar"/>
+	<classpathentry kind="lib" path="build/lib/query-builder-1.31.jar"/>
+	<classpathentry kind="lib" path="/RegistrationService/build/dist/RegistrationService-client.jar"/>
+	<classpathentry kind="lib" path="/RegistrationService/build/dist/RegistrationService-common.jar"/>
+	<classpathentry kind="lib" path="/RegistrationService/build/dist/RegistrationService-service.jar"/>
+	<classpathentry kind="lib" path="/RegistrationService/build/dist/RegistrationService-stubs.jar"/>
+	<classpathentry kind="lib" path="/RegistrationService/build/dist/RegistrationService-tests.jar"/>
+	<classpathentry kind="lib" path="/esb-client/build/dist/c3pr-esb-client-tests.jar"/>
+	<classpathentry kind="lib" path="/esb-client/build/dist/c3pr-esb-client.jar"/>
 	<classpathentry kind="output" path="bin1"/>
 </classpath>

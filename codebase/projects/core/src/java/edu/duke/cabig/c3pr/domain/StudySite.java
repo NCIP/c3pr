@@ -71,8 +71,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /** The site study status. */
 	private LazyListHelper lazyListHelper;
-	
-	private Integer studySubjectId;
 
 
     /**
@@ -89,23 +87,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
         studySiteStudyVersions= new ArrayList<StudySiteStudyVersion>();
         lazyListHelper.add(SiteStatusHistory.class,new ParameterizedBiDirectionalInstantiateFactory<SiteStatusHistory>(SiteStatusHistory.class, this));
-    }
-    
-    
-    @Transient
-    public Integer getStudySubjectId() {
-		return studySubjectId;
-	}
-
-
-	private void setStudySubjectId(Integer studySubjectId) {
-		this.studySubjectId = studySubjectId;
-	}
-
-
-	public StudySite(HealthcareSite hcs, Integer studySubjectId){
-    	this.setHealthcareSite(hcs);
-    	this.setStudySubjectId(studySubjectId);
     }
 
     /**

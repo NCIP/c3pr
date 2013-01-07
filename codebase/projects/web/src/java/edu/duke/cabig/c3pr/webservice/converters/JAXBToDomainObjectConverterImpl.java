@@ -25,6 +25,7 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.displaytag.properties.SortOrderEnum;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 import com.semanticbits.querybuilder.AdvancedSearchHelper;
@@ -37,6 +38,7 @@ import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
+import edu.duke.cabig.c3pr.constants.SortOrder;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.RegistryStatusDao;
@@ -71,6 +73,7 @@ import edu.duke.cabig.c3pr.webservice.common.Organization;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.webservice.common.Person;
+import edu.duke.cabig.c3pr.webservice.common.SortParameter;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
@@ -1104,6 +1107,21 @@ public class JAXBToDomainObjectConverterImpl implements
 				.buildAdvancedSearchCriteriaParameter(objectName,
 						contextObjectName, attributeName, values, predicate);
 	}
+	
+	
+	public edu.duke.cabig.c3pr.utils.SortParameter convert(
+			SortParameter param) {
+		String contextObjectName = (isNull(param.getObjectContextName()) || StringUtils
+				.isBlank(param.getObjectContextName().getValue())) ? StringUtils.EMPTY
+				: param.getObjectContextName().getValue();
+		String objectName = convertAndErrorIfBlank(param.getObjectName(),
+				"objectName");
+		String attributeName = convertAndErrorIfBlank(param.getAttributeName(),
+				"attributeName");
+		return new edu.duke.cabig.c3pr.utils.SortParameter(contextObjectName,objectName,
+						 attributeName, param.getSortOrder() == null? null:SortOrder.valueOf(param.getSortOrder().value()));
+	}
+
 
 	/**
 	 * Convert and error if blank.

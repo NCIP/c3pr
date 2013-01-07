@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
+import edu.duke.cabig.c3pr.webservice.common.SortParameter;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
@@ -149,5 +150,7 @@ public interface JAXBToDomainObjectConverter {
 	public void convert(Study study, List<Identifier> identifiers);
 		
 	public ConsentQuestion convertConsentQuestion(DocumentVersion doc);
+	
+	public edu.duke.cabig.c3pr.utils.SortParameter convert(SortParameter param);
 
 }

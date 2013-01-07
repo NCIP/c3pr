@@ -27,7 +27,7 @@ public enum StudySponsorType implements CodedEnum<String> {
         return name();
     }
 
-    public static StatusType getByCode(String code) {
-        return getByClassAndCode(StatusType.class, code);
+    public static StudySponsorType getByCode(String code) {
+        return getByClassAndCode(StudySponsorType.class, code);
     }
 }

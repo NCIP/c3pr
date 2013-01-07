@@ -28,7 +28,7 @@ public enum TimeZoneEnum implements CodedEnum<String> {
         return name();
     }
 
-    public static StatusType getByCode(String code) {
-        return getByClassAndCode(StatusType.class, code);
+    public static TimeZoneEnum getByCode(String code) {
+        return getByClassAndCode(TimeZoneEnum.class, code);
     }
 }

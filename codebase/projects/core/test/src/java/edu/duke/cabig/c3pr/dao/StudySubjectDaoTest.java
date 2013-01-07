@@ -18,11 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
@@ -34,7 +30,6 @@ import com.semanticbits.querybuilder.AdvancedSearchHelper;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.AMPMEnum;
-import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.CorrespondencePurpose;
 import edu.duke.cabig.c3pr.constants.CorrespondenceType;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
@@ -43,8 +38,8 @@ import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.constants.SortOrder;
 import edu.duke.cabig.c3pr.constants.TimeZoneEnum;
-import edu.duke.cabig.c3pr.domain.AdvancedSearchCriteriaParameterUtil;
 import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.ConsentQuestion;
 import edu.duke.cabig.c3pr.domain.Correspondence;
@@ -72,10 +67,12 @@ import edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.utils.AdvancedSearchCriteriaParameterUtil;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
+import edu.duke.cabig.c3pr.utils.SortParameter;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import gov.nih.nci.common.exception.XMLUtilityException;
@@ -2539,37 +2536,21 @@ public class StudySubjectDaoTest extends DaoTestCase {
 	//test input case 1
 	public void testOptionalLoadingByStudyIdentifierValue() throws Exception{
 		
-		
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
-		
-		studySubjects= studySubjectDao.retrieveStudySubjectsByStudyIdentifierValue("nci");
-		assertEquals("Unexpected study subjects",2,studySubjects.size());
-		
-		/*studySubjects = studySubjectDao.retrieveStudySubjectsByStudyIdentifierValue("nci2");*/
-		
 		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.studyIdentifierValueAdvancedParameter;
 		advParam1.setValues(Arrays.asList(new String[]{"nci2"}));
 		advParameters.add(advParam1);
-		
-		studySubjects = studySubjectDao.invokeCustomHQLSearch(advParameters);
+		List<SortParameter> sortParameters = new ArrayList<SortParameter>();
+		SortParameter sortParam =new SortParameter(null,"edu.duke.cabig.c3pr.domain.StudyVersion","shortTitleText",SortOrder.DESCENDING);
+		sortParameters.add(sortParam);
+		studySubjects = studySubjectDao.invokeCustomHQLSearch(advParameters,0, 1,sortParameters);
 		assertEquals("Unexpected study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
 		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
 		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
 		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
 		
-		// make sure that subject demographics is loaded
-		testLoadStudySubjectDemographics(studySubjects);
-		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// load study site
-		testLoadStudySite(studySubjects);
-		
-		// load study
-		testLoadStudy(studySubjects);
 		
 	}
 	
@@ -2584,7 +2565,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		advParam1.setValues(Arrays.asList(new String[]{"test_val123"}));
 		advParameters.add(advParam1);
 		
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
 		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
@@ -2593,16 +2574,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		
 		// make sure that subject demographics is loaded
 		testLoadStudySubjectDemographics(studySubjects);
-		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
-		
-		// load study site
-		testLoadStudySite(studySubjects);
-		
 	}
 	
 	//test input case 3
@@ -2616,7 +2587,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		advParam1.setValues(Arrays.asList(new String[]{"1.2"}));
 		advParameters.add(advParam1);
 		
-		studySubjects = studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects = studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
 		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
@@ -2625,15 +2596,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		
 		// make sure that subject demographics is loaded
 		testLoadStudySubjectDemographics(studySubjects);
-		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
-		
-		// load study site
-		testLoadStudySite(studySubjects);
 		
 	}
 	
@@ -2648,7 +2610,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		advParam1.setValues(Arrays.asList(new String[]{"participant"}));
 		advParameters.add(advParam1);
 		
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
 		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
@@ -2658,25 +2620,16 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		// make sure that subject demographics is loaded
 		testLoadStudySubjectDemographics(studySubjects);
 		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
-		
-		// load study site
-		testLoadStudySite(studySubjects);
-		
 	}
 	
 	//test input case 5
 	public void testOptionalLoadingByStudyIdentifierValueAndRegistryStatusCode() throws Exception{
 		
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
-		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndRegistryStatusCode("nci2", "Active Intervention");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndRegistryStatusCode("nci2", "Active Intervention", null, null,null);
 		assertEquals("Wrong number of study subjects",0,studySubjects.size());
 		
-		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndRegistryStatusCode("nci2", "Screen Failed");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndRegistryStatusCode("nci2", "Screen Failed", null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		
 	//	studySubjects = studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndRegistryStatusCode("nci2", "Enrolled");
@@ -2690,21 +2643,12 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		advParam2.setValues(Arrays.asList(new String[]{"Enrolled"}));
 		advParameters.add(advParam2);
 		
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
 		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
 		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
 		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
-		
-		// make sure that subject demographics is loaded
-		testLoadStudySubjectDemographics(studySubjects);
-		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
 		
 	}
 	
@@ -2712,13 +2656,13 @@ public class StudySubjectDaoTest extends DaoTestCase {
 	public void testOptionalLoadingByStudyIdentifierAndSubjectIdentifier() throws Exception{
 		
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
-		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndSubjectIdentifierValue("nci1", "mrn");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndSubjectIdentifierValue("nci1", "mrn", null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		
-		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndSubjectIdentifierValue("nci2", "coperative");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndSubjectIdentifierValue("nci2", "coperative", null, null,null);
 		assertEquals("Wrong number of study subjects",0,studySubjects.size());
 		
-		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndSubjectIdentifierValue("nci1", "participant");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndSubjectIdentifierValue("nci1", "participant", null, null,null);
 		assertEquals("Wrong number of study subjects",0,studySubjects.size());
 		
 	//	studySubjects = studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndSubjectIdentifierValue("nci2", "participant");
@@ -2731,7 +2675,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		advParam2.setValues(Arrays.asList(new String[]{"participant"}));
 		advParameters.add(advParam2);
 		
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
 		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
@@ -2741,12 +2685,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		// make sure that subject demographics is loaded
 		testLoadStudySubjectDemographics(studySubjects);
 		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
-		
 	}
 	
 	
@@ -2755,7 +2693,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 		
-		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndType("nci1","CTEP");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndType("nci1","CTEP", null, null,null);
 		assertEquals("Unexpected study subjects",0,studySubjects.size());
 		
 //		studySubjects = studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndType("nci2","CTEP");
@@ -2769,21 +2707,12 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		advParam2.setValues(Arrays.asList(new String[]{"CTEP"}));
 		advParameters.add(advParam2);
 		
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		assertEquals("Unexpected study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
 		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
 		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
 		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
-		
-		// make sure that subject demographics is loaded
-		testLoadStudySubjectDemographics(studySubjects);
-		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
 		
 	}
 	
@@ -2803,7 +2732,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		advParam1.setValues(Arrays.asList(new String[]{"test_val123"}));
 		advParameters.add(advParam1);
 		
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
@@ -2813,16 +2742,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		
 		// make sure that subject demographics is loaded
 		testLoadStudySubjectDemographics(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
-		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
 	}
+		
 	
 	//test input case 9
 	public void testOptionalLoadingBySubjectIdentifierValueAndType() throws Exception{
@@ -2840,25 +2761,12 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		advParam1.setValues(Arrays.asList(new String[]{"participant"}));
 		advParameters.add(advParam1);
 		
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
 		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
 		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
 		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
-		
-		// make sure that subject demographics is loaded
-		testLoadStudySubjectDemographics(studySubjects);
-		
-		// make sure study subject versions are not loaded
-		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
-		
-		// make sure study subject versions are not loaded
 	}
 	
 	//test input case 10
@@ -2884,23 +2792,14 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		advParam3.setValues(Arrays.asList(new String[]{"Gomez"}));
 		advParameters.add(advParam3);
 		
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		assertEquals("Wrong number of study subjects",0,studySubjects.size());
-		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastName("nci2", "Enrolled","NotGomez");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastName("nci2", "Enrolled","NotGomez", null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
 		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
 		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
 		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
-		
-		// make sure that subject demographics is loaded
-		testLoadStudySubjectDemographics(studySubjects);
-		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
 		
 	}
 	
@@ -2908,11 +2807,11 @@ public class StudySubjectDaoTest extends DaoTestCase {
 	public void testOptionalLoadingByStudyIdentifierAndRegistryStatusCodeAndSubjectLastNameAndRegistryStatusEffectiveDate() throws Exception{
 		
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
-		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastName("nci2", "Enrolled","NotGomez");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastName("nci2", "Enrolled","NotGomez", null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		
 		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastNameAndRegistryStatusEffeciveDate
-				("nci2", "Pre-Enrolled","NotGomez",DateUtil.getUtilDateFromString("10/08/2003","mm/dd/yyyy"));
+				("nci2", "Pre-Enrolled","NotGomez",DateUtil.getUtilDateFromString("10/08/2003","mm/dd/yyyy"), null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		
 	/*	studySubjects = studySubjectDao.retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastNameAndRegistryStatusEffeciveDate
@@ -2943,7 +2842,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		advParam4.setValues(Arrays.asList(new String[]{"10/06/2003"}));
 		advParameters.add(advParam4);
 		
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
@@ -2954,25 +2853,19 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		// make sure that subject demographics is loaded
 		testLoadStudySubjectDemographics(studySubjects);
 		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
-		
 	}
 	
 	//test input case 12
 	public void testOptionalLoadingByStudyIdentifierAndStudySubjectIdentifier() throws Exception{
 		
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
-		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndStudySubjectIdentifierValue("nci1", "nci");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndStudySubjectIdentifierValue("nci1", "nci", null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		
-		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndStudySubjectIdentifierValue("nci2", "nci1");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndStudySubjectIdentifierValue("nci2", "nci1", null, null,null);
 		assertEquals("Wrong number of study subjects",0,studySubjects.size());
 		
-		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndStudySubjectIdentifierValue("nci1", "test_val123");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndStudySubjectIdentifierValue("nci1", "test_val123", null, null,null);
 		assertEquals("Wrong number of study subjects",0,studySubjects.size());
 		
 	//	studySubjects = studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndStudySubjectIdentifierValue("nci2", "test_val123");
@@ -2987,23 +2880,15 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		advParam2.setValues(Arrays.asList(new String[]{"test_val123"}));
 		advParameters.add(advParam2);
 		
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
 		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
 		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
 		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
 		
-		
 		// make sure that subject demographics is loaded
 		testLoadStudySubjectDemographics(studySubjects);
-		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
-		
 	}
 	
 	//test input case 13
@@ -3023,20 +2908,20 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		
 //		studySubjects = studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierAndStudySubjectConsentDocumentId(null,"1.2");
 		
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		
-		studySubjects =studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierAndStudySubjectConsentDocumentId("nci","1.2");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierAndStudySubjectConsentDocumentId("nci","1.2", null, null,null);
 		assertEquals("Wrong number of study subjects",0,studySubjects.size());
 		
-		studySubjects =studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierAndStudySubjectConsentDocumentId("nci2","abc");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierAndStudySubjectConsentDocumentId("nci2","abc", null, null,null);
 		assertEquals("Wrong number of study subjects",0,studySubjects.size());
 		
 //		studySubjects = studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierAndStudySubjectConsentDocumentId("nci2","1.2");
 		
 		advParam1.setValues(Arrays.asList(new String[]{"nci2"}));
 		
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
 		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
@@ -3046,19 +2931,13 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		// make sure that subject demographics is loaded
 		testLoadStudySubjectDemographics(studySubjects);
 		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
-		
 	}
 	
 	//test input case 14/ 5
 	public void testOptionalLoadingByNullableStudyIdentifierValueAndRegistryStatusCode() throws Exception{
 		
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
-		studySubjects =studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierValueAndRegistryStatusCode("nci2", "Active Intervention");
+		studySubjects =studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierValueAndRegistryStatusCode("nci2", "Active Intervention", null, null,null);
 		assertEquals("Wrong number of study subjects",0,studySubjects.size());
 
 		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -3072,13 +2951,13 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		advParameters.add(advParam2);
 		
 //		studySubjects = studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierValueAndRegistryStatusCode("nci2", "Screen Failed");
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		
 //		studySubjects = studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierValueAndRegistryStatusCode(null, "Enrolled");
 		
 		advParam1.setValues(null);
-		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters, null, null,null);
 		assertEquals("Wrong number of study subjects",1,studySubjects.size());
 		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
 		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
@@ -3091,59 +2970,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		// make sure study subject versions are not loaded
 	//	assertEquals("Unexpected study subject versions",0,studySubjects.get(0).getStudySubjectStudyVersions().size());
 		
-		// test load study subject consent versions
-		loadStudySubjectConsents(studySubjects);
-		
-		// test load study primary identifier
-		loadStudyPrimaryIdentifier(studySubjects);
-		
-		// make sure study subject versions are not loaded
-		//assertEquals("Unexpected study subject versions",0,studySubjects.get(0).getStudySubjectStudyVersions().size());
 	}
 	
-	private void loadStudySubjectConsents(List<StudySubject> studySubjects){
-		
-		List<Integer> ids = new ArrayList<Integer>();
-		for(StudySubject ss : studySubjects) {
-			ids.add(ss.getStudySubjectVersionId());
-		}
-		// load study subject consent versions
-		List<Object> objects = studySubjectDao.
-				loadStudySubjectConsentVersionsByStudySubjectVersionIds(ids);
-		List<StudySubjectConsentVersion> studySubjectConsents = new ArrayList<StudySubjectConsentVersion>();
-		for(Object obj : objects){
-			if(obj !=null){ 
-				StudySubjectConsentVersion sscv = (StudySubjectConsentVersion) ((Object[])obj)[0];
-				studySubjectConsents.add(sscv);
-			}
-		}
-		assertEquals("Wrong number of subject consents",1,studySubjectConsents.size());
-		assertEquals("Wrong consenting method",ConsentingMethod.WRITTEN,studySubjectConsents.get(0).getConsentingMethod());
-		assertEquals("Wrong consent delivery date","01/10/2009",studySubjectConsents.get(0).getConsentDeliveryDateStr());
-			
-		}
-	
-	private void loadStudyPrimaryIdentifier(List<StudySubject> studySubjects){
-		List<Integer> ids = new ArrayList<Integer>();
-		for(StudySubject ss : studySubjects) {
-			ids.add(ss.getStudyId());
-		}
-		List<Object> objects = studySubjectDao.loadPrimaryStudyIdentifierByStudyIds(ids);
-		
-		for(Object obj : objects){
-			if(obj !=null){ 
-				Integer studyId = (Integer) ((Object[])obj)[0];
-				Identifier identifier = (Identifier)((Object[])obj)[1];
-				assertNotNull("Expected primary identifier",identifier);
-				assertTrue("Wrong identifier class", identifier instanceof OrganizationAssignedIdentifier);
-				OrganizationAssignedIdentifier oaid = (OrganizationAssignedIdentifier) identifier;
-				assertTrue("Expected primary identifier",oaid.getPrimaryIndicator());
-				assertEquals("Wrong identifier value","nci2",oaid.getValue());
-				assertEquals("Wrong identifier type","CTEP",identifier.getTypeInternal());
-			}
-		}
-		
-	}
 	
 	private void testLoadStudySubjectDemographics(List<StudySubject> studySubjects){
 		assertNotNull("Expected subject demographics",studySubjects.get(0).getStudySubjectDemographics());
@@ -3152,49 +2980,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		assertEquals("Wrong subject identifier","participant",studySubjects.get(0).getStudySubjectDemographics().getIdentifiers().get(0).getValue());
 		assertEquals("Wrong subject identifier type","MRN",studySubjects.get(0).getStudySubjectDemographics().getIdentifiers().get(0).getTypeInternal());
 		assertEquals("Wrong number of subject contacts",2,studySubjects.get(0).getStudySubjectDemographics().getContactMechanisms().size());
-	}
-	
-	private void testLoadStudySite(List<StudySubject> studySubjects){
-		
-//		StudySite studySite = studySubjectDao.loadStudySiteByStudySubjectVersionId(studySubjects.get(0).getStudySubjectVersionId());
-		
-		List<Integer> ids = new ArrayList<Integer>();
-		for(StudySubject ss : studySubjects) {
-			ids.add(ss.getStudySubjectVersionId());
-		}
-		// load study subject consent versions
-		List<StudySite> studySites = studySubjectDao.
-				loadStudySitesByStudySubjectVersionIds(ids);
-		for(StudySite ss : studySites){
-			if(ss !=null){ 
-				assertNotNull(ss);
-				assertNotNull(ss.getHealthcareSite());
-				assertNull(ss.getStudy());
-				assertContains(ids, ss.getStudySubjectId());
-			}
-		}
-		
-	}
-	
-	private void testLoadStudy(List<StudySubject> studySubjects){
-		Set<Integer> studyIdsSet = new HashSet<Integer>();
-		for(edu.duke.cabig.c3pr.domain.StudySubject studySub : studySubjects){
-			studyIdsSet.add(studySub.getStudyId());
-		}
-		List<Integer> studyIds = new ArrayList<Integer>();
-		
-		studyIds.addAll(studyIdsSet);
-		Map<Integer, Study> studiesMap = new HashMap<Integer,Study>();
-			studyIds.addAll(studyIdsSet);
-			List<Study> studies = studySubjectDao.loadStudiesFromStudyIds(studyIds);
-			assertEquals(1, studies.size());
-			for(Study study : studies){
-				studiesMap.put(study.getId(), study);
-			}
-			
-		for(Integer i: studyIds){
-			assertNotNull(studiesMap.get(i));
-		}
 	}
 	
 }

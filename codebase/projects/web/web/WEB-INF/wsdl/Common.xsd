@@ -555,6 +555,14 @@
 	</complexType>
 
 	<!-- Advanced Search -->
+	
+	 <simpleType name="AscendingDescending">
+	  	<restriction base="string">
+	      <enumeration value="ASCENDING" />
+	      <enumeration value="DESCENDING" />
+	    </restriction>
+	  </simpleType>
+	  
 	<complexType name="AdvanceSearchCriterionParameter">
 		<sequence>
 			<element name="objectName" type="ISO:ST" />
@@ -562,6 +570,15 @@
 			<element name="values" type="ISO:DSET_ST" />
 			<element name="predicate" type="ISO:CD" />
 			<element name="objectContextName" type="ISO:ST" minOccurs="0" />
+		</sequence>
+	</complexType>
+	
+	<complexType name="SortParameter">
+		<sequence>
+			<element name="objectName" type="ISO:ST" />
+			<element name="attributeName" type="ISO:ST" />
+			<element name="objectContextName" type="ISO:ST" minOccurs="0" />
+			<element name="sortOrder" type="tns:AscendingDescending" minOccurs="0"/>
 		</sequence>
 	</complexType>
 
@@ -591,8 +608,42 @@
 			</extension>
 		</complexContent>
 	</complexType>
+	
+	<complexType name="DSET_SortParameter">
+		<annotation>
+			<appinfo>
+				<sch:pattern name="null or not empty">
+					<sch:rule abstract="true"
+						id="DSET_SortParameter-0">
+						<sch:assert test="(@nullFlavor or item) and not(@nullFlavor and item)" />
+					</sch:rule>
+				</sch:pattern>
+				<sch:pattern name="no null members">
+					<sch:rule abstract="true"
+						id="DSET_SortParameter-1">
+						<sch:assert test="@nullFlavor or not(item\@nullFlavor)" />
+					</sch:rule>
+				</sch:pattern>
+			</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="tns:COLL_SortParameter">
+				<sequence>
+					<element name="item" type="tns:SortParameter"
+						minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
 	<complexType abstract="true"
 		name="COLL_AdvanceSearchCriterionParameter">
+		<complexContent>
+			<extension base="ISO:ANY" />
+		</complexContent>
+	</complexType>
+	
+	<complexType abstract="true"
+		name="COLL_SortParameter">
 		<complexContent>
 			<extension base="ISO:ANY" />
 		</complexContent>

@@ -9,23 +9,16 @@ import static edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper.IVLTSDateTim
 import static edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper.ST;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
-import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.ConsentQuestion;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -42,7 +35,6 @@ import edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
-import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.Document;
 import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
@@ -65,7 +57,6 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.II;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETStudySubject;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject;
 
 /**
@@ -75,7 +66,7 @@ import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject;
  * 
  */
 public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomainObjectConverterImpl implements
-		SubjectRegistryJAXBToDomainObjectConverter , ApplicationContextAware{
+		SubjectRegistryJAXBToDomainObjectConverter {
 
 	/** The Constant MISSING_IDENTIFIER. */
 	static final int MISSING_IDENTIFIER = 917;
@@ -97,32 +88,6 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 	
 	/** The Constant MISSING_STATUS_DATE. */
 	static final int MISSING_STATUS_DATE = 923;
-	
-	private StudySubjectDao studySubjectDao;
-	
-	public StudySubjectDao getStudySubjectDao() {
-		return studySubjectDao;
-	}
-	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
-		this.studySubjectDao = studySubjectDao;
-	}
-
-
-
-	private ApplicationContext applicationContext;
-	
-	private boolean isLoadStudy() {
-		Configuration configuration = (Configuration) applicationContext.getBean("configuration");
-		return "true".equalsIgnoreCase(configuration.get(Configuration.SRS_LOAD_STUDY));
-	}
-	private boolean isLoadStudySite() {
-		Configuration configuration = (Configuration) applicationContext.getBean("configuration");
-		return "true".equalsIgnoreCase(configuration.get(Configuration.SRS_LOAD_STUDY_SITE));
-	}
-	private boolean isLoadStudyIdentifier() {
-		Configuration configuration = (Configuration) applicationContext.getBean("configuration");
-		return "true".equalsIgnoreCase(configuration.get(Configuration.SRS_LOAD_STUDY_IDENTIFIER));
-	}
 	
 	/** The log. */
 	private static Log log = LogFactory
@@ -317,83 +282,6 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 	}
 	
 	
-	public DSETStudySubject optionallyLoadStudySubjectData(DSETStudySubject studySubjects, List<edu.duke.cabig.c3pr.domain.StudySubject> domainStudySubjects){
-		
-			List<Integer> studySubjectIds = new ArrayList<Integer>();
-			// Map<Integer,edu.duke.cabig.c3pr.domain.StudySubject> map = new HashMap<Integer,edu.duke.cabig.c3pr.domain.StudySubject>();
-			for(edu.duke.cabig.c3pr.domain.StudySubject ss : domainStudySubjects) {
-				studySubjectIds.add(ss.getId());
-			}
-		
-			List<Integer> studySubjectStudyVersionIds = new ArrayList<Integer>();
-			// Map<Integer,edu.duke.cabig.c3pr.domain.StudySubject> map = new HashMap<Integer,edu.duke.cabig.c3pr.domain.StudySubject>();
-			for(edu.duke.cabig.c3pr.domain.StudySubject ss : domainStudySubjects) {
-				studySubjectStudyVersionIds.add(ss.getStudySubjectVersionId());
-			}
-			
-			// load study site
-			Map<Integer, StudySite> studySitesMap = new HashMap<Integer,StudySite>();
-			if(isLoadStudySite() && !studySubjectStudyVersionIds.isEmpty()){
-				List<StudySite> studySites = studySubjectDao.loadStudySitesByStudySubjectVersionIds(studySubjectStudyVersionIds);
-				for(StudySite studySite : studySites){
-					studySitesMap.put(studySite.getStudySubjectId(), studySite);
-				}
-			}
-			
-			// build study ids list
-			//eliminate duplicate study ids by adding to a set and then copy it to a list
-			Set<Integer> studyIdsSet = new HashSet<Integer>();
-			for(edu.duke.cabig.c3pr.domain.StudySubject studySub : domainStudySubjects){
-				studyIdsSet.add(studySub.getStudyId());
-			}
-			List<Integer> studyIds = new ArrayList<Integer>();
-			
-			studyIds.addAll(studyIdsSet);
-			
-			// load study identifier
-			Map<Integer, Identifier> studyIdentifiersMap = new HashMap<Integer,Identifier>();
-			if(isLoadStudyIdentifier() && !studyIds.isEmpty()){
-				List<Object> studyIdentifierObjects = studySubjectDao.loadPrimaryStudyIdentifierByStudyIds(studyIds);
-				for(Object studyIdentifierObj : studyIdentifierObjects){
-					Integer studyId = (Integer) ((Object[])studyIdentifierObj)[0];
-					Identifier identifier = (Identifier)((Object[])studyIdentifierObj)[1];
-					studyIdentifiersMap.put(studyId, identifier);
-				}
-			}
-			
-		// load study 
-			Map<Integer, Study> studiesMap = new HashMap<Integer,Study>();
-			if(isLoadStudy() && !studyIds.isEmpty()){
-				List<Study> studies = studySubjectDao.loadStudiesFromStudyIds(studyIds);
-				for(Study study : studies){
-					studiesMap.put(study.getId(), study);
-				}
-			}
-			
-			for (edu.duke.cabig.c3pr.domain.StudySubject result : domainStudySubjects) {
-				// load study site
-				StudySite studySite= null;
-				if(isLoadStudySite()){
-					studySite = studySitesMap.get(result.getId());
-				}
-				
-				// load study primary identifier
-				Identifier studyPrimaryIdentifier = null;
-				if(isLoadStudyIdentifier()){
-					studyPrimaryIdentifier = studyIdentifiersMap.get(result.getStudyId());
-				}
-				
-				// load study
-				Study study = null;
-				if(isLoadStudy()){
-					study = studiesMap.get(result.getStudyId());
-				}
-				
-				studySubjects.getItem().add(convert(result,study, studyPrimaryIdentifier,studySite));
-			}
-		
-		return studySubjects;
-	}
 
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter#convert(edu.duke.cabig.c3pr.domain.StudySubject)
@@ -420,64 +308,6 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return studySubject;
 	}
 	
-	private StudySubject convert(
-			edu.duke.cabig.c3pr.domain.StudySubject domainObject,
-			Study study, Identifier studyIdentifier, StudySite studySite) {
-		StudySubject studySubject = new StudySubject();
-		//set person
-		Person person = convertSubjectDemographics(domainObject.getStudySubjectDemographics());
-		
-		//copy enrollment
-		studySubject.setEntity(person);
-		studySubject.setPaymentMethodCode(CD(domainObject.getPaymentMethod()));
-		studySubject.setStatusCode(CD(domainObject.getRegDataEntryStatus().getCode()));
-		
-		//copy identifiers
-		studySubject.getSubjectIdentifier().addAll(convertToSubjectIdentifier(domainObject.getIdentifiers()));
-		
-		//set studySubjectProtocolVersion
-		studySubject.setStudySubjectProtocolVersion(getStudySubjectProtocolVersion(domainObject.getStudySubjectStudyVersion(), study,
-				studyIdentifier, studySite));
-		//set status history
-		studySubject.getStudySubjectStatus().addAll(convertToStudySubjectRegistryStatus(domainObject.getStudySubjectRegistryStatusHistory()));
-		
-		return studySubject;
-	}
-	
-	
-	protected StudySubjectProtocolVersionRelationship getStudySubjectProtocolVersion(StudySubjectStudyVersion studySubjectStudyVersion,
-			Study study, Identifier studyIdentifier, StudySite studySite){
-		StudySubjectProtocolVersionRelationship studySubjectProtocolVersion = new StudySubjectProtocolVersionRelationship();
-//		StudySite studySite = studySubjectStudyVersion.getStudySiteStudyVersion().getStudySite();
-		studySubjectProtocolVersion.setStudySiteProtocolVersion(new StudySiteProtocolVersionRelationship());
-		//setup study
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudyProtocolVersion(new StudyProtocolVersion());
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().setStudyProtocolDocument(new StudyProtocolDocumentVersion());
-		
-		if(study!=null)
-		{
-			studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicTitle(ST(study.getLongTitleText()));
-			studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setOfficialTitle(ST(study.getShortTitleText()));
-			studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicDescription(ST(study.getDescriptionText()));
-		}
-		
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setDocument(new Document());
-		if(studyIdentifier != null){
-			List<Identifier> studyIdentifiers = new ArrayList<Identifier>();
-			studyIdentifiers.add(studyIdentifier);
-			studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument()
-			.getDocumentIdentifier().addAll(convertToDocumentIdentifier(studyIdentifiers));
-		}
-		//setup studysite
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.common.StudySite());
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().setOrganization(new Organization());
-			if (studySite != null) {
-				studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().getOrganization().getOrganizationIdentifier()
-						.addAll(convertToOrganizationIdentifier(studySite.getHealthcareSite().getIdentifiersAssignedToOrganization()));
-			}
-		studySubjectProtocolVersion.getStudySubjectConsentVersion().addAll(convertToSubjectConsent(studySubjectStudyVersion.getStudySubjectConsentVersionsInternal()));
-		return studySubjectProtocolVersion;
-	}
 	
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter#convertRegistryStatus(edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone)
@@ -615,18 +445,20 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 	protected StudySubjectProtocolVersionRelationship getStudySubjectProtocolVersion(StudySubjectStudyVersion studySubjectStudyVersion){
 		StudySubjectProtocolVersionRelationship studySubjectProtocolVersion = new StudySubjectProtocolVersionRelationship();
 		StudySite studySite = studySubjectStudyVersion.getStudySiteStudyVersion().getStudySite();
+		Study study = studySubjectStudyVersion.getStudySiteStudyVersion().getStudyVersion().getStudy();
 		studySubjectProtocolVersion.setStudySiteProtocolVersion(new StudySiteProtocolVersionRelationship());
 		
 		//setup study
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudyProtocolVersion(new StudyProtocolVersion());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().setStudyProtocolDocument(new StudyProtocolDocumentVersion());
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicTitle(ST(studySite.getStudy().getLongTitleText()));
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setOfficialTitle(ST(studySite.getStudy().getShortTitleText()));
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicDescription(ST(studySite.getStudy().getDescriptionText()));
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicTitle(ST(study.getLongTitleText()));
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setOfficialTitle(ST(study.getShortTitleText()));
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicDescription(ST(study.getDescriptionText()));
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setDocument(new Document());
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().addAll(convertToDocumentIdentifier(studySite.getStudy().getIdentifiers()));
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().addAll(convertToDocumentIdentifier(study.getIdentifiers()));
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.common.StudySite());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().setOrganization(new Organization());
+				
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().getOrganization().getOrganizationIdentifier().addAll(convertToOrganizationIdentifier(studySite.getHealthcareSite().getIdentifiersAssignedToOrganization()));
 		studySubjectProtocolVersion.getStudySubjectConsentVersion().addAll(convertToSubjectConsent(studySubjectStudyVersion.getStudySubjectConsentVersions()));
 		return studySubjectProtocolVersion;
@@ -762,21 +594,5 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 			target.getSubjectConsentAnswer().add(subjectAnswerTarget);
 		}
 		return target;
-	}
-	
-	/**
-	 * @return the applicationContext
-	 */
-	public final ApplicationContext getApplicationContext() {
-		return applicationContext;
-	}
-
-	/**
-	 * @param applicationContext
-	 *            the applicationContext to set
-	 */
-	public final void setApplicationContext(
-			ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
 	}
 }

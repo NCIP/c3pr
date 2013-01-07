@@ -136,6 +136,7 @@
 			<dependency org="gov.nih.nci.security" name="csm" rev="4.2" transitive="true" force="true">
 				<artifact name="csmapi" type="jar" conf="*"/>
 				<exclude org="org.hibernate" conf="*"/>
+			    <exclude org="jdom" conf="*"/>
 			</dependency>
 			<dependency org="gov.nih.nci.security" name="clm" rev="4.2.beta" transitive="true" force="true">
 				<artifact name="clm" type="jar" conf="*"/>

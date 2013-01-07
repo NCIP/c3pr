@@ -129,6 +129,9 @@ public class Configuration extends DatabaseBackedConfiguration {
     public static final ConfigurationProperty<String> SRS_LOAD_STUDY_SITE = PROPERTIES
 					.add(new DefaultConfigurationProperty.Text("subjectRegistryService.loadStudySite"));
     
+    public static final ConfigurationProperty<String> PAGE_SIZE = PROPERTIES
+			.add(new DefaultConfigurationProperty.Text("subjectRegistryService.page_size"));
+    
     public static final ConfigurationProperty<String> SRS_LOAD_STUDY_IDENTIFIER = PROPERTIES
 					.add(new DefaultConfigurationProperty.Text("subjectRegistryService.loadStudyIdentifier"));;
 	

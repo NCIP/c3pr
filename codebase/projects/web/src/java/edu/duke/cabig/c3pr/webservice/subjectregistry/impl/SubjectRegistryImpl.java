@@ -55,6 +55,7 @@ import edu.duke.cabig.c3pr.webservice.common.NoSuchPatientExceptionFault;
 import edu.duke.cabig.c3pr.webservice.common.NoSuchStudySubjectExceptionFault;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone;
+import edu.duke.cabig.c3pr.webservice.common.SortParameter;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.ANY;
@@ -166,6 +167,11 @@ public class SubjectRegistryImpl implements SubjectRegistry, ApplicationContextA
 	private boolean isCustomHQLEnabled() {
 		Configuration configuration = (Configuration) applicationContext.getBean("configuration");
 		return "true".equalsIgnoreCase(configuration.get(Configuration.SRS_ENABLE_CUSTOM_HQL));
+	}
+	
+	private int getPageSize() {
+		Configuration configuration = (Configuration) applicationContext.getBean("configuration");
+		return Integer.parseInt((configuration.get(Configuration.PAGE_SIZE)));
 	}
 	
 	/* (non-Javadoc)
@@ -378,6 +384,8 @@ public class SubjectRegistryImpl implements SubjectRegistry, ApplicationContextA
 		DSETStudySubject studySubjects = new DSETStudySubject();
 		response.setStudySubjects(studySubjects);
 		List<edu.duke.cabig.c3pr.domain.StudySubject> results = new ArrayList<edu.duke.cabig.c3pr.domain.StudySubject>();
+		
+		long ms= System.currentTimeMillis();
 				
 		try {
 			List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -386,19 +394,31 @@ public class SubjectRegistryImpl implements SubjectRegistry, ApplicationContextA
 				advParameters.add(advParam);
 			}
 			
-			if(isCustomHQLEnabled()) {
-				results = studySubjectDao.invokeCustomHQLSearch(advParameters);
-				studySubjects = converter.optionallyLoadStudySubjectData(studySubjects, results);
-			} else {
-				results = studySubjectDao.search(advParameters);
-				for (edu.duke.cabig.c3pr.domain.StudySubject result : results) {
-					studySubjects.getItem().add(converter.convert(result));
+			List<edu.duke.cabig.c3pr.utils.SortParameter> sortParameters = new ArrayList<edu.duke.cabig.c3pr.utils.SortParameter>();
+			if(parameters.getSortOrder() != null){
+				for (SortParameter param : parameters.getSortOrder().getItem()) {
+					edu.duke.cabig.c3pr.utils.SortParameter advParam = converter.convert(param);
+					sortParameters.add(advParam);
 				}
+			}
+			
+			if(parameters.getPageNo() != null){
+				int pageNumber = parameters.getPageNo().getValue();
+				results = studySubjectDao.invokeCustomHQLSearch(advParameters,(pageNumber-1)*getPageSize(),pageNumber*getPageSize(),sortParameters);
+			} else {
+			
+				results = studySubjectDao.invokeCustomHQLSearch(advParameters,null,null,sortParameters);
+			}
+			
+			for (edu.duke.cabig.c3pr.domain.StudySubject result : results) {
+				studySubjects.getItem().add(converter.convert(result));
 			}
 			
 		} catch (ConversionException e) {
 			handleInvalidQueryData(e);
 		}
+		
+		log.info("\n"+"------------------Time taken strictly by the querySubjectRegistry operation in ms : "+(System.currentTimeMillis()-ms) + "----------------------------------");
 		
 		return response;
 	}

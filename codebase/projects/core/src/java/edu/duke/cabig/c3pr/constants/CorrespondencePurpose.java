@@ -27,7 +27,7 @@ public enum CorrespondencePurpose implements CodedEnum<String> {
         return name();
     }
 
-    public static StatusType getByCode(String code) {
-        return getByClassAndCode(StatusType.class, code);
+    public static CorrespondencePurpose getByCode(String code) {
+        return getByClassAndCode(CorrespondencePurpose.class, code);
     }
 }

@@ -1,11 +1,14 @@
-package edu.duke.cabig.c3pr.domain;
+package edu.duke.cabig.c3pr.utils;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
-import edu.duke.cabig.c3pr.utils.DateUtil;
+import edu.duke.cabig.c3pr.constants.SortOrder;
+
 
 public class AdvancedSearchCriteriaParameterUtil {
 	
@@ -45,7 +48,6 @@ public class AdvancedSearchCriteriaParameterUtil {
 	public static final AdvancedSearchCriteriaParameter subjectRegistryStatusEffectiveDateAdvancedParameter = 
 			createAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus",
 					"effectiveDate",">");
-	
 	
 	public static AdvancedSearchCriteriaParameter createAdvancedSearchCriteriaParameter(
 			String contextObjectName,String objectName, String attributeName, String predicate) {
@@ -209,7 +211,6 @@ public static String extractNonMatchingRegistryStatusCode(List<AdvancedSearchCri
 			
 			return null;
 		}
-	
 	
 
 }

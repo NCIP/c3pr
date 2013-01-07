@@ -27,7 +27,7 @@ public enum AMPMEnum implements CodedEnum<String> {
         return name();
     }
 
-    public static StatusType getByCode(String code) {
-        return getByClassAndCode(StatusType.class, code);
+    public static AMPMEnum getByCode(String code) {
+        return getByClassAndCode(AMPMEnum.class, code);
     }
 }

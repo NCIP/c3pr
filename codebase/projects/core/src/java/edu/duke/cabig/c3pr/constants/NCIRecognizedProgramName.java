@@ -29,7 +29,7 @@ public enum NCIRecognizedProgramName implements CodedEnum<String> {
         return name();
     }
 
-    public static StatusType getByCode(String code) {
-        return getByClassAndCode(StatusType.class, code);
+    public static NCIRecognizedProgramName getByCode(String code) {
+        return getByClassAndCode(NCIRecognizedProgramName.class, code);
     }
 }

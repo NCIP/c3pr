@@ -10,9 +10,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
@@ -39,21 +41,37 @@ import com.semanticbits.querybuilder.QueryGenerator;
 import com.semanticbits.querybuilder.TargetObject;
 
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.AdvancedSearchCriteriaParameterUtil;
+import edu.duke.cabig.c3pr.constants.SortOrder;
+import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.Consent;
+import edu.duke.cabig.c3pr.domain.ConsentQuestion;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
+import edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.domain.SubjectRegistryKeygenerator;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.factory.ObjectFactory;
+import edu.duke.cabig.c3pr.domain.factory.ObjectFactoryOracle;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.utils.AccrualCountComparator;
+import edu.duke.cabig.c3pr.utils.AdvancedSearchCriteriaParameterUtil;
+import edu.duke.cabig.c3pr.utils.DateUtil;
+import edu.duke.cabig.c3pr.utils.SortParameter;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.StudySubjectDaoHelper;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
@@ -86,11 +104,16 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 
 	/** The studySubjectDemographics dao. */
 	private StudySubjectDemographicsDao studySubjectDemographicsDao;
-
+	
+	private static final String ROW_NUM_PRE_STRING = "select * from (";
+	private static final String ROW_NUM_POST_STRING = ") results where rn =1";
+	
 	public void setStudySubjectDemographicsDao(
 			StudySubjectDemographicsDao studySubjectDemographicsDao) {
 		this.studySubjectDemographicsDao = studySubjectDemographicsDao;
 	}
+	
+	private ObjectFactory objectFactory;
 
 	/**
 	 * Sets the study dao.
@@ -100,6 +123,10 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 	 */
 	public void setStudyDao(StudyDao studyDao) {
 		this.studyDao = studyDao;
+	}
+
+	public void setObjectFactory(ObjectFactory objectFactory) {
+		this.objectFactory = objectFactory;
 	}
 
 	/**
@@ -872,7 +899,11 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 	}
 
 	public List<StudySubject> invokeCustomHQLSearch(
-			List<AdvancedSearchCriteriaParameter> searchParameters) {
+			List<AdvancedSearchCriteriaParameter> searchParameters, final Integer min_rows, final Integer max_rows,List<SortParameter> sortParameters) {
+		SortParameter sortParameter = null;
+		if(sortParameters != null && sortParameters.size() > 0) {
+			sortParameter = sortParameters.get(0);
+		}
 		Integer inputScenario = SubjectRegistryKeygenerator.queryMap
 				.get(SubjectRegistryKeygenerator.generateKey(searchParameters));
 		if(inputScenario == null){
@@ -881,40 +912,40 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 		switch (inputScenario) {
 		case 1:
 			return retrieveStudySubjectsByStudyIdentifierValue(searchParameters
-					.get(0).getValues().get(0));
+					.get(0).getValues().get(0), min_rows, max_rows, sortParameter);
 		case 2:
 			return retrieveStudySubjectsByStudySubjectIdentifierValue(searchParameters
-					.get(0).getValues().get(0));
+					.get(0).getValues().get(0), min_rows, max_rows, sortParameter);
 		case 3:
 			return retrieveStudySubjectsByStudySubjectConsentDocumentId(searchParameters
-					.get(0).getValues().get(0));
+					.get(0).getValues().get(0), min_rows, max_rows, sortParameter);
 		case 4:
 			return retrieveStudySubjectsBySubjectIdentifierValue(searchParameters
-					.get(0).getValues().get(0));
+					.get(0).getValues().get(0), min_rows, max_rows, sortParameter);
 		case 6:
 			return retrieveStudySubjectsByStudyIdentifierValueAndSubjectIdentifierValue(
 					AdvancedSearchCriteriaParameterUtil
 							.extractStudyIdentifierValue(searchParameters),
 					AdvancedSearchCriteriaParameterUtil
-							.extractSubjectIdentifierValue(searchParameters));
+							.extractSubjectIdentifierValue(searchParameters), min_rows, max_rows, sortParameter);
 		case 7:
 			return retrieveStudySubjectsByStudyIdentifierValueAndType(
 					AdvancedSearchCriteriaParameterUtil
 							.extractStudyIdentifierValue(searchParameters),
 					AdvancedSearchCriteriaParameterUtil
-							.extractStudyIdentifierType(searchParameters));
+							.extractStudyIdentifierType(searchParameters), min_rows, max_rows, sortParameter);
 		case 8:
 			return retrieveStudySubjectsByStudySubjectIdentifierValueAndType(
 					AdvancedSearchCriteriaParameterUtil
 							.extractStudySubjectIdentifierValue(searchParameters),
 					AdvancedSearchCriteriaParameterUtil
-							.extractStudySubjectIdentifierType(searchParameters));
+							.extractStudySubjectIdentifierType(searchParameters), min_rows, max_rows, sortParameter);
 		case 9:
 			return retrieveStudySubjectsBySubjectIdentifierValueAndType(
 					AdvancedSearchCriteriaParameterUtil
 							.extractSubjectIdentifierValue(searchParameters),
 					AdvancedSearchCriteriaParameterUtil
-							.extractSubjectIdentifierType(searchParameters));
+							.extractSubjectIdentifierType(searchParameters), min_rows, max_rows, sortParameter);
 		case 10:
 			return retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastName(
 					AdvancedSearchCriteriaParameterUtil
@@ -922,7 +953,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 					AdvancedSearchCriteriaParameterUtil
 							.extractRegistryStatusCode(searchParameters),
 					AdvancedSearchCriteriaParameterUtil
-							.extractSubjectLastName(searchParameters));
+							.extractSubjectLastName(searchParameters), min_rows, max_rows, sortParameter);
 		case 11:
 			return retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastNameAndRegistryStatusEffeciveDate(
 					AdvancedSearchCriteriaParameterUtil
@@ -932,25 +963,25 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 					AdvancedSearchCriteriaParameterUtil
 							.extractSubjectLastName(searchParameters),
 					AdvancedSearchCriteriaParameterUtil
-							.extractSubjectRegistryEffectiveDate(searchParameters));
+							.extractSubjectRegistryEffectiveDate(searchParameters), min_rows, max_rows, sortParameter);
 		case 12:
 			return retrieveStudySubjectsByStudyIdentifierValueAndStudySubjectIdentifierValue(
 					AdvancedSearchCriteriaParameterUtil
 							.extractStudyIdentifierValue(searchParameters),
 					AdvancedSearchCriteriaParameterUtil
-							.extractStudySubjectIdentifierValue(searchParameters));
+							.extractStudySubjectIdentifierValue(searchParameters), min_rows, max_rows, sortParameter);
 		case 13:
 			return retrieveStudySubjectsByNullableStudyIdentifierAndStudySubjectConsentDocumentId(
 					AdvancedSearchCriteriaParameterUtil
 							.extractStudyIdentifierValue(searchParameters),
 					AdvancedSearchCriteriaParameterUtil
-							.extractSubjectDocumentId(searchParameters));
+							.extractSubjectDocumentId(searchParameters), min_rows, max_rows, sortParameter);
 		case 14:
 			return retrieveStudySubjectsByNullableStudyIdentifierValueAndRegistryStatusCode(
 					AdvancedSearchCriteriaParameterUtil
 							.extractStudyIdentifierValue(searchParameters),
 					AdvancedSearchCriteriaParameterUtil
-							.extractRegistryStatusCode(searchParameters));
+							.extractRegistryStatusCode(searchParameters), min_rows, max_rows, sortParameter);
 		default:
 			return search(searchParameters);
 		}
@@ -1040,55 +1071,295 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 	// Input case 1: studyIdentifier value, = (exact search on study identifier)
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsByStudyIdentifierValue(
-			String studyIdentifierValue) {
+			String studyIdentifierValue, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
-		studySubjectObjects = getHibernateTemplate()
-				.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics, StudySubjectStudyVersion sssv,Identifier I where sssv = any elements (ss."
-						+ "studySubjectStudyVersions)"
-						+ " and I=any elements (sssv.studySiteStudyVersion.studyVersion"
-						+ ".study.identifiers) and I.value = ?",
-						new Object[] { studyIdentifierValue });
-		return buildStudySubjects(studySubjectObjects);
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
+		String baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+				"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+				" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code, ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id) rn " +
+				" FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv,  studies s, " +
+				" identifiers stu_ide WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = " +
+				"s.id AND s.id =stu_ide.stu_id AND stu_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+		sb.append(baseQuery);
+		
+		if(sortParameter != null) {
+			if(sortParameter.equals(SortParameter.studyShortTitle)){
+				sb.append(" order by sv.short_title_text");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierType)){
+				sb.append(" order by stu_ide.type");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+				sb.append(" order by stu_ide.value");
+			} else if(sortParameter.equals(SortParameter.subjectLastName)){
+				sb.append(" order by ssdmgphcs.last_name");
+			}
+			
+			if(sortParameter.equals(SortParameter.subjectIdentifierType) || sortParameter.equals(SortParameter.subjectIdentifierValue)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+						"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order " +
+						"by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv, " +
+						"studies s, identifiers stu_ide, identifiers sub_ide WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id " +
+						"AND sv.study_id = s.id AND s.id =stu_ide.stu_id AND ssdmgphcs.id = sub_ide.stu_sub_dmgphcs_id AND stu_ide.value = (:value) AND " +
+						"ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+					sb.append(" order by sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+					sb.append(" order by sub_ide.value");
+				}
+			}
+			
+			if(sortParameter.equals(SortParameter.studySubjectIdentifierType) || sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+						"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order " +
+						"by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv, " +
+						"studies s, identifiers stu_ide, identifiers stu_sub_ide WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id" +
+						" AND sv.study_id = s.id AND s.id =stu_ide.stu_id AND ss.id = stu_sub_ide.spa_id AND stu_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+					sb.append(" order by stu_sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+					sb.append(" order by stu_sub_ide.value");
+				}
+			}
+			
+			String[] stringArray = sb.toString().split("order");
+			if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+				sb.append(" desc ");
+			}
+		}
+		
+		sb.append(ROW_NUM_POST_STRING);
+		studySubjectObjects = StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+				this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("value", studyIdentifierValue).list();
+        return buildStudySubjects(studySubjectObjects);
 	}
 
+	//(s, "ss", StudySubject.class)
 	// Input case 2: studySubject Identifier value, = (exact search on study
 	// subject identifier)
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsByStudySubjectIdentifierValue(
-			String studySubjectIdentifierValue) {
+			String studySubjectIdentifierValue, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
-		studySubjectObjects = getHibernateTemplate()
-				.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-						" StudySubjectStudyVersion sssv,Identifier I where sssv = any elements (ss."
-						+ "studySubjectStudyVersions)"
-						+ " and I=any elements (ss.identifiers) and I.value = ?",
-						new Object[] { studySubjectIdentifierValue });
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
+		String baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+				"	ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+				" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id) " +
+				"rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, identifiers stu_sub_ide WHERE ss.id =stu_sub_ide.spa_id AND stu_sub_ide.value = (:value) AND " +
+				"ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+		sb.append(baseQuery);
+		if(sortParameter != null ) {
+			if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+				sb.append(" order by stu_sub_ide.type");
+			} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+				sb.append(" order by stu_sub_ide.value");
+			} else if(sortParameter.equals(SortParameter.subjectLastName)){
+				sb.append(" order by ssdmgphcs.last_name");
+			}
+			
+			if(sortParameter.equals(SortParameter.subjectIdentifierType) || sortParameter.equals(SortParameter.subjectIdentifierValue)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+						"	ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id " +
+						"order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, identifiers stu_sub_ide, identifiers sub_ide WHERE ss.id =stu_sub_ide.spa_id " +
+						"AND sub_ide.stu_sub_dmgphcs_id = ssdmgphcs.id AND stu_sub_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+					sb.append(" order by sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+					sb.append(" order by sub_ide.value");
+				}
+			}
+			
+			if(sortParameter.equals(SortParameter.studyIdentifierType) || sortParameter.equals(SortParameter.studyIdentifierValue)
+					|| sortParameter.equals(SortParameter.studyShortTitle)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+						"	ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order " +
+						"by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv, " +
+						"studies s, identifiers stu_sub_ide, identifiers stu_ide WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id " +
+					"AND sv.study_id = s.id AND ss.id =stu_sub_ide.spa_id AND stu_ide.stu_id = s.id AND stu_sub_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studyIdentifierType)){
+					sb.append(" order by stu_ide.type");
+				} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+					sb.append(" order by stu_ide.value");
+				} else if(sortParameter.equals(SortParameter.studyShortTitle)){
+					sb.append(" order by sv.short_title_text");
+				}
+			}
+			String[] stringArray = sb.toString().split("order");
+			if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+				sb.append(" desc ");
+			}
+		}
+		
+		sb.append(ROW_NUM_POST_STRING);
+		studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+				this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("value", studySubjectIdentifierValue).list();
 		return buildStudySubjects(studySubjectObjects);
 	}
 
 	// Input case 3: studySubjectConsentVersion documentId, =
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsByStudySubjectConsentDocumentId(
-			String documentId) {
+			String documentId, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
-		studySubjectObjects = getHibernateTemplate()
-				.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-						" StudySubjectStudyVersion sssv, StudySubjectConsentVersion sscv where sssv = any elements (ss.studySubjectStudyVersions)"
-						+ " and sscv=any elements (sssv.studySubjectConsentVersionsInternal) and sscv.documentId = ?",
-						new Object[] { documentId });
-		return buildStudySubjects(studySubjectObjects);
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
+		
+		String baseQuery = "SELECT ss.id as study_subject_id,ss.payment_method,ss.reg_data_entry_status, ssdmgphcs.id, ssdmgphcs.first_name,ssdmgphcs.last_name, " +
+				"ssdmgphcs.middle_name, ssdmgphcs.name_prefix, ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code, ssdmgphcs.ethnic_group_code,ssdmgphcs.birth_date, " +
+				" ssdmgphcs.marital_status_code,  ssdmgphcs.valid, row_number() over(partition by ss.id order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs," +
+				" study_subject_versions ssubv, study_subject_consents sscv WHERE ss.id = ssubv.spa_id AND ssubv.id = sscv.study_subject_ver_id AND sscv.document_id =" +
+				" (:documentId) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+		sb.append(baseQuery);
+		if(sortParameter != null ) {
+			if(sortParameter.equals(SortParameter.subjectLastName)){
+				sb.append(" order by ssdmgphcs.last_name");
+			}
+		
+			if(sortParameter.equals(SortParameter.studyIdentifierType) || sortParameter.equals(SortParameter.studyIdentifierValue)
+					 || sortParameter.equals(SortParameter.studyShortTitle)){
+				
+				baseQuery = "SELECT ss.id as study_subject_id,ss.payment_method,ss.reg_data_entry_status, ssdmgphcs.id, ssdmgphcs.first_name,ssdmgphcs.last_name, " +
+						"ssdmgphcs.middle_name, ssdmgphcs.name_prefix, ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code, ssdmgphcs.ethnic_group_code," +
+						"ssdmgphcs.birth_date, ssdmgphcs.marital_status_code, ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id) rn FROM study_subjects ss, " +
+						"stu_sub_demographics ssdmgphcs, study_subject_versions ssubv, study_subject_consents sscv, study_site_versions ssitv,  study_versions sv, studies s, " +
+						"identifiers stu_ide WHERE ss.id = ssubv.spa_id AND ssubv.id = sscv.study_subject_ver_id AND ssubv.study_site_ver_id = ssitv.id AND " +
+						"ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND s.id = stu_ide.stu_id AND sscv.document_id = (:documentId) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studyIdentifierType)){
+					sb.append(" order by stu_ide.type");
+				} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+					sb.append(" order by stu_ide.value");
+				} else if(sortParameter.equals(SortParameter.studyShortTitle)){
+					sb.append(" order by sv.short_title_text");
+				}
+			}
+			
+			if(sortParameter.equals(SortParameter.subjectIdentifierType) || sortParameter.equals(SortParameter.subjectIdentifierValue)){
+				
+				baseQuery = "SELECT ss.id as study_subject_id,ss.payment_method,ss.reg_data_entry_status, ssdmgphcs.id, ssdmgphcs.first_name,ssdmgphcs.last_name, " +
+						"ssdmgphcs.middle_name, ssdmgphcs.name_prefix, ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code, ssdmgphcs.ethnic_group_code," +
+						"ssdmgphcs.birth_date, ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id) rn FROM study_subjects ss, " +
+						"stu_sub_demographics ssdmgphcs, study_subject_versions ssubv, study_subject_consents sscv, study_site_versions ssitv,  study_versions sv,  studies s, " +
+						"identifiers sub_ide WHERE ss.id = ssubv.spa_id AND ssubv.id = sscv.study_subject_ver_id AND ssubv.study_site_ver_id = ssitv.id AND " +
+						"ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND ssdmgphcs.id = sub_ide.stu_sub_dmgphcs_id AND sscv.document_id = (:documentId) AND " +
+						"ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+					sb.append(" order by sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+					sb.append(" order by sub_ide.value");
+				} 
+			}
+			
+			if(sortParameter.equals(SortParameter.studySubjectIdentifierType) || sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+				
+				baseQuery = "SELECT ss.id as study_subject_id,ss.payment_method,ss.reg_data_entry_status, ssdmgphcs.id, ssdmgphcs.first_name,ssdmgphcs.last_name, " +
+						"ssdmgphcs.middle_name, ssdmgphcs.name_prefix, ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code, ssdmgphcs.ethnic_group_code," +
+						"ssdmgphcs.birth_date, ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id) rn FROM study_subjects ss," +
+						" stu_sub_demographics ssdmgphcs, study_subject_versions ssubv, study_subject_consents sscv, study_site_versions ssitv,  study_versions sv, studies s," +
+						" identifiers stu_sub_ide WHERE ss.id = ssubv.spa_id AND ssubv.id = sscv.study_subject_ver_id AND ssubv.study_site_ver_id = ssitv.id AND " +
+						"ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND ss.id = stu_sub_ide.spa_id AND sscv.document_id = (:documentId) AND " +
+						"ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+					sb.append(" order by stu_sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+					sb.append(" order by stu_sub_ide.value");
+				} 
+			}
+			String[] stringArray = sb.toString().split("order");
+			if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+				sb.append(" desc ");
+			}
+		}
+		
+		sb.append(ROW_NUM_POST_STRING);
+        studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+    		  this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("documentId", documentId).list();
+       
+        return buildStudySubjects(studySubjectObjects);
 	}
 
 	// Input case 4: subjectIdentifier value, =
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsBySubjectIdentifierValue(
-			String subjectIdentifierValue) {
+			String subjectIdentifierValue, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
-		studySubjectObjects = getHibernateTemplate()
-				.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-						" StudySubjectStudyVersion sssv, Identifier I where I = any elements (ss.studySubjectDemographics.identifiers)"
-						+ " and sssv = any elements(ss.studySubjectStudyVersions) and I.value = ?",
-						new Object[] { subjectIdentifierValue });
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
+		String baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+				"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+				" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id) rn " +
+				" FROM study_subjects ss, stu_sub_demographics ssdmgphcs, identifiers sub_ide WHERE ssdmgphcs.id =sub_ide.stu_sub_dmgphcs_id AND sub_ide.value = (:value) AND " +
+				"ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+		sb.append(baseQuery);
+		if(sortParameter != null ) {
+			if(sortParameter.equals(SortParameter.subjectLastName)){
+				sb.append(" order by ssdmgphcs.last_name");
+			} else if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+				sb.append(" order by sub_ide.type");
+			} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+				sb.append(" order by sub_ide.value");
+			}
+		}
+		
+		if(sortParameter != null ) {		
+			if(sortParameter.equals(SortParameter.studySubjectIdentifierType) || sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+				
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+						"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order" +
+						" by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, identifiers sub_ide, identifiers stu_sub_ide WHERE " +
+						"ssdmgphcs.id =sub_ide.stu_sub_dmgphcs_id AND ss.id = stu_sub_ide.spa_id AND sub_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+					sb.append(" order by stu_sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+					sb.append(" order by stu_sub_ide.value");
+				} 
+			}
+			
+			if(sortParameter.equals(SortParameter.studyIdentifierType) || sortParameter.equals(SortParameter.studyIdentifierValue) 
+					|| sortParameter.equals(SortParameter.studyShortTitle)){
+				
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+						"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id " +
+						"order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv, study_versions sv, " +
+						"studies s, identifiers sub_ide, identifiers stu_ide WHERE ssdmgphcs.id =sub_ide.stu_sub_dmgphcs_id AND ss.id = ssubv.spa_id AND " +
+						"ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND " +
+						"s.id = stu_ide.stu_id AND sub_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studyIdentifierType)){
+					sb.append(" order by stu_ide.type");
+				} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+					sb.append(" order by stu_ide.value");
+				} else if(sortParameter.equals(SortParameter.studyShortTitle)){
+					sb.append(" order by sv.short_title_text");
+				}
+			}
+			String[] stringArray = sb.toString().split("order");
+			if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+				sb.append(" desc ");
+			}
+		}
+		
+		sb.append(ROW_NUM_POST_STRING);
+		studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+				this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("value",subjectIdentifierValue).list();
 		return buildStudySubjects(studySubjectObjects);
 	}
 
@@ -1096,31 +1367,129 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 	// on study identifier and exact search on status code (Registry Status))
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsByStudyIdentifierValueAndRegistryStatusCode(
-			String studyIdentifierValue, String registryStatusCode) {
+			String studyIdentifierValue, String registryStatusCode, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
-		studySubjectObjects = getHibernateTemplate()
-				.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-						" StudySubjectStudyVersion sssv,StudySubjectRegistryStatus ssrs, Identifier I where sssv = any elements"
-						+ " (ss.studySubjectStudyVersions) and I=any elements (sssv.studySiteStudyVersion.studyVersion"
-						+ ".study.identifiers) and I.value = ? and ssrs = any elements (ss.studySubjectRegistryStatusHistoryInternal) and "
-						+ "ssrs.permissibleStudySubjectRegistryStatus.registryStatus.code = ?",
-						new Object[] { studyIdentifierValue, registryStatusCode });
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
+		String baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+				" ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+				" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id)" +
+				" rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv, study_versions sv, studies s, " +
+				"identifiers stu_ide, stu_sub_reg_statuses ssrs, permissible_reg_stats prs, registry_statuses rs WHERE ss.id = ssubv.spa_id AND " +
+				"ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND ssrs.stu_sub_id = ss.id AND ssrs.per_reg_st_id = prs.id " +
+				"AND prs.registry_st_id = rs.id AND s.id = stu_ide.stu_id AND stu_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id AND rs.code =(:code)";
+		sb.append(baseQuery);
+		if(sortParameter != null ) {
+			if(sortParameter.equals(SortParameter.studyShortTitle)){
+				sb.append(" order by sv.short_title_text");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierType)){
+				sb.append(" order by stu_ide.type");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+				sb.append(" order by stu_ide.value");
+			} else if(sortParameter.equals(SortParameter.subjectLastName)){
+				sb.append(" order by ssdmgphcs.last_name");
+			}
+			
+			if(sortParameter.equals(SortParameter.studySubjectIdentifierType) || sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+						" ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order " +
+						"by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv, " +
+						"studies s, identifiers stu_ide, identifiers stu_sub_ide, stu_sub_reg_statuses ssrs, permissible_reg_stats prs, registry_statuses rs WHERE " +
+						"ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND ssrs.stu_sub_id = ss.id AND " +
+						"ssrs.per_reg_st_id = prs.id AND prs.registry_st_id = rs.id AND s.id = stu_ide.stu_id AND ss.id = stu_sub_ide.spa_id AND stu_ide.value = (:value) AND" +
+						" ssdmgphcs.id = ss.stu_sub_dmgphcs_id AND rs.code =(:code)";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+					sb.append(" order by stu_sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+					sb.append(" order by stu_sub_ide.value");
+				} 
+			}
+			
+			if(sortParameter.equals(SortParameter.subjectIdentifierType) || sortParameter.equals(SortParameter.subjectIdentifierValue)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+						" ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order " +
+						"by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv, " +
+						"studies s, identifiers stu_ide, identifiers sub_ide, stu_sub_reg_statuses ssrs, permissible_reg_stats prs, registry_statuses rs WHERE ss.id = ssubv.spa_id " +
+						"AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND ssrs.stu_sub_id = ss.id AND ssrs.per_reg_st_id = prs.id " +
+						"AND prs.registry_st_id = rs.id AND s.id = stu_ide.stu_id AND ssdmgphcs.id = sub_ide.stu_sub_dmgphcs_id AND stu_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id AND rs.code =(:code)";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+					sb.append(" order by sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+					sb.append(" order by sub_ide.value");
+				} 
+			}
+			String[] stringArray = sb.toString().split("order");
+			if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+				sb.append(" desc ");
+			}
+		}
+		
+		sb.append(ROW_NUM_POST_STRING);
+		studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+				this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("value", studyIdentifierValue).
+				setParameter("code",registryStatusCode).list();
 		return buildStudySubjects(studySubjectObjects);
 	}
 
 	// Input case 6: studyIdentifier value, =; 2. subjectIdentifier value, =
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsByStudyIdentifierValueAndSubjectIdentifierValue(
-			String studyIdentifierValue, String subjectIdentifierValue) {
+			String studyIdentifierValue, String subjectIdentifierValue, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
-		studySubjectObjects = getHibernateTemplate()
-				.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-						" StudySubjectStudyVersion sssv,Identifier iStudy, Identifier iSubject where sssv = any elements (ss."
-						+ "studySubjectStudyVersions) and iStudy=any elements (sssv.studySiteStudyVersion.studyVersion"
-						+ ".study.identifiers) and iStudy.value = ? and iSubject = any elements (ss.studySubjectDemographics.identifiers) and "
-						+ "iSubject.value = ?",
-						new Object[] { studyIdentifierValue,
-								subjectIdentifierValue });
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
+		String baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+				"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+				" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid, sv.short_title_text, stu_ide.type," +
+				" stu_ide.value,row_number() over(partition by ss.id order by ss.id) rn FROM study_subjects ss, " +
+				" stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv,  studies s, " +
+				" identifiers stu_ide, identifiers sub_ide WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND " +
+				"sv.study_id = s.id AND s.id =stu_ide.stu_id AND stu_ide.value = (:stuIdenValue) AND ssdmgphcs.id =sub_ide.stu_sub_dmgphcs_id AND sub_ide.value = " +
+				"(:subIdenValue) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+		sb.append(baseQuery);
+		if(sortParameter != null ) {
+			if(sortParameter.equals(SortParameter.studyShortTitle)){
+				sb.append(" order by sv.short_title_text");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierType)){
+				sb.append(" order by stu_ide.type");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+				sb.append(" order by stu_ide.value");
+			} else if(sortParameter.equals(SortParameter.subjectLastName)){
+				sb.append(" order by ssdmgphcs.last_name");
+			} else if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+				sb.append(" order by sub_ide.type");
+			} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+				sb.append(" order by sub_ide.value");
+			} else if(sortParameter.equals(SortParameter.studySubjectIdentifierType) || sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+						"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id " +
+						"order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv, study_versions sv," +
+						" studies s, identifiers stu_ide, identifiers sub_ide, identifiers stu_sub_ide WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND " +
+						"ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND s.id =stu_ide.stu_id AND stu_ide.value = (:stuIdenValue) AND ssdmgphcs.id = " +
+						"sub_ide.stu_sub_dmgphcs_id AND ss.id =stu_sub_ide.spa_id AND sub_ide.value = (:subIdenValue) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+					sb.append(" order by stu_sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+					sb.append(" order by stu_sub_ide.value");
+				} 
+			}
+			String[] stringArray = sb.toString().split("order");
+			if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+				sb.append(" desc ");
+			}
+		}
+			
+		sb.append(ROW_NUM_POST_STRING);
+		studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+				this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("stuIdenValue", studyIdentifierValue).
+				setParameter("subIdenValue",subjectIdentifierValue).list();
 		return buildStudySubjects(studySubjectObjects);
 	}
 
@@ -1128,16 +1497,70 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 	// study-typeInternal-identifier, =
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsByStudyIdentifierValueAndType(
-			String studyIdentifierValue, String studyIdentifierType) {
+			String studyIdentifierValue, String studyIdentifierType, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
-		studySubjectObjects = getHibernateTemplate()
-				.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-						" StudySubjectStudyVersion sssv,Identifier I where sssv = any elements (ss."
-						+ "studySubjectStudyVersions)"
-						+ " and I=any elements (sssv.studySiteStudyVersion.studyVersion"
-						+ ".study.identifiers) and I.value = ? and I.typeInternal = ?",
-						new Object[] { studyIdentifierValue,
-								studyIdentifierType });
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
+		String baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+				"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+				" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id)" +
+				" rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv,  studies s, " +
+				" identifiers stu_ide WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = " +
+				"s.id AND s.id =stu_ide.stu_id AND stu_ide.value = (:value) AND stu_ide.type = (:type) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+		sb.append(baseQuery);
+		if(sortParameter != null ) {
+			if(sortParameter.equals(SortParameter.studyShortTitle)){
+				sb.append(" order by sv.short_title_text");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierType)){
+				sb.append(" order by stu_ide.type");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+				sb.append(" order by stu_ide.value");
+			} else if(sortParameter.equals(SortParameter.subjectLastName)){
+				sb.append(" order by ssdmgphcs.last_name");
+			}
+			
+			if(sortParameter.equals(SortParameter.subjectIdentifierType) || sortParameter.equals(SortParameter.subjectIdentifierValue)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+						"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order" +
+						" by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv, study_site_versions ssitv, study_versions sv, " +
+						"studies s, identifiers stu_ide, identifiers sub_ide WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id " +
+						"AND sv.study_id = s.id AND s.id =stu_ide.stu_id AND ssdmgphcs.id = sub_ide.stu_sub_dmgphcs_id AND stu_ide.value = (:value) AND stu_ide.type = (:type) " +
+						"AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+					sb.append(" order by sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+					sb.append(" order by sub_ide.value");
+				}
+			}
+			
+			if(sortParameter.equals(SortParameter.studySubjectIdentifierType) || sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+						"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order " +
+						"by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv, study_site_versions ssitv, study_versions sv, " +
+						"studies s, identifiers stu_ide, identifiers stu_sub_ide WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND " +
+						"ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND s.id =stu_ide.stu_id AND ss.id = stu_sub_ide.spa_id AND stu_ide.value = (:value) AND " +
+						"stu_ide.type = (:type) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+					sb.append(" order by stu_sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+					sb.append(" order by stu_sub_ide.value");
+				}
+			}
+			String[] stringArray = sb.toString().split("order");
+			if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+				sb.append(" desc ");
+			}
+		}
+			
+		sb.append(ROW_NUM_POST_STRING);
+		studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+				this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("value", studyIdentifierValue).
+				setParameter("type",studyIdentifierType).list();
 		return buildStudySubjects(studySubjectObjects);
 	}
 
@@ -1146,15 +1569,68 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsByStudySubjectIdentifierValueAndType(
 			String studySubjectIdentifierValue,
-			String studySubjectIdentifierType) {
+			String studySubjectIdentifierType, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
-		studySubjectObjects = getHibernateTemplate()
-				.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-						" StudySubjectStudyVersion sssv,Identifier I where sssv = any elements (ss."
-						+ "studySubjectStudyVersions)"
-						+ " and I=any elements (ss.identifiers) and I.value = ? and I.typeInternal = ?",
-						new Object[] { studySubjectIdentifierValue,
-								studySubjectIdentifierType });
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
+		String baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+				"	ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+				" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id)" +
+				" rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, identifiers stu_sub_ide WHERE ss.id =stu_sub_ide.spa_id AND stu_sub_ide.value = (:value) " +
+				"AND stu_sub_ide.type = (:type) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+		sb.append(baseQuery);
+		if(sortParameter != null ) {
+			if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+				sb.append(" order by stu_sub_ide.type");
+			} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+				sb.append(" order by stu_sub_ide.value");
+			} else if(sortParameter.equals(SortParameter.subjectLastName)){
+				sb.append(" order by ssdmgphcs.last_name");
+			}
+			
+			if(sortParameter.equals(SortParameter.subjectIdentifierType) || sortParameter.equals(SortParameter.subjectIdentifierValue)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+						"	ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id " +
+						"order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, identifiers stu_sub_ide, identifiers sub_ide WHERE ss.id =stu_sub_ide.spa_id " +
+						"AND sub_ide.stu_sub_dmgphcs_id = ssdmgphcs.id AND stu_sub_ide.value = (:value) AND stu_sub_ide.type = (:type) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+					sb.append(" order by sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+					sb.append(" order by sub_ide.value");
+				}
+			}
+			
+			if(sortParameter.equals(SortParameter.studyIdentifierType) || sortParameter.equals(SortParameter.studyIdentifierValue)
+					|| sortParameter.equals(SortParameter.studyShortTitle)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+						"	ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code, ssdmgphcs.valid,row_number() over(partition by ss.id order" +
+						" by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv, study_site_versions ssitv, study_versions sv, " +
+						"studies s, identifiers stu_sub_ide, identifiers stu_ide WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id " +
+					"AND sv.study_id = s.id AND ss.id =stu_sub_ide.spa_id AND stu_ide.stu_id = s.id AND stu_sub_ide.value = (:value) AND stu_sub_ide.type = (:type) " +
+					"AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);;
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studyIdentifierType)){
+					sb.append(" order by stu_ide.type");
+				} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+					sb.append(" order by stu_ide.value");
+				} else if(sortParameter.equals(SortParameter.studyShortTitle)){
+					sb.append(" order by sv.short_title_text");
+				}
+			}
+			String[] stringArray = sb.toString().split("order");
+			if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+				sb.append(" desc ");
+			}
+		}
+		
+		sb.append(ROW_NUM_POST_STRING);
+		studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+				this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("value", studySubjectIdentifierValue).
+				setParameter("type",studySubjectIdentifierType).list();
 		return buildStudySubjects(studySubjectObjects);
 	}
 
@@ -1162,14 +1638,73 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 	// subject-typeInternal-identifier,=
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsBySubjectIdentifierValueAndType(
-			String subjectIdentifierValue, String subjectIdentifierType) {
+			String subjectIdentifierValue, String subjectIdentifierType, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
-		studySubjectObjects = getHibernateTemplate()
-				.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-						" StudySubjectStudyVersion sssv, Identifier I where I = any elements (ss.studySubjectDemographics.identifiers)"
-						+ " and sssv = any elements(ss.studySubjectStudyVersions) and I.value = ? and I.typeInternal = ?",
-						new Object[] { subjectIdentifierValue,
-								subjectIdentifierType });
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
+		String baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+				"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+				" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id " +
+				"order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, identifiers sub_ide WHERE ssdmgphcs.id =sub_ide.stu_sub_dmgphcs_id " +
+				"AND sub_ide.value = (:value) AND sub_ide.type = (:type) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+		sb.append(baseQuery);
+		if(sortParameter != null ) {
+			if(sortParameter.equals(SortParameter.subjectLastName)){
+				sb.append(" order by ssdmgphcs.last_name");
+			} else if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+				sb.append(" order by sub_ide.type");
+			} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+				sb.append(" order by sub_ide.value");
+			}
+		}
+		
+		if(sortParameter != null ) {
+			if(sortParameter.equals(SortParameter.studySubjectIdentifierType) || sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+				
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+						"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id " +
+						"order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, identifiers sub_ide, identifiers stu_sub_ide WHERE " +
+						"ssdmgphcs.id =sub_ide.stu_sub_dmgphcs_id AND ss.id = stu_sub_ide.spa_id AND sub_ide.value = (:value)  AND sub_ide.type = (:type) AND " +
+						"ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+					sb.append(" order by stu_sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+					sb.append(" order by stu_sub_ide.value");
+				} 
+			}
+			
+			if(sortParameter.equals(SortParameter.studyIdentifierType) || sortParameter.equals(SortParameter.studyIdentifierValue) 
+					|| sortParameter.equals(SortParameter.studyShortTitle)){
+				
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+						"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code, ssdmgphcs.valid,row_number() over(partition by" +
+						" ss.id order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv," +
+						" study_versions sv,  studies s, identifiers sub_ide, identifiers stu_ide WHERE ssdmgphcs.id =sub_ide.stu_sub_dmgphcs_id AND ss.id = ssubv.spa_id AND " +
+						"ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND " +
+						"s.id = stu_ide.stu_id AND sub_ide.value = (:value)  AND sub_ide.type = (:type) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studyIdentifierType)){
+					sb.append(" order by stu_ide.type");
+				} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+					sb.append(" order by stu_ide.value");
+				} else if(sortParameter.equals(SortParameter.studyShortTitle)){
+					sb.append(" order by sv.short_title_text");
+				}
+			}
+			String[] stringArray = sb.toString().split("order");
+			if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+				sb.append(" desc ");
+			}
+		}
+		
+		sb.append(ROW_NUM_POST_STRING);
+		studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(),
+				this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("value", subjectIdentifierValue).
+				setParameter("type",subjectIdentifierType).list();
 		return buildStudySubjects(studySubjectObjects);
 	}
 
@@ -1177,16 +1712,75 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastName(
 			String studyIdentifierValue, String registryStatusCode,
-			String lastName) {
+			String lastName, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
-		studySubjectObjects = getHibernateTemplate()
-				.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-						" StudySubjectStudyVersion sssv,StudySubjectRegistryStatus ssrs, Identifier I where sssv = any elements"
-						+ " (ss.studySubjectStudyVersions) and I=any elements (sssv.studySiteStudyVersion.studyVersion"
-						+ ".study.identifiers) and I.value = ? and ssrs = any elements (ss.studySubjectRegistryStatusHistoryInternal) and "
-						+ "ssrs.permissibleStudySubjectRegistryStatus.registryStatus.code = ? and ss.studySubjectDemographics.lastName != ?",
-						new Object[] { studyIdentifierValue,
-								registryStatusCode, lastName });
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
+		String baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+				" ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+				" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id " +
+				"order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv, " +
+				" studies s, identifiers stu_ide, stu_sub_reg_statuses ssrs, permissible_reg_stats prs, registry_statuses rs WHERE ss.id = ssubv.spa_id AND " +
+				"ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND ssrs.stu_sub_id = ss.id AND ssrs.per_reg_st_id = prs.id " +
+				"AND prs.registry_st_id = rs.id AND s.id =stu_ide.stu_id AND stu_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id AND rs.code =(:code) " +
+				"AND ssdmgphcs.last_name != (:lastName)";
+		
+		sb.append(baseQuery);
+		if(sortParameter != null ) {
+			if(sortParameter.equals(SortParameter.studyShortTitle)){
+				sb.append(" order by sv.short_title_text");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierType)){
+				sb.append(" order by stu_ide.type");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+				sb.append(" order by stu_ide.value");
+			} else if(sortParameter.equals(SortParameter.subjectLastName)){
+				sb.append(" order by ssdmgphcs.last_name");
+			}
+			
+			if(sortParameter.equals(SortParameter.subjectIdentifierType) || sortParameter.equals(SortParameter.subjectIdentifierValue)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+						" ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id" +
+						" order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv, " +
+						"study_versions sv,  studies s, identifiers stu_ide, identifiers sub_ide, stu_sub_reg_statuses ssrs, permissible_reg_stats prs, registry_statuses rs" +
+						" WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND ssrs.stu_sub_id = ss.id " +
+						"AND ssrs.per_reg_st_id = prs.id AND prs.registry_st_id = rs.id AND s.id =stu_ide.stu_id AND ssdmgphcs.id = sub_ide.stu_sub_dmgphcs_id AND " +
+						"stu_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id AND rs.code =(:code) AND ssdmgphcs.last_name != (:lastName)";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+					sb.append(" order by sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+					sb.append(" order by sub_ide.value");
+				}
+			}
+			
+			if(sortParameter.equals(SortParameter.studySubjectIdentifierType) || sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+						" ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id " +
+						"order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv, " +
+						"study_versions sv,  studies s, identifiers stu_ide, identifiers stu_sub_ide, stu_sub_reg_statuses ssrs, permissible_reg_stats prs, " +
+						"registry_statuses rs WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id" +
+						" AND ssrs.stu_sub_id = ss.id AND ssrs.per_reg_st_id = prs.id AND prs.registry_st_id = rs.id AND s.id =stu_ide.stu_id AND ss.id = stu_sub_ide.spa_id" +
+						" AND stu_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id AND rs.code =(:code) AND ssdmgphcs.last_name != (:lastName)";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+					sb.append(" order by stu_sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+					sb.append(" order by stu_sub_ide.value");
+				}
+			}
+			String[] stringArray = sb.toString().split("order");
+			if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+				sb.append(" desc ");
+			}
+		}
+		
+		sb.append(ROW_NUM_POST_STRING);
+		studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+				this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("value", studyIdentifierValue).
+				setParameter("code",registryStatusCode).setParameter("lastName",lastName).list();
 		return buildStudySubjects(studySubjectObjects);
 	}
 
@@ -1195,33 +1789,135 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastNameAndRegistryStatusEffeciveDate(
 			String studyIdentifierValue, String statusCode, String lastName,
-			Date registryStatusEffectiveDate) {
+			Date registryStatusEffectiveDate, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
-		studySubjectObjects = getHibernateTemplate()
-				.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-						" StudySubjectStudyVersion sssv,StudySubjectRegistryStatus ssrs, Identifier I where sssv = any elements"
-						+ " (ss.studySubjectStudyVersions) and I=any elements (sssv.studySiteStudyVersion.studyVersion"
-						+ ".study.identifiers) and I.value = ? and ssrs = any elements (ss.studySubjectRegistryStatusHistoryInternal) and "
-						+ "ssrs.permissibleStudySubjectRegistryStatus.registryStatus.code != ? and ss.studySubjectDemographics.lastName != ?"
-						+ " and ssrs.effectiveDate > ?",
-						new Object[] { studyIdentifierValue, statusCode,
-								lastName, registryStatusEffectiveDate });
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
+		String baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+				" ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+				" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order" +
+				" by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv, " +
+				"studies s, identifiers stu_ide, stu_sub_reg_statuses ssrs, permissible_reg_stats prs, registry_statuses rs WHERE ss.id = ssubv.spa_id AND " +
+				"ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND ssrs.stu_sub_id = ss.id AND ssrs.per_reg_st_id = prs.id" +
+				" AND prs.registry_st_id = rs.id AND s.id =stu_ide.stu_id AND stu_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id AND rs.code != (:code) AND " +
+				"ssdmgphcs.last_name != (:lastName) AND ssrs.effective_date > to_date( (:dateString),'mm/dd/yyyy')";
+		
+		sb.append(baseQuery);
+		if(sortParameter != null ) {
+			if(sortParameter.equals(SortParameter.studyShortTitle)){
+				sb.append(" order by sv.short_title_text");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierType)){
+				sb.append(" order by stu_ide.type");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+				sb.append(" order by stu_ide.value");
+			} else if(sortParameter.equals(SortParameter.subjectLastName)){
+				sb.append(" order by ssdmgphcs.last_name");
+			}
+			
+			if(sortParameter.equals(SortParameter.subjectIdentifierType) || sortParameter.equals(SortParameter.subjectIdentifierValue)){
+				baseQuery =  "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+						" ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id) rn FROM study_subjects ss, " +
+						"stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv,  studies s, identifiers stu_ide," +
+						" identifiers sub_ide, stu_sub_reg_statuses ssrs, permissible_reg_stats prs, registry_statuses rs WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND" +
+						" ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND ssrs.stu_sub_id = ss.id AND ssrs.per_reg_st_id = prs.id AND prs.registry_st_id = rs.id AND " +
+						"s.id =stu_ide.stu_id AND ssdmgphcs.id =sub_ide.stu_sub_dmgphcs_id AND stu_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id AND rs.code != (:code) AND ssdmgphcs.last_name != (:lastName)  AND " +
+						"ssrs.effective_date > to_date( (:dateString),'mm/dd/yyyy')";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+					sb.append(" order by sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+					sb.append(" order by sub_ide.value");
+				}
+			}
+			
+			if(sortParameter.equals(SortParameter.studySubjectIdentifierType) || sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+				baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+						" ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order " +
+						"by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv, " +
+						" studies s, identifiers stu_ide,identifiers stu_sub_ide, stu_sub_reg_statuses ssrs, permissible_reg_stats prs, registry_statuses rs " +
+						"WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND ssrs.stu_sub_id = ss.id " +
+						"AND ssrs.per_reg_st_id = prs.id AND prs.registry_st_id = rs.id AND s.id =stu_ide.stu_id AND ss.id =stu_sub_ide.spa_id AND stu_ide.value = (:value) AND " +
+						"ssdmgphcs.id = ss.stu_sub_dmgphcs_id AND rs.code != (:code) AND ssdmgphcs.last_name != (:lastName)  AND ssrs.effective_date > to_date( (:dateString),'mm/dd/yyyy')";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+					sb.append(" order by stu_sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+					sb.append(" order by stu_sub_ide.value");
+				}
+			}
+			String[] stringArray = sb.toString().split("order");
+			if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+				sb.append(" desc ");
+			}
+		}
+		
+		sb.append(ROW_NUM_POST_STRING);
+		studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+				this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("value", studyIdentifierValue).
+				setParameter("code",statusCode).setParameter("lastName",lastName).setParameter("lastName",lastName).
+				setParameter("dateString",DateUtil.formatDate(registryStatusEffectiveDate, "MM/dd/yyyy")).list();
 		return buildStudySubjects(studySubjectObjects);
 	}
 
 	// Input case 12: .studyIdentifier value, =; 2. studySubjectIdentifier value, =
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsByStudyIdentifierValueAndStudySubjectIdentifierValue(
-			String studyIdentifierValue, String studySubjectIdentifierValue) {
+			String studyIdentifierValue, String studySubjectIdentifierValue, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
-		studySubjectObjects = getHibernateTemplate()
-				.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-						" StudySubjectStudyVersion sssv,Identifier iStudy, "
-						+ "Identifier issub where sssv = any elements (ss.studySubjectStudyVersions) and iStudy=any elements (sssv.studySiteStudyVersion.studyVersion"
-						+ ".study.identifiers) and iStudy.value = ? and issub = any elements (ss.identifiers) and "
-						+ "issub.value = ?",
-						new Object[] { studyIdentifierValue,
-								studySubjectIdentifierValue });
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
+		String baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+				"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+				" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid, sv.short_title_text," +
+				" stu_ide.type, stu_ide.value,row_number() over(partition by ss.id order by ss.id) rn FROM study_subjects ss, " +
+				" stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv,  studies s, " +
+				" identifiers stu_ide, identifiers stu_sub_ide WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND " +
+				"sv.study_id = s.id AND s.id =stu_ide.stu_id AND stu_ide.value = (:stuIdenValue) AND ss.id =stu_sub_ide.spa_id AND stu_sub_ide.value = " +
+				"(:regIdenValue) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+		sb.append(baseQuery);
+		if(sortParameter != null ) {
+			if(sortParameter.equals(SortParameter.studyShortTitle)){
+				sb.append(" order by sv.short_title_text");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierType)){
+				sb.append(" order by stu_ide.type");
+			} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+				sb.append(" order by stu_ide.value");
+			} else if(sortParameter.equals(SortParameter.subjectLastName)){
+				sb.append(" order by ssdmgphcs.last_name");
+			} else if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+				sb.append(" order by stu_sub_ide.type");
+			} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+				sb.append(" order by stu_sub_ide.value");
+			}
+			
+			if(sortParameter.equals(SortParameter.subjectIdentifierType) || sortParameter.equals(SortParameter.subjectIdentifierValue)){
+				baseQuery =  "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+						"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+						" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id) rn FROM study_subjects ss, " +
+						" stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv,  studies s, " +
+						" identifiers stu_ide, identifiers stu_sub_ide, identifiers sub_ide WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND " +
+						"sv.study_id = s.id AND s.id =stu_ide.stu_id AND ssdmgphcs.id =sub_ide.stu_sub_dmgphcs_id AND stu_ide.value = (:stuIdenValue) AND ss.id =stu_sub_ide.spa_id AND stu_sub_ide.value = " +
+						"(:regIdenValue) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+				sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+				sb.append(baseQuery);
+				if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+					sb.append(" order by sub_ide.type");
+				} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+					sb.append(" order by sub_ide.value");
+				}
+			}
+			String[] stringArray = sb.toString().split("order");
+			if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+				sb.append(" desc ");
+			}
+		}
+		
+		sb.append(ROW_NUM_POST_STRING);
+		studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+				this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("stuIdenValue", studyIdentifierValue).
+				setParameter("regIdenValue",studySubjectIdentifierValue).list();
 		return buildStudySubjects(studySubjectObjects);
 	}
 
@@ -1230,23 +1926,150 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 	// value might be null sometimes
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsByNullableStudyIdentifierAndStudySubjectConsentDocumentId(
-			String studyIdentifier, String documentId) {
+			String studyIdentifier, String documentId, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
 		if (studyIdentifier == null) {
-			studySubjectObjects = getHibernateTemplate()
-					.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-							" StudySubjectStudyVersion sssv, StudySubjectConsentVersion sscv where sssv = any elements (ss.studySubjectStudyVersions)"
-							+ " and sscv=any elements (sssv.studySubjectConsentVersionsInternal) and sscv.documentId = ?",
-							new Object[] { documentId });
+			String baseQuery = "SELECT ss.id as study_subject_id,ss.payment_method,ss.reg_data_entry_status, ssdmgphcs.id, ssdmgphcs.first_name,ssdmgphcs.last_name, " +
+					"ssdmgphcs.middle_name, ssdmgphcs.name_prefix, ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code, ssdmgphcs.ethnic_group_code,ssdmgphcs.birth_date, " +
+					" ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id) rn FROM study_subjects ss, stu_sub_demographics " +
+					"ssdmgphcs, study_subject_versions ssubv, study_subject_consents sscv WHERE ss.id = ssubv.spa_id AND ssubv.id = sscv.study_subject_ver_id AND " +
+					"sscv.document_id = (:documentId) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+			
+			sb.append(baseQuery);
+			if(sortParameter != null ) {
+				 if(sortParameter.equals(SortParameter.subjectLastName)){
+					sb.append(" order by ssdmgphcs.last_name");
+				}
+				
+				if(sortParameter.equals(SortParameter.studyIdentifierType) || sortParameter.equals(SortParameter.studyIdentifierValue) 
+						|| sortParameter.equals(SortParameter.studyShortTitle)){
+					baseQuery = "SELECT ss.id as study_subject_id,ss.payment_method,ss.reg_data_entry_status, ssdmgphcs.id, ssdmgphcs.first_name,ssdmgphcs.last_name, " +
+							"ssdmgphcs.middle_name, ssdmgphcs.name_prefix, ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code, ssdmgphcs.ethnic_group_code,ssdmgphcs.birth_date, " +
+							" ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv, " +
+							"study_subject_consents sscv,  study_site_versions ssitv,  study_versions sv,  studies s, identifiers stu_ide WHERE ss.id = ssubv.spa_id " +
+							"AND ssubv.id = sscv.study_subject_ver_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND " +
+							"sv.study_id = s.id AND s.id =stu_ide.stu_id AND sscv.document_id = (:documentId) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+					sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+					sb.append(baseQuery);
+	
+					if(sortParameter.equals(SortParameter.studyShortTitle)){
+						sb.append(" order by sv.short_title_text");
+					} else if(sortParameter.equals(SortParameter.studyIdentifierType)){
+						sb.append(" order by stu_ide.type");
+					} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+						sb.append(" order by stu_ide.value");
+					} 
+				}
+				
+				if(sortParameter.equals(SortParameter.subjectIdentifierType) || sortParameter.equals(SortParameter.subjectIdentifierValue)){
+					baseQuery = "SELECT ss.id as study_subject_id,ss.payment_method,ss.reg_data_entry_status, ssdmgphcs.id, ssdmgphcs.first_name,ssdmgphcs.last_name, " +
+							"ssdmgphcs.middle_name, ssdmgphcs.name_prefix, ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code, ssdmgphcs.ethnic_group_code," +
+							"ssdmgphcs.birth_date, ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id) rn FROM study_subjects ss," +
+							" stu_sub_demographics ssdmgphcs, study_subject_versions ssubv, study_subject_consents sscv,  study_site_versions ssitv,  study_versions sv," +
+							" studies s, identifiers sub_ide WHERE ss.id = ssubv.spa_id AND ssubv.id = sscv.study_subject_ver_id AND ssubv.study_site_ver_id = ssitv.id " +
+							"AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND ssdmgphcs.id =sub_ide.stu_sub_dmgphcs_id AND sscv.document_id = (:documentId) AND " +
+							"ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+					sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+					sb.append(baseQuery);
+					if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+						sb.append(" order by sub_ide.type");
+					} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+						sb.append(" order by sub_ide.value");
+					}
+				}
+				
+				if(sortParameter.equals(SortParameter.studySubjectIdentifierType) || sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+					baseQuery = "SELECT ss.id as study_subject_id,ss.payment_method,ss.reg_data_entry_status, ssdmgphcs.id, ssdmgphcs.first_name,ssdmgphcs.last_name, " +
+							"ssdmgphcs.middle_name, ssdmgphcs.name_prefix, ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code, ssdmgphcs.ethnic_group_code," +
+							"ssdmgphcs.birth_date, ssdmgphcs.marital_status_code, ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id) rn FROM study_subjects ss," +
+							" stu_sub_demographics ssdmgphcs, study_subject_versions ssubv, study_subject_consents sscv,  study_site_versions ssitv,  study_versions sv, " +
+							"studies s, identifiers stu_sub_ide WHERE ss.id = ssubv.spa_id AND ssubv.id = sscv.study_subject_ver_id AND ssubv.study_site_ver_id = ssitv.id " +
+							"AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND ss.id =stu_sub_ide.spa_id AND sscv.document_id = (:documentId) AND " +
+							"ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+					sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+					sb.append(baseQuery);
+					if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+						sb.append(" order by stu_sub_ide.type");
+					} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+						sb.append(" order by stu_sub_ide.value");
+					}
+				}
+				String[] stringArray = sb.toString().split("order");
+				if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+					sb.append(" desc ");
+				}
+			}
+			
+		 sb.append(ROW_NUM_POST_STRING);
+	     studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+	    		 this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("documentId", documentId).list();
+	       
 		} else {
-			studySubjectObjects = getHibernateTemplate()
-					.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-							" StudySubjectStudyVersion sssv,StudySubjectConsentVersion sscv, Identifier i where sssv = any elements (ss."
-							+ "studySubjectStudyVersions)"
-							+ " and sscv=any elements (sssv.studySubjectConsentVersionsInternal) and sscv.documentId = ? and i = any elements"
-							+ "(sssv.studySiteStudyVersion.studyVersion.study.identifiers) and i.value = ?",
-							new Object[] { documentId, studyIdentifier });
-
+			String baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+					"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+					" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date, ssdmgphcs.marital_status_code, ssdmgphcs.valid,row_number() over(partition by ss.id order by ss.id) " +
+					"rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  study_versions sv,  studies s, " +
+					" identifiers stu_ide, study_subject_consents sscv WHERE ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND " +
+					"ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND   ssubv.id = sscv.study_subject_ver_id AND sscv.document_id = (:documentId) " +
+					"  AND s.id =stu_ide.stu_id AND stu_ide.value = (:value) AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+			sb.append(baseQuery);
+			if(sortParameter != null ) {
+				 if(sortParameter.equals(SortParameter.subjectLastName)){
+					sb.append(" order by ssdmgphcs.last_name");
+				} else if(sortParameter.equals(SortParameter.studyShortTitle)){
+					sb.append(" order by sv.short_title_text");
+				} else if(sortParameter.equals(SortParameter.studyIdentifierType)){
+					sb.append(" order by stu_ide.type");
+				} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+					sb.append(" order by stu_ide.value");
+				} 
+				 
+				 if(sortParameter.equals(SortParameter.subjectIdentifierType) || sortParameter.equals(SortParameter.subjectIdentifierValue)){
+						baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+								"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+								" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id " +
+								"order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv, " +
+								"study_versions sv,  studies s, identifiers stu_ide, identifiers sub_ide, study_subject_consents sscv WHERE ss.id = ssubv.spa_id AND " +
+								"ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND   ssubv.id = sscv.study_subject_ver_id AND " +
+								"sscv.document_id = (:documentId) AND s.id =stu_ide.stu_id AND ssdmgphcs.id =sub_ide.stu_sub_dmgphcs_id AND stu_ide.value = (:value) AND " +
+								"ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+						sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+						sb.append(baseQuery);
+						if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+							sb.append(" order by sub_ide.type");
+						} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+							sb.append(" order by sub_ide.value");
+						}
+					}
+					
+					if(sortParameter.equals(SortParameter.studySubjectIdentifierType) || sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+						baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name,  " +
+								"ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+								" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id " +
+								"order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv,  study_site_versions ssitv,  " +
+								"study_versions sv,  studies s, identifiers stu_ide, identifiers stu_sub_ide, study_subject_consents sscv WHERE ss.id = ssubv.spa_id AND " +
+								"ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND   ssubv.id = sscv.study_subject_ver_id AND " +
+								"sscv.document_id = (:documentId) AND s.id =stu_ide.stu_id AND ss.id =stu_sub_ide.spa_id AND stu_ide.value = (:value) AND " +
+								"ssdmgphcs.id = ss.stu_sub_dmgphcs_id";
+						sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+						sb.append(baseQuery);
+						if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+							sb.append(" order by stu_sub_ide.type");
+						} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+							sb.append(" order by stu_sub_ide.value");
+						}
+					}
+					String[] stringArray = sb.toString().split("order");
+					if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+						sb.append(" desc ");
+					}
+			}
+			
+			sb.append(ROW_NUM_POST_STRING);
+	        studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+	        		this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("value", studyIdentifier).
+	        		setParameter("documentId", documentId).list();
 		}
 		return buildStudySubjects(studySubjectObjects);
 	}
@@ -1255,98 +2078,411 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject>
 	// here studyIdentifier value might be null sometimes
 	@SuppressWarnings(value="unchecked")
 	public List<StudySubject> retrieveStudySubjectsByNullableStudyIdentifierValueAndRegistryStatusCode(
-			String studyIdentifier, String registryStatusCode) {
+			String studyIdentifier, String registryStatusCode, final Integer min_rows, final Integer max_rows, SortParameter sortParameter) {
 		List<Object> studySubjectObjects = new ArrayList<Object>();
-
+		StringBuilder sb = new StringBuilder(ROW_NUM_PRE_STRING);
 		if (studyIdentifier == null) {
-			studySubjectObjects = getHibernateTemplate()
-					.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics, " +
-							"StudySubjectStudyVersion sssv,StudySubjectRegistryStatus ssrs where sssv = any elements"
-							+ " (ss.studySubjectStudyVersions) and ssrs = any elements (ss.studySubjectRegistryStatusHistoryInternal) and "
-							+ "ssrs.permissibleStudySubjectRegistryStatus.registryStatus.code = ?",
-							new Object[] { registryStatusCode });
+			String baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+					" ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+					" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order by " +
+					"ss.id) rn  FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv, stu_sub_reg_statuses ssrs, permissible_reg_stats prs," +
+					" registry_statuses rs WHERE ss.id = ssubv.spa_id AND ssrs.stu_sub_id = ss.id AND ssrs.per_reg_st_id = prs.id AND prs.registry_st_id = rs.id AND " +
+					"ssdmgphcs.id = ss.stu_sub_dmgphcs_id AND rs.code =(:code)";
+			
+			sb.append(baseQuery);
+			if(sortParameter != null ) {
+				 if(sortParameter.equals(SortParameter.subjectLastName)){
+					sb.append(" order by ssdmgphcs.last_name");
+				}
+				
+				if(sortParameter.equals(SortParameter.studyIdentifierType) || sortParameter.equals(SortParameter.studyIdentifierValue) 
+						|| sortParameter.equals(SortParameter.studyShortTitle)){
+					baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+							" ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix, ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+							" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date, ssdmgphcs.marital_status_code, ssdmgphcs.valid,row_number() over(partition by ss.id " +
+							"order by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, study_subject_versions ssubv, study_site_versions ssitv, " +
+							"study_versions sv,  studies s, identifiers stu_ide, stu_sub_reg_statuses ssrs, permissible_reg_stats prs, registry_statuses rs WHERE " +
+							"ss.id = ssubv.spa_id AND ssubv.study_site_ver_id = ssitv.id AND ssitv.stu_version_id = sv.id AND sv.study_id = s.id AND ssrs.stu_sub_id = ss.id " +
+							"AND ssrs.per_reg_st_id = prs.id AND prs.registry_st_id = rs.id AND s.id =stu_ide.stu_id AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id AND rs.code =(:code)";
+					sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+					sb.append(baseQuery);
+	
+					if(sortParameter.equals(SortParameter.studyShortTitle)){
+						sb.append(" order by sv.short_title_text");
+					} else if(sortParameter.equals(SortParameter.studyIdentifierType)){
+						sb.append(" order by stu_ide.type");
+					} else if(sortParameter.equals(SortParameter.studyIdentifierValue)){
+						sb.append(" order by stu_ide.value");
+					} 
+				}
+				
+				if(sortParameter.equals(SortParameter.subjectIdentifierType) || sortParameter.equals(SortParameter.subjectIdentifierValue)){
+					baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+							" ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+							" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code,  ssdmgphcs.valid,row_number() over(partition by ss.id order " +
+							"by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, identifiers sub_ide, study_subject_versions ssubv, stu_sub_reg_statuses ssrs," +
+							" permissible_reg_stats prs, registry_statuses rs WHERE ss.id = ssubv.spa_id AND ssrs.stu_sub_id = ss.id AND ssrs.per_reg_st_id = prs.id AND " +
+							"prs.registry_st_id = rs.id AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id AND ssdmgphcs.id =sub_ide.stu_sub_dmgphcs_id AND rs.code =(:code)";
+					sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+					sb.append(baseQuery);
+					if(sortParameter.equals(SortParameter.subjectIdentifierType)){
+						sb.append(" order by sub_ide.type");
+					} else if(sortParameter.equals(SortParameter.subjectIdentifierValue)){
+						sb.append(" order by sub_ide.value");
+					}
+				}
+				
+				if(sortParameter.equals(SortParameter.studySubjectIdentifierType) || sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+					baseQuery = "SELECT ss.id as study_subject_id,  ss.payment_method,  ss.reg_data_entry_status,  ssdmgphcs.id,  ssdmgphcs.first_name," +
+							" ssdmgphcs.last_name, ssdmgphcs.middle_name,  ssdmgphcs.name_prefix,  ssdmgphcs.name_suffix, ssdmgphcs.administrative_gender_code," +
+							" ssdmgphcs.ethnic_group_code, ssdmgphcs.birth_date,  ssdmgphcs.marital_status_code, ssdmgphcs.valid,row_number() over(partition by ss.id order " +
+							"by ss.id) rn FROM study_subjects ss, stu_sub_demographics ssdmgphcs, identifiers stu_sub_ide, study_subject_versions ssubv, " +
+							"stu_sub_reg_statuses ssrs, permissible_reg_stats prs, registry_statuses rs WHERE ss.id = ssubv.spa_id AND ssrs.stu_sub_id = ss.id AND" +
+							" ssrs.per_reg_st_id = prs.id AND prs.registry_st_id = rs.id AND ssdmgphcs.id = ss.stu_sub_dmgphcs_id AND ss.id =stu_sub_ide.spa_id AND " +
+							"rs.code =(:code)";
+					sb =  new StringBuilder(ROW_NUM_PRE_STRING);
+					sb.append(baseQuery);
+					if(sortParameter.equals(SortParameter.studySubjectIdentifierType)){
+						sb.append(" order by stu_sub_ide.type");
+					} else if(sortParameter.equals(SortParameter.studySubjectIdentifierValue)){
+						sb.append(" order by stu_sub_ide.value");
+					}
+				}
+				String[] stringArray = sb.toString().split("order");
+				if(sb.toString().contains("order by") && (stringArray.length > 2) && sortParameter.getSortOrder() == SortOrder.DESCENDING){
+					sb.append(" desc ");
+				}
+			}
+			sb.append(ROW_NUM_POST_STRING);
+			studySubjectObjects =StudySubjectDaoHelper.buildPaginationQuery(sb.toString(), min_rows, max_rows, getHibernateTemplate(), 
+					this.objectFactory instanceof ObjectFactoryOracle ? true:false).setParameter("code", registryStatusCode).
+					setParameter("code",registryStatusCode).list();
 		} else {
-
-			studySubjectObjects = getHibernateTemplate()
-					.find("select ss,sssv.id, sssv.studySiteStudyVersion.studyVersion.study.id from StudySubject ss inner join fetch ss.studySubjectDemographics," +
-							" StudySubjectStudyVersion sssv,StudySubjectRegistryStatus ssrs, Identifier I where sssv = any elements"
-							+ " (ss.studySubjectStudyVersions) and I=any elements (sssv.studySiteStudyVersion.studyVersion"
-							+ ".study.identifiers) and I.value = ? and ssrs = any elements (ss.studySubjectRegistryStatusHistoryInternal) and "
-							+ "ssrs.permissibleStudySubjectRegistryStatus.registryStatus.code = ?",
-							new Object[] { studyIdentifier, registryStatusCode });
+			
+			return retrieveStudySubjectsByStudyIdentifierValueAndRegistryStatusCode(studyIdentifier,registryStatusCode, min_rows,  max_rows, sortParameter);
 
 		}
 		return buildStudySubjects(studySubjectObjects);
 	}
 	
-	// load primary study identifier by studyIds
-	@SuppressWarnings(value="unchecked")
-	public List<Object> loadPrimaryStudyIdentifierByStudyIds(List<Integer> studyIds) {
-		String queryString = "select s.id, I from Identifier I, Study s where I = any elements (s.identifiers)"
-						+ " and I.primaryIndicator = true and s.id in (:ids)";
-		Query query = getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(queryString).
-				setParameterList("ids", studyIds);
-		return query.list();
-	}
-	
-	// load all studies based on their study ids
-	@SuppressWarnings(value="unchecked")
-	public List<Study> loadStudiesFromStudyIds(List<Integer> studyIds) {
-		String queryString = "select distinct s from Study s where s.id in (:ids)";
-		Query query = getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(queryString).
-				setParameterList("ids", studyIds);
-		return (List<Study>) query.list();
-	}
-	
-	// load study site by study subject version id
-	@SuppressWarnings(value="unchecked")
-	public StudySite loadStudySiteByStudySubjectVersionId(
-			Integer studySubjectStudyVersionId) {
-		List<StudySite> studySites = new ArrayList<StudySite>();
-		studySites = getHibernateTemplate()
-				.find("select new StudySite(sssv.studySiteStudyVersion.studySite.healthcareSite) from StudySubjectStudyVersion sssv"
-						+ " where sssv.id = ?",
-						new Object[] { studySubjectStudyVersionId });
-		return (studySites.size() > 0 ? studySites.get(0) : null);
-	}
-	
-	// load subject consent versions by study subject version ids
-	@SuppressWarnings(value="unchecked")
-	public List<Object> loadStudySubjectConsentVersionsByStudySubjectVersionIds(
-			List<Integer> ids) {
-		
-		String queryString = "select sscv, sssv.studySubject.id from StudySubjectConsentVersion sscv, StudySubjectStudyVersion sssv "
-				+ "where sscv = any elements (sssv.studySubjectConsentVersionsInternal) and sssv.id in (:ids)";
-		Query query = getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(queryString).
-				setParameterList("ids", ids);
-		return query.list();
-	}
-	
-	
-	@SuppressWarnings(value="unchecked")
-	public List<StudySite> loadStudySitesByStudySubjectVersionIds(List<Integer> ids){
-		// query study site based on study subject version id
-		 String queryString = "select new StudySite(sssv.studySiteStudyVersion.studySite.healthcareSite,sssv.studySubject.id) " +
-		 		" from StudySubjectStudyVersion sssv where sssv.id in (:ids)";
-		 Query query = getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(queryString).
-		setParameterList("ids", ids);
-		 
-		return (List<StudySite>) query.list();
-	}
-	
 	private List<StudySubject> buildStudySubjects(List<Object> studySubjectObjects){
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
-		// loop through study subject consents in put them in the appropriate bucket using study subject id as key
-		for(Object obj : studySubjectObjects){
-			if(obj !=null){ 
-				StudySubject studySubject = (StudySubject)((Object[])obj)[0];
-				studySubjects.add(studySubject);
-				Integer studySubjectVersionId = (Integer)((Object[])obj)[1];
-				studySubject.setStudySubjectVersionId(studySubjectVersionId);
-				Integer studyId = (Integer)((Object[])obj)[2];
-				studySubject.setStudyId(studyId);
-			}
-		}
-		return studySubjects;
+        studySubjects = objectFactory.createStudySubjectsFromResultSet(studySubjectObjects);
+        List<StudySubjectDemographics> studySubjectDemographics = StudySubjectDaoHelper.getStudySubjectDemographics(studySubjects);
+        loadDemographicsContactMechanisms(studySubjectDemographics);
+        loadDemographicsContactMechanismsUses(studySubjectDemographics);
+		loadDemographicsIdentifiers(studySubjectDemographics);
+		loadDemographicsIdentifierOrganizationIdentifiers(studySubjectDemographics);
+		loadDemographicsAddresses(studySubjectDemographics);
+		loadDemographicsAddressUses(studySubjectDemographics);
+		loadDemographicsRaceCodes(studySubjectDemographics);
+		
+		loadStudySubjectStudyVersions(studySubjects);
+		
+		List<StudySubjectStudyVersion> studySubjectStudyVersions = StudySubjectDaoHelper.getStudySubjectStudyVersions(studySubjects);
+		
+		loadStudySubjectConsentVersions(studySubjects);
+		loadStudyConsents(StudySubjectDaoHelper.getStudySubjectStudyVersions(studySubjects));
+		loadStudySubjectConsentQuestionAnswers(studySubjectStudyVersions);
+		loadStudyConsentQuestions(StudySubjectDaoHelper.getStudyConsentQuestions(studySubjectStudyVersions));
+		loadStudyVersions(StudySubjectDaoHelper.getStudySubjectStudyVersions(studySubjects));
+		loadStudyIdentifiers(StudySubjectDaoHelper.getStudySubjectStudyVersions(studySubjects));
+		loadStudyIdentifierOrganizationIdentifiers(studySubjects);
+		loadStudySiteHealthcareSiteIdentifiers(studySubjectStudyVersions);
+		loadStudySubjectIdentifiers(studySubjects);
+		loadStudySubjectIdentifierOrganizationIdentifiers(studySubjects);
+		
+		loadStudySubjectRegistryStatus(studySubjects);
+		loadStudySubjectRegistryReasons(studySubjects);
+		loadStudySubjectPermissibleRegistryStatusReason(studySubjects);
+		
+		
+        return studySubjects;
 	}
+	
+	
+	public void loadStudySubjectStudyVersions(List<StudySubject> studySubjects){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,StudySubject> studySubjectsMap =  new HashMap<Integer,StudySubject>();
+		studySubjectsMap = StudySubjectDaoHelper.constructStudySubjectsHashMap(studySubjects);
+		ids.addAll(studySubjectsMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select sssv.spa_id, sssv.id, sssv.STUDY_SITE_VER_ID from STUDY_SUBJECT_VERSIONS sssv where sssv.spa_id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> studySubjectVersionsObjects =query.list();
+	        objectFactory.buildStudySubjectVersions(studySubjectVersionsObjects,studySubjectsMap);
+		}
+	}
+	
+	public void loadStudySiteHealthcareSiteIdentifiers(List<StudySubjectStudyVersion> studySubjectStudyVersions){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,StudySiteStudyVersion> studySiteVersionsMap =  new HashMap<Integer,StudySiteStudyVersion>();
+		studySiteVersionsMap = StudySubjectDaoHelper.constructStudySiteVersionsHashMap(studySubjectStudyVersions);
+		ids.addAll(studySiteVersionsMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "SELECT DISTINCT sssv.id as sssv_id, so.id as so_id, so.hcs_id as so_org_id, id.type,id.value,id.primary_indicator from " +
+					"IDENTIFIERS id inner join organizations orgs on id.org_id = orgs.id inner join study_organizations so on " +
+					"so.hcs_id = orgs.id inner join study_site_versions sssv on sssv.sto_id = so.id where id.dtype like 'OAI' and sssv.id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> studySiteHealthcareSiteIdentifierObjects =query.list();
+	        objectFactory.buildStudySiteHealthcareSiteIdentifiers(studySiteHealthcareSiteIdentifierObjects,studySiteVersionsMap);
+		}
+	}
+	
+	public void loadStudyVersions(List<StudySubjectStudyVersion> studySubjectStudyVersions){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,StudySiteStudyVersion> studySiteStudyVersionsMap =  new HashMap<Integer,StudySiteStudyVersion>();
+		studySiteStudyVersionsMap = StudySubjectDaoHelper.constructStudySiteVersionsHashMap(studySubjectStudyVersions);
+		ids.addAll(studySiteStudyVersionsMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select DISTINCT sssv.id as sssv_id, sv.id, sv.short_title_text, sv.long_title_text, sv.description_text,sv.study_id from STUDY_SITE_VERSIONS sssv " +
+					"inner join STUDY_VERSIONS sv on sssv.stu_version_id = sv.id where sssv.id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> studyVersionObjects =query.list();
+	        objectFactory.buildStudyVersions(studyVersionObjects,studySiteStudyVersionsMap);
+		}
+	}
+	
+	public void loadStudyIdentifiers(List<StudySubjectStudyVersion> studySubjectStudyVersions){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,Study> studiesMap =  new HashMap<Integer,Study>();
+		studiesMap = StudySubjectDaoHelper.constructStudiesHashMap(studySubjectStudyVersions);
+		ids.addAll(studiesMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "SELECT id.stu_id, id.dtype, id.type,id.system_name,id.primary_indicator,id.value,id.hcs_id from IDENTIFIERS id where id.stu_id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> identifierObjects =query.list();
+	        objectFactory.buildStudyIdentifiers(identifierObjects,studiesMap);
+		}
+	}
+	
+	
+	public void loadStudySubjectConsentVersions(List<StudySubject> studySubjects){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,StudySubjectStudyVersion> studySubjectStudyVersionsMap =  new HashMap<Integer,StudySubjectStudyVersion>();
+		studySubjectStudyVersionsMap = StudySubjectDaoHelper.constructStudySubjectStudyVersionsHashMap(studySubjects);
+		ids.addAll(studySubjectStudyVersionsMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select ssc.study_subject_ver_id, ssc.id, ssc.informed_consent_signed_tstamp, ssc.consent_id, ssc.consenting_method, ssc.consent_presenter, ssc.consent_delivery_date,ssc.document_id, ssc.consent_declined_date from STUDY_SUBJECT_CONSENTS ssc where ssc.study_subject_ver_id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> studySubjectConsentObjects =query.list();
+	        objectFactory.buildStudySubjectConsentVersions(studySubjectConsentObjects,studySubjectStudyVersionsMap);
+		}
+	}
+	
+	public void loadStudyConsents(List<StudySubjectStudyVersion> studySubjectStudyVersions){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,Consent> consentsMap =  new HashMap<Integer,Consent>();
+		consentsMap = StudySubjectDaoHelper.constructStudyConsentsHashMap(studySubjectStudyVersions);
+		ids.addAll(consentsMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select c.id, c.name, c.version_id, c.mandatory_indicator, c.description_text from CONSENTS c where c.id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> consentObjects =query.list();
+	        objectFactory.buildStudyConsents(consentObjects,consentsMap);
+		}
+	}
+	
+	public void loadStudySubjectConsentQuestionAnswers(List<StudySubjectStudyVersion> studySubjectStudyVersions){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,StudySubjectConsentVersion> studySubjectStudyVersionsMap =  new HashMap<Integer,StudySubjectConsentVersion>();
+		studySubjectStudyVersionsMap = StudySubjectDaoHelper.constructStudySubjectConsentVersionsHashMap(studySubjectStudyVersions);
+		ids.addAll(studySubjectStudyVersionsMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select scqa.stu_sub_con_ver_id, scqa.id,scqa.agreement_indicator,scqa.con_que_id from sub_con_que_ans scqa where scqa.stu_sub_con_ver_id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> consentQuestionAnswerObjects =query.list();
+	        objectFactory.buildStudyConsentQuestionAnswers(consentQuestionAnswerObjects,studySubjectStudyVersionsMap);
+		}
+	}
+	
+	public void loadStudyConsentQuestions(List<ConsentQuestion> consentQuestions){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,ConsentQuestion> consentQuestionsHashMap =  new HashMap<Integer,ConsentQuestion>();
+		consentQuestionsHashMap = StudySubjectDaoHelper.constructStudyConsentQuestionsHashMap(consentQuestions);
+		ids.addAll(consentQuestionsHashMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select cq.id, cq.code from consent_questions cq where cq.id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> consentQuestionObjects =query.list();
+	        objectFactory.buildStudyConsentQuestions(consentQuestionObjects,consentQuestionsHashMap);
+		}
+	}
+	
+	public void loadStudySubjectIdentifiers(List<StudySubject> studySubjects){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,StudySubject> studySubjectsMap =  new HashMap<Integer,StudySubject>();
+		studySubjectsMap = StudySubjectDaoHelper.constructStudySubjectsHashMap(studySubjects);
+		ids.addAll(studySubjectsMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "SELECT id.spa_id, id.dtype, id.type,id.system_name,id.primary_indicator,id.value,id.hcs_id from IDENTIFIERS id where id.spa_id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> identifierObjects =query.list();
+	        objectFactory.buildStudySubjectIdentifiers(identifierObjects,studySubjectsMap);
+		}
+	}
+	
+	public void loadDemographicsContactMechanisms(List<StudySubjectDemographics> studySubjectDemographics){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,StudySubjectDemographics> demographicsMap =  new HashMap<Integer,StudySubjectDemographics>();
+		demographicsMap = StudySubjectDaoHelper.constructDempgraphicsHashMap(studySubjectDemographics);
+		ids.addAll(demographicsMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select cm.STU_SUB_DMGPHCS_ID, cm.type, cm.value, cm.id from CONTACT_MECHANISMS cm where cm.STU_SUB_DMGPHCS_ID in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> contactMechanismObjects =query.list();
+	        objectFactory.buildContactMechanisms(contactMechanismObjects,demographicsMap);
+		}
+	}
+	
+	public void loadDemographicsContactMechanismsUses(List<StudySubjectDemographics> studySubjectDemographics){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,ContactMechanism> contactMechanismsMap =  new HashMap<Integer,ContactMechanism>();
+		contactMechanismsMap = StudySubjectDaoHelper.constructContactMechanismsHashMap(studySubjectDemographics);
+		ids.addAll(contactMechanismsMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select cm.cntct_id, cm.use from contact_use_assocns cm where cm.cntct_id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> contactMechanismObjects =query.list();
+	        objectFactory.buildContactMechanismUseAssociations(contactMechanismObjects,contactMechanismsMap);
+		}
+	}
+	
+	public void loadDemographicsAddresses(List<StudySubjectDemographics> studySubjectDemographics){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,StudySubjectDemographics> demographicsMap =  new HashMap<Integer,StudySubjectDemographics>();
+		demographicsMap = StudySubjectDaoHelper.constructDempgraphicsHashMap(studySubjectDemographics);
+		ids.addAll(demographicsMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select ad.STU_SUB_DEMOGRAPHICS_ID, ad.street_address, ad.city, ad.state_code, ad.country_code,ad.postal_code, ad.id from ADDRESSES ad " +
+					"where ad.STU_SUB_DEMOGRAPHICS_ID in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> addressObjects =query.list();
+	        objectFactory.buildAddresses(addressObjects,demographicsMap);
+		}
+	}
+	
+	public void loadDemographicsAddressUses(List<StudySubjectDemographics> studySubjectDemographics){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,Address> addressMap =  new HashMap<Integer,Address>();
+		addressMap = StudySubjectDaoHelper.constructAddressesHashMap(studySubjectDemographics);
+		ids.addAll(addressMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select aduassocns.add_ID, aduassocns.use from address_use_assocns aduassocns where aduassocns.add_ID in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> addressObjects =query.list();
+	        objectFactory.buildAddressUseAssociations(addressObjects,addressMap);
+		}
+	}
+	
+	public void loadDemographicsIdentifiers(List<StudySubjectDemographics> studySubjectDemographics){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,StudySubjectDemographics> demographicsMap =  new HashMap<Integer,StudySubjectDemographics>();
+		demographicsMap = StudySubjectDaoHelper.constructDempgraphicsHashMap(studySubjectDemographics);
+		ids.addAll(demographicsMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "SELECT id.STU_SUB_DMGPHCS_ID, id.dtype, id.type,id.system_name,id.primary_indicator,id.value,id.hcs_id from IDENTIFIERS id where id.STU_SUB_DMGPHCS_ID in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> identifierObjects =query.list();
+	        objectFactory.buildDemographicsIdentifiers(identifierObjects,demographicsMap);
+		}
+	}
+	
+	public void loadDemographicsRaceCodes(List<StudySubjectDemographics> studySubjectDemographics){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,StudySubjectDemographics> demographicsMap =  new HashMap<Integer,StudySubjectDemographics>();
+		demographicsMap = StudySubjectDaoHelper.constructDempgraphicsHashMap(studySubjectDemographics);
+		ids.addAll(demographicsMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select rc.stu_sub_dmgphcs_id, rc.race_code from race_code_assocn rc where rc.stu_sub_dmgphcs_id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> identifierObjects =query.list();
+	        objectFactory.buildRaceCodes(identifierObjects,demographicsMap);
+		}
+	}
+	
+	public void loadDemographicsIdentifierOrganizationIdentifiers(List<StudySubjectDemographics> studySubjectDemographics){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,HealthcareSite> healthcareSitesMap =  new HashMap<Integer,HealthcareSite>();
+		healthcareSitesMap = StudySubjectDaoHelper.constructDemographicsIdentifierHealthcareSiteHashMap(studySubjectDemographics);
+		ids.addAll(healthcareSitesMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "SELECT id.ORG_ID, id.dtype, id.type,id.primary_indicator,id.value from IDENTIFIERS id where id.ORG_ID in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> identifierObjects =query.list();
+	        objectFactory.buildOrganizationIdentifiers(identifierObjects,healthcareSitesMap);
+		}
+	}
+	
+	public void loadStudySubjectIdentifierOrganizationIdentifiers(List<StudySubject> studySubjects){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,HealthcareSite> healthcareSitesMap =  new HashMap<Integer,HealthcareSite>();
+		healthcareSitesMap = StudySubjectDaoHelper.constructStudySubjectIdentifierHealthcareSiteHashMap(studySubjects);
+		ids.addAll(healthcareSitesMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "SELECT id.ORG_ID, id.dtype, id.type,id.primary_indicator,id.value from IDENTIFIERS id where id.ORG_ID in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> identifierObjects =query.list();
+	        objectFactory.buildOrganizationIdentifiers(identifierObjects,healthcareSitesMap);
+		}
+	}
+	
+	public void loadStudySubjectPermissibleRegistryStatusReason(List<StudySubject> studySubjects){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,PermissibleStudySubjectRegistryStatus> permissibleRegistryStatusMap =  new HashMap<Integer,PermissibleStudySubjectRegistryStatus>();
+		permissibleRegistryStatusMap = StudySubjectDaoHelper.constructPermissibleRegistryStatusHashMap(studySubjects);
+		ids.addAll(permissibleRegistryStatusMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select distinct prs.id,rs.id, rs.code from PERMISSIBLE_REG_STATS prs inner join REGISTRY_STATUSES rs on" +
+					" rs.id = prs.registry_st_id where prs.id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> permissbleStatusObjects =query.list();
+	        objectFactory.buildPermissibleRegistryStatusObjects(permissbleStatusObjects,permissibleRegistryStatusMap);
+		}
+	}
+	
+	public void loadStudySubjectRegistryStatus(List<StudySubject> studySubjects){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,StudySubject> studySubjectsMap =  new HashMap<Integer,StudySubject>();
+		studySubjectsMap = StudySubjectDaoHelper.constructStudySubjectsHashMap(studySubjects);
+		ids.addAll(studySubjectsMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select ssrs.stu_sub_id,  ssrs.id, ssrs.comment_text, ssrs.effective_date, ssrs.per_reg_st_id from STU_SUB_REG_STATUSES ssrs " +
+					"where ssrs.stu_sub_id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> registryStatusObjects =query.list();
+	        objectFactory.buildRegistryStatusObjects(registryStatusObjects,studySubjectsMap);
+		}
+	}
+	
+	
+	public void loadStudySubjectRegistryReasons(List<StudySubject> studySubjects){
+		List<Integer> ids = new ArrayList<Integer>();
+		Map<Integer,StudySubjectRegistryStatus> studySubjectRegistryStatusMap =  new HashMap<Integer,StudySubjectRegistryStatus>();
+		studySubjectRegistryStatusMap = StudySubjectDaoHelper.constructRegistryStatusHashMap(studySubjects);
+		ids.addAll(studySubjectRegistryStatusMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "select distinct r.id, r.code, ssrs.id as sssrs_id from reasons r inner join REGISTRY_REASONS_ASSN rra " +
+					"on r.id = rra.reason_id inner join STU_SUB_REG_STATUSES ssrs on rra.stu_sub_reg_st_id = ssrs.id where ssrs.id in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> registryReasonObjects =query.list();
+	        objectFactory.buildRegistryReasonObjects(registryReasonObjects,studySubjectRegistryStatusMap);
+		}
+	}
+	
+	
+	public void loadStudyIdentifierOrganizationIdentifiers(List<StudySubject> studySubjects){
+		List<Integer> ids = new ArrayList<Integer>();
+		List<StudySubjectStudyVersion> studySubjectStudyVersions = StudySubjectDaoHelper.getStudySubjectStudyVersions(studySubjects);
+		Map<Integer,HealthcareSite> healthcareSitesMap =  new HashMap<Integer,HealthcareSite>();
+		healthcareSitesMap = StudySubjectDaoHelper.constructStudyIdentifierHealthcareSiteHashMap(studySubjectStudyVersions);
+		ids.addAll(healthcareSitesMap.keySet());
+		if(!ids.isEmpty()) {
+			String baseQuery = "SELECT id.ORG_ID, id.dtype, id.type,id.primary_indicator,id.value from IDENTIFIERS id where id.ORG_ID in ";
+			Query query = StudySubjectDaoHelper.handleOracle1000LimitForInStatement(ids, baseQuery, getHibernateTemplate());
+	        List<Object> identifierObjects =query.list();
+	        objectFactory.buildOrganizationIdentifiers(identifierObjects,healthcareSitesMap);
+		}
+	}
+		
 }

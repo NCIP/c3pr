@@ -150,43 +150,10 @@ public class StudySubject extends
 	
 	private List<Correspondence> correspondences = new ArrayList<Correspondence>();
 	
-	private Integer studyId;
-	
-	private Identifier primaryStudyIdentifier;
-	
-	@Transient
-	public Integer getStudySubjectVersionId() {
-		return studySubjectVersionId;
-	}
-
-	public void setStudySubjectVersionId(Integer studySubjectVersionId) {
-		this.studySubjectVersionId = studySubjectVersionId;
-	}
-
-	private Integer studySubjectVersionId;
-	
-
-	@Transient
-	public Identifier getPrimaryStudyIdentifier() {
-		return primaryStudyIdentifier;
-	}
-
-	public void setPrimaryStudyIdentifier(Identifier primaryStudyIdentifier) {
-		this.primaryStudyIdentifier = primaryStudyIdentifier;
-	}
 
 	@Transient
 	public List<Correspondence> getCorrespondences() {
 		return lazyListHelper.getLazyList(Correspondence.class);
-	}
-
-	@Transient
-	public Integer getStudyId() {
-		return studyId;
-	}
-
-	public void setStudyId(Integer studyId) {
-		this.studyId = studyId;
 	}
 
 	public String getBackDatedReasonText() {
@@ -275,14 +242,6 @@ public class StudySubject extends
 
 	}
 	
-	public StudySubject(Integer id,String paymentMethod, RegistrationDataEntryStatus regDataEntryStatus,Integer studySubjectVersionId,Integer studyId) {
-			this.setId(id);
-			this.setPaymentMethod(paymentMethod);
-			this.setRegDataEntryStatus(regDataEntryStatus);
-			this.setStudyId(studyId);
-			this.setStudySubjectVersionId(studySubjectVersionId);
-		}
-
 	/**
 	 * Gets the scheduled epochs.
 	 *

@@ -939,4 +939,6 @@
           lazy-init="true" autowire="byType">
         <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
     </bean>
+    
+    <bean id="customBeanPostProcessor" class="edu.duke.cabig.c3pr.spring.beans.postprocessor.CustomBeanPostProcessor" />
 </beans>

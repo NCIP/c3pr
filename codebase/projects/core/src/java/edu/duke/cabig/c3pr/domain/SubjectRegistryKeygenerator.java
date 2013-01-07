@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.duke.cabig.c3pr.utils.AdvancedSearchCriteriaParameterUtil;
+
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
 
