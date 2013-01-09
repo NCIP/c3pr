@@ -1,3 +1,9 @@
+<!--
+ Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+ Distributed under the OSI-approved BSD 3-Clause License.
+ See https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <ns1:Person  xmlns:ns1="http://po.coppa.nci.nih.gov">
    <ns1:identifier nullFlavor="NI" xmlns:ns1="http://po.coppa.nci.nih.gov"/>
 <ns1:name xmlns:ns1="http://po.coppa.nci.nih.gov">
