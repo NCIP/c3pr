@@ -1,1 +1,0 @@
-Added because Git doesn't recognize empty folder
