@@ -1,0 +1,13 @@
+build
+bin
+bin1
+codebase/projects/web/web/WEB-INF/lib/
+codebase/projects/web/web/WEB-INF/log4j.properties
+codebase/projects/core/testReport.pdf
+codebase/projects/core/testReport.xml
+codebase/projects/grid/.classpath
+codebase/projects/grid/.project
+example.log*
+*/repository/
+.cvsignore
+codebase/projects/core/TestReport.txt
