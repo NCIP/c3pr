@@ -1,4 +1,10 @@
 <?xml version='1.0' encoding='utf-8' ?>
+<!--
+ Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+ Distributed under the OSI-approved BSD 3-Clause License.
+ See https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <ftswdata>
 <key name="restor"> 10, </key>
 <key name="result"> 10,38,40,41,42,43,44, </key>

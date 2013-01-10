@@ -1,3 +1,9 @@
+/*******************************************************************************
+* Copyright Duke Comprehensive Cancer Center and SemanticBits
+* 
+* Distributed under the OSI-approved BSD 3-Clause License.
+* See https://github.com/NCIP/c3pr/LICENSE.txt for details.
+*******************************************************************************/
 package gov.nih.nci.cagrid.ant;
 
 import java.io.File;

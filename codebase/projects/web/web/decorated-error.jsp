@@ -1,3 +1,9 @@
+<%--
+ Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+ Distributed under the OSI-approved BSD 3-Clause License.
+ See https://github.com/NCIP/c3pr/LICENSE.txt for details.
+--%>
 <%@taglib uri="http://www.opensymphony.com/sitemesh/page" prefix="page" %>
 <%@page language="java" isErrorPage="true" %>
 <%@page isErrorPage="true" %>
@@ -159,7 +165,8 @@
                             <b>Value</b>
                         </td>
                     </tr>
-                    <%                	String name  = "";
+                    <%
+                	String name  = "";
                     Object value = "";
                     java.util.Enumeration headers = request.getHeaderNames();
                     while(headers.hasMoreElements())
@@ -176,7 +183,8 @@
                             <%= String.valueOf(value) %>
                         </td>
                     </tr>
-                    <%                } %>
+                    <%
+                } %>
                 </table>
 				<br/>
                 <b>Parameter List:</b>
@@ -222,7 +230,8 @@
                 <br/>
                 <b>Attribute List:</b>
                 <table class="errortd" width="100%" cellspacing="1">
-                    <%                	java.util.Enumeration attributes = request.getAttributeNames();
+                    <%
+                	java.util.Enumeration attributes = request.getAttributeNames();
                     while(attributes.hasMoreElements())
                     {
                     name  = (String) attributes.nextElement();
@@ -238,7 +247,8 @@
                             <%=String.valueOf(value) %>
                         </td>
                     </tr>
-                    <%                } %>
+                    <%
+                } %>
                     <tr>
                         <td colspan="2">
                             <b>StackTrace :</b>

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+ Distributed under the OSI-approved BSD 3-Clause License.
+ See https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <package name="edu.duke.cabig.c3pr.rules.deploy.study_status_rules"
 	xmlns="http://drools.org/drools-4.0" xmlns:drools="http://drools.org/drools-4.0" 
 	xmlns:rules="http://drools.org/drools-4.0" 

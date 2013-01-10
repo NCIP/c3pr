@@ -1,1 +1,7 @@
+<!--
+ Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+ Distributed under the OSI-approved BSD 3-Clause License.
+ See https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><soap:Fault><faultcode>soap:Server</faultcode><faultstring>Subject already exists.</faultstring><detail><ns5:SubjectAlreadyExistsExceptionFault xmlns:ns2="http://enterpriseservices.nci.nih.gov" xmlns:ns3="http://enterpriseservices.nci.nih.gov/Common" xmlns:ns4="uri:iso.org:21090" xmlns:ns5="http://enterpriseservices.nci.nih.gov/SubjectManagementService"><message>Subject already exists.</message></ns5:SubjectAlreadyExistsExceptionFault></detail></soap:Fault></soap:Body></soap:Envelope>
