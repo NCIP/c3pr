@@ -1,4 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<!--
+ Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+ Distributed under the OSI-approved BSD 3-Clause License.
+ See https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <dataset>
 	<participants first_name="Johnny" last_name="Doe2"
 		birth_date="1981-01-01 00:00:00.0"

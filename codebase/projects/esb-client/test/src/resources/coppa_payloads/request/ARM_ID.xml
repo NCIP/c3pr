@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+ Distributed under the OSI-approved BSD 3-Clause License.
+ See https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <pa:Id root="2.16.840.1.113883.3.26.4.3.3" identifierName="NCI arm entity identifier" extension="27546" xmlns:pa="http://pa.services.coppa.nci.nih.gov"/>
