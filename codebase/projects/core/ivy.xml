@@ -66,9 +66,10 @@
 				<exclude org="gov.nih.nci.security" module="clm" rev="3.2.1-ctms00" conf="*"/>
 			</dependency>
         	<dependency org="castor" name="castor" rev="0.9.9"/>
-        	<dependency org="jdom" name="jdom" rev="1.0" />
+        	<dependency org="org.jdom" name="jdom" rev="1.0" />
         	<dependency org="org.apache.xmlgraphics" name="fop" rev="0.93" />
         	<dependency org="commons-beanutils" name="commons-beanutils" rev="1.7.0" />
+        	<dependency org="javax.persistence" name="persistence-api" rev="1.0"></dependency>
         	<dependency org="org.hibernate" name="hibernate" rev="3.2.1.ga">
         		<exclude conf="*" name="cglib" />
         		<exclude conf="*" name="asm" />
@@ -135,6 +136,7 @@
 			<dependency org="gov.nih.nci.security" name="csm" rev="4.2" transitive="true" force="true">
 				<artifact name="csmapi" type="jar" conf="*"/>
 				<exclude org="org.hibernate" conf="*"/>
+				<exclude org="jdom" conf="*"/>
 			</dependency>
 			<dependency org="gov.nih.nci.security" name="clm" rev="4.2.beta" transitive="true" force="true">
 				<artifact name="clm" type="jar" conf="*"/>
