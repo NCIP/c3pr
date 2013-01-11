@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright Duke Comprehensive Cancer Center and SemanticBits
+ Copyright Duke Comprehensive Cancer Center and SemanticBits
    
-     Distributed under the OSI-approved BSD 3-Clause License.
-     See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+ Distributed under the OSI-approved BSD 3-Clause License.
+ See  https://github.com/NCIP/c3pr/blob/gh-pages/LICENSE.txt for details.
 -->
 <registration xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
 	gridId="faddb1d4-9770-45e2-bebe-4261580c2894">
