@@ -3,7 +3,7 @@
  Copyright Duke Comprehensive Cancer Center and SemanticBits
  
  Distributed under the OSI-approved BSD 3-Clause License.
- See https://github.com/NCIP/c3pr/blob/gh-pages/LICENSE.txt for details.
+ See http://ncip.github.com/c3pr/LICENSE.txt for details.
 -->
 <Assertion AssertionID="_84a2dba9583195eb43fab0d3abf3f356" IssueInstant="2010-08-09T19:36:59.319Z" Issuer="dkrylov" MajorVersion="1" MinorVersion="1" xmlns="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><AuthenticationStatement AuthenticationInstant="2010-08-09T19:36:59.319Z" AuthenticationMethod="urn:oasis:names:tc:SAML:1.0:am:password"><Subject><NameIdentifier NameQualifier="c3pr">c3pr_admin</NameIdentifier><SubjectConfirmation><ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:holder-of-key</ConfirmationMethod><ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
 <ds:X509Data>
