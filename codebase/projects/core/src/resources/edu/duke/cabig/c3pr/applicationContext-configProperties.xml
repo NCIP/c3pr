@@ -3,7 +3,7 @@
  Copyright Duke Comprehensive Cancer Center and SemanticBits
  
  Distributed under the OSI-approved BSD 3-Clause License.
- See https://github.com/NCIP/c3pr/blob/gh-pages/LICENSE.txt for details.
+ See http://ncip.github.com/c3pr/LICENSE.txt for details.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">

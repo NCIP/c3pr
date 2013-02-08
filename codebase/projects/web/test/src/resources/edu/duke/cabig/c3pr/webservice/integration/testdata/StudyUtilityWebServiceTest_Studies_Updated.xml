@@ -3,7 +3,7 @@
  Copyright Duke Comprehensive Cancer Center and SemanticBits
  
  Distributed under the OSI-approved BSD 3-Clause License.
- See https://github.com/NCIP/c3pr/blob/gh-pages/LICENSE.txt for details.
+ See http://ncip.github.com/c3pr/LICENSE.txt for details.
 -->
 <dataset>
 	  <studies blinded_indicator="0" multi_institution_indicator="1" phase_code="Phase 0 Trial" randomized_indicator="0" target_accrual_number="100.00" type="Basic Science" status="PENDING" retired_indicator="false" stratification_indicator="0" standalone_indicator="1" companion_indicator="0" consent_required="ONE" dtype="Local" therapeutic_intent_indicator="0" target_registration_system="C3PR UPDATED"/>
