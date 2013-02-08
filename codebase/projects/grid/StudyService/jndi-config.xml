@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+ Distributed under the OSI-approved BSD 3-Clause License.
+ See http://ncip.github.com/c3pr/LICENSE.txt for details.
+-->
 <jndiConfig xmlns="http://wsrf.globus.org/jndi/config">
   <service name="SERVICE-INSTANCE-PREFIX/StudyService">
     <resource name="configuration" type="edu.duke.cabig.c3pr.grid.studyservice.service.globus.resource.StudyServiceResourceConfiguration">
