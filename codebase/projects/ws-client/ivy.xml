@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+ Distributed under the OSI-approved BSD 3-Clause License.
+ See http://ncip.github.com/c3pr/LICENSE.txt for details.
+-->
 <ivy-module version="1.4">
     	<info organisation="com.semanticbits.c3pr-ws-client" module="c3pr-ws-client" status="integration" revision="${c3pr-ws-client.version}"/>
         <configurations>

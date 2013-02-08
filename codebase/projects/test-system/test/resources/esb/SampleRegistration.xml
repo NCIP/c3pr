@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+ Distributed under the OSI-approved BSD 3-Clause License.
+ See http://ncip.github.com/c3pr/LICENSE.txt for details.
+-->
 <registration xmlns="http://semanticbits.com/registration.xsd"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  healthCareSiteGridId="gridSite"
