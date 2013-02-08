@@ -2,7 +2,7 @@
  Copyright Duke Comprehensive Cancer Center and SemanticBits
    
  Distributed under the OSI-approved BSD 3-Clause License.
- See  https://github.com/NCIP/c3pr/blob/gh-pages/LICENSE.txt for details.
+ See  http://ncip.github.com/c3pr/LICENSE.txt for details.
 -->
 <ns1:ResearchOrganization xmlns:ns1="http://po.coppa.nci.nih.gov">
  <ns1:identifier extension="27577" xmlns:ns1="http://po.coppa.nci.nih.gov"/>

@@ -2,7 +2,7 @@
  Copyright Duke Comprehensive Cancer Center and SemanticBits
  
  Distributed under the OSI-approved BSD 3-Clause License.
- See  https://github.com/NCIP/c3pr/blob/gh-pages/LICENSE.txt for details.
+ See  http://ncip.github.com/c3pr/LICENSE.txt for details.
 --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>

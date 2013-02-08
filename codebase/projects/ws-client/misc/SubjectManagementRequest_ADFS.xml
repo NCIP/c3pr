@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+ Distributed under the OSI-approved BSD 3-Clause License.
+ See http://ncip.github.com/c3pr/LICENSE.txt for details.
+-->
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
 	xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="urn:oasis:names:tc:SAML:1.0:assertion file:///c:/temp/oasis-sstc-saml-schema-assertion-1.0.xsd">

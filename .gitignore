@@ -11,3 +11,5 @@ example.log*
 */repository/
 .cvsignore
 codebase/projects/core/TestReport.txt
+.classpath
+.metadata/

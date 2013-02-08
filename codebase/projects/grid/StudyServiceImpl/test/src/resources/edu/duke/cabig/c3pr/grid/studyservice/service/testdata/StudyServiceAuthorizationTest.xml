@@ -1,3 +1,9 @@
+<!--
+ Copyright Duke Comprehensive Cancer Center and SemanticBits
+ 
+ Distributed under the OSI-approved BSD 3-Clause License.
+ See http://ncip.github.com/c3pr/LICENSE.txt for details.
+-->
 <dataset>
 
 <!--  <CSM_GROUP GROUP_ID="1000" GROUP_NAME="c3pr_admin" GROUP_DESC="c3pr admin group" APPLICATION_ID="1000"/>

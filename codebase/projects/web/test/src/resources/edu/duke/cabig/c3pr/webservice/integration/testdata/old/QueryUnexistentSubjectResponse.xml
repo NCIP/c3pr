@@ -2,6 +2,6 @@
  Copyright Duke Comprehensive Cancer Center and SemanticBits
    
  Distributed under the OSI-approved BSD 3-Clause License.
- See  https://github.com/NCIP/c3pr/blob/gh-pages/LICENSE.txt for details.
+ See  http://ncip.github.com/c3pr/LICENSE.txt for details.
 -->
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><ns5:QuerySubjectResponse xmlns:ns5="http://enterpriseservices.nci.nih.gov/SubjectManagementService" xmlns:ns4="http://enterpriseservices.nci.nih.gov/Common" xmlns:ns3="http://enterpriseservices.nci.nih.gov" xmlns:ns2="uri:iso.org:21090"><subjects /></ns5:QuerySubjectResponse></soap:Body></soap:Envelope>
