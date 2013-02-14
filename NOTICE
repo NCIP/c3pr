@@ -4,5 +4,9 @@ Copyright 2012 Duke Comprehensive Cancer Center and SemanticBits
 This project is distributed under the BSD 3-Clauses License.
 Please see LICENSE file for details.
 
+This project was initially developed as part of the NCI caBIG initiative.
 
-This project was developed as part of the NCI CBITT initiative.
+In 2013, as part of the National Cancer Informatics Program (NCIP) Open 
+Development Initiative, the C3PR source code was migrated to GitHub to 
+allow further development by the broader community.  
+
