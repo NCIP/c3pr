@@ -12,11 +12,11 @@ Please see the NOTICE and LICENSE files for details.
 
 You will find more details about C3PR in the following links:
 
-    *  https://wiki.nci.nih.gov/x/WAIyAw
-    *  https://cabig-kc.nci.nih.gov/CTMS/forums/
-    *  https://tracker.nci.nih.gov/browse/SUITE
-    *  https://wiki.nci.nih.gov/x/0gIyAw
-    *  http://github.com/NCIP/c3pr
+    *  [Community wiki](https://wiki.nci.nih.gov/display/C3PR/C3PR)
+    *  [Forums](https://cabig-kc.nci.nih.gov/CTMS/forums/viewforum.php?f=9&sid=341356a57f096cb3d65ec7b98fba6145)
+    *  [Issue tracker](https://tracker.nci.nih.gov/browse/SUITE)
+    *  [Documentation wiki](https://wiki.nci.nih.gov/display/C3PR/C3PR+Documentation)
+    *  [Git repo](http://github.com/NCIP/c3pr)
 
 Please join us in further developing and improving C3PR.
 
@@ -63,6 +63,9 @@ sub projects and placea a xxx.jar file in respective folder - jars\xxx
 Do not try to run compile or build from individual build files (ie., c3pr\codebase\antfiles\ivy-master-build.xml)
 as the dependencies on other projects will not have been resolved. The outer build does exactly that by
 copying all dependency jars/files from other projects and place it in respective ext\lib folder
+
+Alternatively, the graphical installer can be downloaded from here, [Graphical installer](https://github.com/NCIP/c3pr/tree/master/graphical_installer)
+Please 
 
 Troubleshooting
 -------------------
