@@ -14,7 +14,7 @@ You will find more details about C3PR in the following links:
 
  * [Community wiki](https://wiki.nci.nih.gov/display/c3pr/c3pr)
  * [Forums](https://cabig-kc.nci.nih.gov/CTMS/forums/viewforum.php?f=9&sid=341356a57f096cb3d65ec7b98fba6145)
- * [Issue tracker](https://tracker.nci.nih.gov/browse/SUITE)
+ * [Issue tracker](https://tracker.nci.nih.gov/browse/cpr)
  * [Documentation wiki](https://wiki.nci.nih.gov/display/C3PR/C3PR+Documentation)
  * [Development Git repo](http://github.com/NCIP/c3pr)
  * [Documentation Git repo](https://github.com/NCIP/c3pr-docs)
